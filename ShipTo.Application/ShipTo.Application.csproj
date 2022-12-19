@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShipTo.Core\ShipTo.Core.csproj" />
+    <ProjectReference Include="..\ShipTo.Infrastructure\ShipTo.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
