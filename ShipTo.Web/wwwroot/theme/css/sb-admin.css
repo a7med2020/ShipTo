@@ -6,9 +6,19 @@
 
 /* Global Styles */
 
+ 
+@font-face {
+    font-family: 'DroidKufi-Bold';
+    src: url('/theme/fonts/DroidKufi-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'DroidKufi-Regular';
+    src: url('/theme/fonts/DroidKufi-Regular.ttf') format('truetype');
+}
 body {
     margin-top: 100px;
-  /*  background-color: #222;*/
+    font-family: 'DroidKufi-Regular'
+    /*  background-color: #222;*/
 }
 
 @media(min-width:768px) {

@@ -43,11 +43,12 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "يجب إدخال أسم المستخدم")]
+            [Display(Name = "أسم المستخدم")]
             public string Email { get; set; }
 
-            [Required]
+            [Display(Name = "كلمة المرور")]
+            [Required(ErrorMessage = "يجب إدخال كملة المرور")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -61,7 +62,7 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
+           
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -86,7 +87,7 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return LocalRedirect("/Home/Index");
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -99,7 +100,7 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "يوجد خطأ فى بيانات الدخول.");
                     return Page();
                 }
             }
