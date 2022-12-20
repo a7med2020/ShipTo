@@ -11,6 +11,7 @@ using ShipTo.Core;
 
 using ShipTo.Infrastructure;
 using ShipTo.Infrastructure.Contexts;
+using ShipTo.Web.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,9 @@ namespace ShipTo.Web
             services.AddMvc();
             //services.AddSingleton<OkazContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddServices();
+            services.AddHttpContextAccessor();
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
@@ -72,9 +76,7 @@ namespace ShipTo.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -1,4 +1,5 @@
 ﻿using ShipTo.Core.Entities;
+using ShipTo.Core.IRepositories;
 using ShipTo.Core.IRepositories._Base;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,11 @@ namespace ShipTo.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-        //IBaseRepository<Item> ItemRepository { get; }
+        IShippingOrderRepository ShippingOrderRepository { get; }
+        IBaseRepository<Shipper> ShipperRepository { get; }
+        IBaseRepository<DeliveryStatus> DeliveryStatusRepository { get; }
+        IBaseRepository<Carrier> CarrierRepository { get; }
+        IBaseRepository<ShippingOrderColumnInfo> ShippingOrderColumnInfoRepository { get; }
         int Complete();
     }
 }

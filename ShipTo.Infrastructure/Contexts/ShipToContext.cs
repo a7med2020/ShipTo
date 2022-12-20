@@ -17,7 +17,11 @@ namespace ShipTo.Infrastructure.Contexts
 
         }
 
-        //public DbSet<ApplicationRefreshToken> ApplicationRefreshTokens { get; set; }
+        public DbSet<ShippingOrder> ShippingOrders { get; set; }
+        public DbSet<Shipper> Shippers { get; set; }
+        public DbSet<DeliveryStatus> DeliveryStatuses { get; set; }
+        public DbSet<Carrier> Carriers { get; set; }
+        public DbSet<ShippingOrderColumnInfo> ShippingOrderColumnInfo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +34,8 @@ namespace ShipTo.Infrastructure.Contexts
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "security");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
         }
+
+
     }
 
 

@@ -123,8 +123,8 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <i class="fa fa-fw fa-power-off"></i>  <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                <i class="fa fa-fw fa-power-off"></i><button type="submit" class="nav-link btn">Logout</button>
                             </form>
                         </li>
                     </ul>
