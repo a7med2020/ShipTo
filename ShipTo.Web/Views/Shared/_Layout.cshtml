@@ -62,7 +62,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@ViewData["Title"] - ShipTo.Web</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="~/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -87,10 +87,22 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link href="~/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
 </head>
 
 <body>
-
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="~/theme/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/theme/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.dataTables.js"></script>
+    <script src="~/js/site.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -133,8 +145,8 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <li class="active">
+                        <a href="/Shipper/index"><i class="fa fa-fw fa-dashboard"></i> شركات الشحن</a>
                     </li>
                     <li>
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
@@ -165,7 +177,7 @@
                     <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
                     </li>
                 </ul>
@@ -188,17 +200,12 @@
     </div>
 
 
-    <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="~/theme/js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="~/theme/js/bootstrap.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="~/theme/js/plugins/morris/raphael.min.js"></script>
-    <script src="~/theme/js/plugins/morris/morris.min.js"></script>
-    <script src="~/theme/js/plugins/morris/morris-data.js"></script>
+    @*<script src="~/theme/js/plugins/morris/raphael.min.js"></script>
+        <script src="~/theme/js/plugins/morris/morris.min.js"></script>
+        <script src="~/theme/js/plugins/morris/morris-data.js"></script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

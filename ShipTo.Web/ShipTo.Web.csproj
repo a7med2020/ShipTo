@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ShipTo.Infrastructure\ShipTo.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
+
 </Project>

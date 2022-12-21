@@ -33,6 +33,10 @@ namespace ShipTo.Infrastructure.Contexts
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "security");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "security");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
+
+            builder.Entity<Shipper>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<Shipper>().HasIndex(x => x.Phone).IsUnique();
+            builder.Entity<Shipper>().HasIndex(x => x.Email).IsUnique();
         }
 
 
