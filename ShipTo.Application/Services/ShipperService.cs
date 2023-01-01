@@ -1,11 +1,14 @@
-﻿using ShipTo.Core;
+﻿using Microsoft.Data.SqlClient;
+using ShipTo.Core;
 using ShipTo.Core.Entities;
 using ShipTo.Core.Enums;
+using ShipTo.Core.VMs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace ShipTo.Application.IServices
 {
@@ -23,49 +26,66 @@ namespace ShipTo.Application.IServices
             return _unitOfWork.ShipperRepository.GetAll(x => x.IsDeleted == false).ToList();
         }
 
-        public string Add(Shipper shipper)
+        public Shipper Get(int Id)
+        {
+            return _unitOfWork.ShipperRepository.GetAll(x => x.IsDeleted == false && x.ID == Id).SingleOrDefault();
+        }
+
+        public ReturnResultVM Add(Shipper shipper)
         {
             try
             {
-
-                _unitOfWork.ShipperRepository.AddAsync(shipper);
-
-                return ReturnResultStatusEnum.Success;
+                if (_unitOfWork.ShipperRepository.Get(x => x.Name.Trim() == shipper.Name.Trim() && !x.IsDeleted ) == null )
+                {
+                    _unitOfWork.ShipperRepository.AddAsync(shipper);
+                    _unitOfWork.Complete();
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                }
+                else
+                {
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "يوجد عنصر مسجل بنفس الاسم" };
+                }
             }
             catch (Exception ex)
             {
-                string Message = ex.Message;
-                return ReturnResultStatusEnum.Failure;
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ" };
             }
         }
 
-        public string Update(Shipper shipper)
+        public ReturnResultVM Update(Shipper shipper)
         {
             try
             {
-                _unitOfWork.ShipperRepository.Update(shipper);
+                if (_unitOfWork.ShipperRepository.Get(x => x.Name.Trim() == shipper.Name.Trim() && x.ID != shipper.ID && !x.IsDeleted) == null)
+                {
+                    _unitOfWork.ShipperRepository.Update(shipper);
+                    _unitOfWork.Complete();
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                }
+                else
+                {
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "يوجد عنصر مسجل بنفس الاسم" };
+                }
 
-                return ReturnResultStatusEnum.Success;
             }
             catch (Exception ex)
             {
-                string Message = ex.Message;
-                return ReturnResultStatusEnum.Failure;
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ" };
             }
         }
 
-        public string Delete(Shipper shipper)
+        public ReturnResultVM Delete(int Id)
         {
             try
             {
-                _unitOfWork.ShipperRepository.Delete(shipper);
-
-                return ReturnResultStatusEnum.Success;
+                _unitOfWork.ShipperRepository.Delete(x => x.ID == Id);
+                _unitOfWork.Complete();
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
             }
             catch (Exception ex)
             {
                 string Message = ex.Message;
-                return ReturnResultStatusEnum.Failure;
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ" };
             }
         }
     }

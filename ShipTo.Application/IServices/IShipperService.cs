@@ -1,4 +1,5 @@
 ﻿using ShipTo.Core.Entities;
+using ShipTo.Core.VMs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace ShipTo.Application.IServices
 {
     public interface IShipperService
     {
+        Shipper Get(int Id);
         List<Shipper> Get();
-        string Add(Shipper shipper);
-        string Update(Shipper shipper);
-        string Delete(Shipper shipper);
+        ReturnResultVM Add(Shipper shipper);
+        ReturnResultVM Update(Shipper shipper);
+        ReturnResultVM Delete(int ID);
     }
 }

@@ -11,5 +11,6 @@ namespace ShipTo.Core.IRepositories
     public interface IShippingOrderRepository : IBaseRepository<ShippingOrder>
     {
 
+        void Log(ShippingOrder shippingOrder);
     }
 }

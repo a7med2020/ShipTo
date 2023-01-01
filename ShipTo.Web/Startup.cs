@@ -1,3 +1,4 @@
+using ShipTo.Infrastructure.UserResolverHandler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -53,6 +54,7 @@ namespace ShipTo.Web
             //services.AddSingleton<OkazContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddServices();
+            services.AddTransient<IUserResolverHandler, UserResolverHandler>();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddRazorPages();

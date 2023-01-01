@@ -4,7 +4,6 @@
   .side-nav{right: 0;left: auto;}
 }
 
-  .top-nav {
-    float: left !important;
+.modalFooterBtn {
+    float: right
 }
- 

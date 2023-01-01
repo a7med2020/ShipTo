@@ -10,11 +10,13 @@ namespace ShipTo.Core.Entities
 {
     public class DeliveryStatus
     {
-        [StringLength(10)]
+        [StringLength(20)]
         [Key, Column(Order = 0)]
         public string ID { get; set; }
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+        public IList<ShippingOrder> ShippingOrders { get; } = new List<ShippingOrder>();
+
     }
 }

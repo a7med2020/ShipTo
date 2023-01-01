@@ -4,30 +4,53 @@
 // Write your JavaScript code.
 
 
-
-function AddDataTable(tableName) {
-    $('#' + tableName +' thead tr')
+/************************************************* DataTable *************************************************************************/
+ 
+function AddDataTable(tableId, GetURL, columnsArr) {
+    
+    $('#' + tableId +' thead tr')
         .clone(true)
         .addClass('filters')
-        .appendTo('#' + tableName +' thead');
+        .appendTo('#' + tableId +' thead');
 
-    var table = $('#' + tableName).DataTable({
+    var table = $('#' + tableId).DataTable({
         dom: 'Bfrtip',
+        "ajax": {
+            url: GetURL,
+            type: "GET",
+            dataSrc: function (resdata) {
+                
+                return resdata;
+            }
+        } ,
+        columns: columnsArr,
+       
         buttons: [
-            'copy', 'csv', 'excel', 'pdf'
+              'pageLength'
+            ,
+            {
+                extend: 'excel',
+                text: 'استخراج كملف إكسل',
+                exportOptions: {
+                    columns: ':visible:not(.notExportCol)'
+                }
+            } 
         ],
         orderCellsTop: true,
         fixedHeader: true,
         orderCellsTop: true,
+        "bLengthChange": true,
         initComplete: function () {
             var api = this.api();
             // For each column
             api
-                .columns()
+                .columns(':visible')
                 .eq(0)
                 .each(function (colIdx) {
-
-                    if (colIdx == ($('#' + tableName +' thead tr th').length / 2) - 1)
+                    //Except last column that have Actions
+                  /*  alert(this.columns(':visible').count());  */
+                   /* alert(colIdx);*/
+                    if (colIdx == this.columns(':visible').count()  )
                         return;
                     // Set the header cell to contain the input element
                     var cell = $('.filters th').eq(
@@ -66,9 +89,149 @@ function AddDataTable(tableName) {
                             $(this).trigger('change');
                             $(this)
                                 .focus()[0]
-                                .setSelectionRange(cursorPosition, cursorPosition);
+                                /*.setSelectionRange(cursorPosition, cursorPosition);*/
                         });
                 });
         },
     });
 }
+
+function ReLoadDataTable(tableId) {
+    $('#' + tableId).DataTable().ajax.reload();
+}
+
+/************************************************** Enums *********************************************************************/
+
+const AjaxResponseStatusEnum = {
+    Success:'success',
+    Failure: 'failure',
+}
+
+const AjaxActionNameArEnum = {
+    Add: 'الإضافة',
+    Update: 'التعديل',
+}
+
+const AjaxActionNameEnEnum = {
+    Add: 'Add',
+    Update: 'Update',
+}
+
+/****************************************** Toastr ********************************************************************************************/
+
+
+// Set the options that I want
+toastr.options = {
+    "closeButton": true,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
+
+/******************************************************* Form ******************************************************************************************/
+
+function InvalidMsg(textbox) {
+    if (textbox.value == '') {
+        textbox.setCustomValidity('يجب إدخال قيمة');
+    }
+    else if (textbox.validity.typeMismatch) {
+        textbox.setCustomValidity('القيمة المدخلة ليست إميل');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+
+
+function PostForm(FormId, PostURL) {
+    $('#' + FormId).submit(function (e) {
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+        
+        var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
+        var form = $(this);
+        $.ajax({
+            type: "POST",
+            url: PostURL,
+            data: form.serialize(), // serializes the form's elements.
+            success: function (response) {
+                if (response.status == AjaxResponseStatusEnum.Success) {
+                    toastr.success("تم " + ProcessName + " بنجاح");
+                    ReLoadDataTable('tbl_Items')
+                    if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
+                    if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
+                } else {
+                    toastr.error("فشل " + ProcessName + " :" + response.errorMessage);
+                }
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+            }
+
+        });
+    });
+}
+
+function setModelAddUpdate(FormId, Id) {
+    if (Id > 0) {
+        document.getElementById(FormId).reset();
+        document.getElementById("modalTitle").innerHTML = "تعديل";
+        document.getElementById("ActionType").value = "Update";
+    }
+    else {
+        document.getElementById(FormId).reset();
+        document.getElementById("modalTitle").innerHTML = "إضافة";
+        document.getElementById("ActionType").value = "Add";
+        document.getElementById("Id").value = "0";
+    }
+}
+
+function setModelDelete(ActionURL, Id) {
+    document.getElementById("ActionURL").value = ActionURL;
+    document.getElementById("DeletedId").value = Id;
+}
+
+const IsEmpty = str => !str.trim().length;
+
+/*********************************************************************************************************************************************************/
+
+
+/********************************************************** Drop Down List *******************************************************************************/
+
+function PopulateDDL(ddl_Id, url) {
+    var ddl_Id = $('#' + ddl_Id ); // cache it
+        $.getJSON(url , function (response) {
+            ddl_Id.empty(); // remove any existing options
+            ddl_Id.append($('<option></option>').text('اختر').val(-1));
+            $.each(response, function (index, item) {
+                ddl_Id.append($('<option></option>').text(item.name).val(item.id));
+            });
+        });
+}
+
+function PopulateDDLFromList(ddl_Id, List) {
+    var ddl_Id = $('#' + ddl_Id); // cache it
+    ddl_Id.empty(); // remove any existing options
+    ddl_Id.append($('<option></option>').text('اختر').val(-1));
+            for (var item in List) {
+                if (List.hasOwnProperty(item)) {
+                    ddl_Id.append($('<option></option>').text(List[item]).val(item));
+            }
+        }
+   
+}
+
+/*********************************************************************************************************************************************************/

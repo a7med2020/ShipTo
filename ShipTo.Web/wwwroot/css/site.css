@@ -3,4 +3,29 @@
 }
 
 
+.top-nav {
+    float: right !important;
+}
+
+#wrapper {
+    padding-right:4px;
+    padding-left:4px;
+}
+
+.label-error{
+    color:red;
+}
+
+a  {
+    cursor: pointer;
+}
+
+select {
+    padding: 3px 12px !important;
+}
+
+.required:after {
+    content: " *";
+    color: red;
+}
  

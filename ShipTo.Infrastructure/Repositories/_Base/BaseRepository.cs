@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EFCore.BulkExtensions;
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ShipTo.Infrastructure.Repositories._Base
 {
@@ -18,6 +19,7 @@ namespace ShipTo.Infrastructure.Repositories._Base
        
         private DbSet<T> dbSet;
         private readonly ShipToContext _context;
+        private IDbContextTransaction _transaction;
 
         public BaseRepository(ShipToContext context)
         {
@@ -294,5 +296,45 @@ namespace ShipTo.Infrastructure.Repositories._Base
         {
             dbSet.Remove(entity);
         }
+
+        //Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        //Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+
+        public void BeginTransaction()
+        {
+            _transaction = _context.Database.BeginTransaction();
+        }
+
+        public void CommitTransaction()
+        {
+             _transaction.Commit();
+        }
+
+        public void RollbackTransaction()
+        {
+            _transaction.Rollback();
+        }
+    
+        public void Dispose()
+        {
+            _transaction?.Dispose();
+            _context.Dispose();
+        }
+
+        //public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        //{
+        //    _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        //}
+        //public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        //{
+        //    await _transaction.CommitAsync(cancellationToken);
+        //}
+
+        //public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
+        //{
+        //    return await _context.SaveChangesAsync(cancellationToken);
+        //}
+
+
     }
 }

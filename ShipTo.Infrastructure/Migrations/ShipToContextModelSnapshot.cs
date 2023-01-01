@@ -230,55 +230,16 @@ namespace ShipTo.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Carriers");
-                });
-
-            modelBuilder.Entity("ShipTo.Core.Entities.DeliveryStatus", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("DeliveryStatuses");
-                });
-
-            modelBuilder.Entity("ShipTo.Core.Entities.Shipper", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -311,18 +272,103 @@ namespace ShipTo.Infrastructure.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
-
                     b.HasIndex("ModefiedBy");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.ToTable("Carriers");
+                });
 
-                    b.HasIndex("Phone")
-                        .IsUnique()
-                        .HasFilter("[Phone] IS NOT NULL");
+            modelBuilder.Entity("ShipTo.Core.Entities.DeliveryStatus", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("DeliveryStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = "UnderDelivery",
+                            Name = "قيد التسليم"
+                        },
+                        new
+                        {
+                            ID = "Delivered",
+                            Name = "استلم"
+                        },
+                        new
+                        {
+                            ID = "Refused",
+                            Name = "رفض الاستلام"
+                        },
+                        new
+                        {
+                            ID = "PartialDelivery",
+                            Name = "تسليم جزئي"
+                        });
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.Shipper", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModefiedBy")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModefiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ModefiedBy");
 
                     b.ToTable("Shippers");
                 });
@@ -335,21 +381,25 @@ namespace ShipTo.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("CarrierId")
+                    b.Property<string>("BulkId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("CarrierId")
                         .HasColumnType("int");
 
                     b.Property<string>("ClientName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ClientPhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
@@ -357,13 +407,22 @@ namespace ShipTo.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("DeliveryPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("DeliveryStatusId")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("DeliveryStatusReason")
                         .HasMaxLength(300)
@@ -378,8 +437,8 @@ namespace ShipTo.Infrastructure.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Governorate")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -416,6 +475,10 @@ namespace ShipTo.Infrastructure.Migrations
 
                     b.Property<int>("ShipperId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShippingOrderBulkName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("ShippingPrice")
                         .HasColumnType("decimal(18,2)");
@@ -459,6 +522,135 @@ namespace ShipTo.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ShippingOrderColumnInfo");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.ShippingOrderLog", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("BulkId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("CarrierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClientPhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DeliveryPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("DeliveryStatusId")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("DeliveryStatusReason")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Direction")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FileDataName")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Governorate")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModefiedBy")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModefiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderDetails")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<decimal>("OrderNetPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("OrderNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderPiecesCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OrderTotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ShipperId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShippingOrderBulkName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("ShippingOrderID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ShippingPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CarrierId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeliveryStatusId");
+
+                    b.HasIndex("ModefiedBy");
+
+                    b.HasIndex("ShipperId");
+
+                    b.HasIndex("ShippingOrderID");
+
+                    b.ToTable("ShippingOrderLogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -512,6 +704,21 @@ namespace ShipTo.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ShipTo.Core.Entities.Carrier", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ModefiedByUser")
+                        .WithMany()
+                        .HasForeignKey("ModefiedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ModefiedByUser");
+                });
+
             modelBuilder.Entity("ShipTo.Core.Entities.Shipper", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
@@ -530,10 +737,46 @@ namespace ShipTo.Infrastructure.Migrations
             modelBuilder.Entity("ShipTo.Core.Entities.ShippingOrder", b =>
                 {
                     b.HasOne("ShipTo.Core.Entities.Carrier", "Carrier")
-                        .WithMany()
+                        .WithMany("ShippingOrders")
                         .HasForeignKey("CarrierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ShipTo.Core.Entities.DeliveryStatus", "DeliveryStatus")
+                        .WithMany("ShippingOrders")
+                        .HasForeignKey("DeliveryStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ModefiedByUser")
+                        .WithMany()
+                        .HasForeignKey("ModefiedBy");
+
+                    b.HasOne("ShipTo.Core.Entities.Shipper", "Shipper")
+                        .WithMany("ShippingOrders")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Carrier");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("DeliveryStatus");
+
+                    b.Navigation("ModefiedByUser");
+
+                    b.Navigation("Shipper");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.ShippingOrderLog", b =>
+                {
+                    b.HasOne("ShipTo.Core.Entities.Carrier", "Carrier")
+                        .WithMany()
+                        .HasForeignKey("CarrierId");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
                         .WithMany()
@@ -555,6 +798,12 @@ namespace ShipTo.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ShipTo.Core.Entities.ShippingOrder", "ShippingOrder")
+                        .WithMany("ShippingOrderLogs")
+                        .HasForeignKey("ShippingOrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Carrier");
 
                     b.Navigation("CreatedByUser");
@@ -564,6 +813,28 @@ namespace ShipTo.Infrastructure.Migrations
                     b.Navigation("ModefiedByUser");
 
                     b.Navigation("Shipper");
+
+                    b.Navigation("ShippingOrder");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.Carrier", b =>
+                {
+                    b.Navigation("ShippingOrders");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.DeliveryStatus", b =>
+                {
+                    b.Navigation("ShippingOrders");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.Shipper", b =>
+                {
+                    b.Navigation("ShippingOrders");
+                });
+
+            modelBuilder.Entity("ShipTo.Core.Entities.ShippingOrder", b =>
+                {
+                    b.Navigation("ShippingOrderLogs");
                 });
 #pragma warning restore 612, 618
         }

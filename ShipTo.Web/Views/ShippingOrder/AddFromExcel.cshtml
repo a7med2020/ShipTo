@@ -1,0 +1,380 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397830
+*@
+@{
+}
+@model ShipTo.Core.VMs.ShippingOrderAddFromExcelVM
+
+
+
+<div class="row">
+    <form id="form_AddFromExcel" method="post" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group col-sm-3" id="div_ShippingOrderBulkName">
+                    <label asp-for="ShippingOrderBulkName" class="control-label"></label>
+                    <input asp-for="ShippingOrderBulkName" class="form-control"     />
+                </div>
+                <div class="form-group col-sm-3" id="div_ShipperId">
+                    <label asp-for="ShipperId" class="control-label required"></label>
+                    <select asp-for="ShipperId" class="form-control">
+                    </select>
+                    <span asp-validation-for="ShipperId" class="text-danger"></span>
+                </div>
+                @*<div class="form-group col-sm-2" id="div_DeliveryStatusId">
+                    <label asp-for="DeliveryStatusId" class="control-label required"></label>
+                    <select asp-for="DeliveryStatusId" class="form-control">
+                    </select>
+                </div>*@
+
+                @*<div class="form-group col-sm-3" id="div_CarrierId">
+                    <label asp-for="CarrierId" class="control-label"></label>
+                    <select asp-for="CarrierId" class="form-control">
+                    </select>
+                </div>*@
+
+                <div class="form-group col-sm-2" id="div_DeliveryDate">
+                    <label asp-for="DeliveryDate" class="control-label required"></label>
+                    <input   name="DeliveryDate" id="DeliveryDate" class="form-control txtDate">
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">  تحميل البيانات من ملف أكسل </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="div_ShippingExcelFile">
+                        <div class="form-group col-sm-3 required">
+                            <label class="control-label"> اختر الملف المطلوب تحميل البيانات منه</label>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <input type="file" id="if_ShippingExcelFile" asp-for="ShippingExcelFile" class="form-control" accept=".xlx, .xlsx">
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row" @*id="ExcelFileDev"*@>
+                    <div id="div_ClientNameColName">
+                        <div class="form-group col-sm-2 required">
+                            <label asp-for="ClientNameColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="ClientNameColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                    <div id="div_ClientPhoneNumberColName">
+                        <div class="form-group col-sm-2 required">
+                            <label asp-for="ClientPhoneNumberColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="ClientPhoneNumberColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="div_DirectionColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="DirectionColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="DirectionColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                    <div id="div_GovernorateColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="GovernorateColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="GovernorateColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="div_AddressColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="AddressColName" class="control-label required"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="AddressColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                    <div id="div_OrderDetailsColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="OrderDetailsColName" class="control-label required"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="OrderDetailsColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="div_OrderPiecesCountColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="OrderPiecesCountColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="OrderPiecesCountColName" class="form-control"> </select>
+                            <span asp-validation-for="OrderPiecesCountColName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div id="div_OrderTotalPriceColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="OrderTotalPriceColName" class="control-label required"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="OrderTotalPriceColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @*<div class="form-group col-sm-2">
+                            <label asp-for="DeliveryPriceColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="CarrierId" class="form-control"> </select>
+                        </div>*@
+                    <div id="div_ShippingPriceColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="ShippingPriceColName" class="control-label required"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="ShippingPriceColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                    <div id="div_OrderNetPriceColName">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="OrderNetPriceColName" class="control-label required"></label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <select asp-for="OrderNetPriceColName" class="form-control"> </select>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="form-group col-sm-2">
+                            <label asp-for="DeliveryStatusReasonColName" class="control-label"></label>
+                        </div>
+                        <div class="form-group col-sm-8">
+                            <textarea id="Phone2" name="Phone" rows="2" class="form-control txtDate"></textarea>
+                        </div>
+                    </div>*@
+                <div class="row">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="Notes" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-sm-8">
+                        <textarea id="Phone2" name="Phone" rows="2" class="form-control txtDate"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" onclick="PostForm_AddFromExcel()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp; <i class="fa fa-fw fa-save"></i>  حـفـظ  &nbsp; &nbsp;&nbsp; &nbsp; </button>
+            @*<button type="reset" class="btn btn-default modalFooterBtn" >إلغاء</button>*@
+            <button type="button" onclick="ClearForm()" class="btn btn-default modalFooterBtn">&nbsp;&nbsp; جديد&nbsp;&nbsp;</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $('.txtDate').daterangepicker({
+            locale: { format: 'DD-MM-YYYY' },
+            singleDatePicker: true,
+            showDropdowns: true,
+            //autoUpdateInput: false,
+            pickDate: false,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+
+        $.validator.unobtrusive.parse($("#form_AddFromExcel"));
+        var getShippersURL = '@Url.Action("GetAll", "Shipper")';
+        PopulateDDL('ShipperId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('DeliveryStatusId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
+        PopulateDDL('CarrierId', getShippersURL);
+
+    });
+
+    $('#if_ShippingExcelFile').change(function () {
+          var data = new FormData();
+        var files = $("#if_ShippingExcelFile").get(0).files;
+
+            if (files.length > 0) {
+                data.append("shippingExcelFile", files[0]);
+            }
+           /* ShowSpinner();*/
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url:  '@Url.Action("GetExcelFileColumns", "ShippingOrder")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (response) {
+                  /*  HideSpinner();*/
+                    if (response.status == AjaxResponseStatusEnum.Success) {
+
+                        PopulateDDLFromList('ClientNameColName', response.dataObj);
+                        PopulateDDLFromList('ClientPhoneNumberColName', response.dataObj);
+                        PopulateDDLFromList('DirectionColName', response.dataObj);
+                        PopulateDDLFromList('GovernorateColName', response.dataObj);
+                        PopulateDDLFromList('AddressColName', response.dataObj);
+                        PopulateDDLFromList('OrderDetailsColName', response.dataObj);
+                        PopulateDDLFromList('OrderPiecesCountColName', response.dataObj);
+                        PopulateDDLFromList('OrderTotalPriceColName', response.dataObj);
+                        PopulateDDLFromList('ShippingPriceColName', response.dataObj);
+                        PopulateDDLFromList('OrderNetPriceColName', response.dataObj);
+
+                    } else {
+                        toastr.error(response.errorMessage);
+                    }
+                   /* ClearForm();*/
+                },
+                error: function (errorResponse) {
+                    toastr.error("حدث خطأ أثناء إرسال البيانات");
+                }
+            });
+
+    });
+
+
+
+    function PostForm_AddFromExcel() {
+        //$('#form_AddFromExcel').onsubmit(function (formAddFromExcel23) {
+        //$(document).on("submit", "#form_AddFromExcel", function (e) {
+        //    e.preventDefault(); // avoid to execute the actual submit of the form.
+            ////e.preventDefault(); // avoid to execute the actual submit of the form.
+            //e.preventDefault(); // avoid to execute the actual submit of the form.
+            //e.stopImmediatePropagation()
+            //var form = $(this);
+        /*  if (ValidateForm()) {*/
+       /* $('#form_AddFromExcel').validate.form();*/
+        
+        //var form12 = $(this).closest('form_AddFromExcel');
+      /*  $form.validate().form();*/
+
+        if ($("#form_AddFromExcel").valid()) {
+        var form = document.getElementById("form_AddFromExcel");
+        var data1 = new FormData(form);
+        var files = $("#if_ShippingExcelFile").get(0).files;
+
+        if (files.length > 0) {
+            data1.append("shippingExcelFile", files[0]);
+            }
+            var PostURL = '@Url.Action("AddFromExcel", "ShippingOrder")'
+            $.ajax({
+                type: "POST",
+                url: PostURL,
+                processData: false,
+                contentType: false,
+                data: data1, // serializes the form's elements.
+                success: function (response) {
+                    if (response.status == AjaxResponseStatusEnum.Success) {
+                        toastr.success("تم بنجاح");
+                        document.getElementById("form_AddFromExcel").reset();
+                        //ReLoadDataTable('tbl_Items')
+                        //if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
+                        //if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
+                    } else {
+                        toastr.error("فشل "  +" :" + response.errorMessage);
+                    }
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+                }
+            });
+        }
+          /*  });*/
+    }
+
+
+        function ClearForm() {
+            document.getElementById("form_AddFromExcel").reset();
+         }
+
+    function ValidateForm() {
+        var Valid = true
+        var ShipperIdValue = document.getElementById("ShipperId").value;
+        if (ShipperIdValue < 1) {
+            Valid = false;
+            var div_ShipperId = document.getElementById("div_ShipperId");
+            div_ShipperId.classList.add("has-error");
+        } else {
+            var div_ShipperId = document.getElementById("div_ShipperId");
+            div_ShipperId.classList.remove("has-error");
+        }
+        var DeliveryDateValue = document.getElementById("DeliveryDate").value;
+        if (IsEmpty(DeliveryDateValue)) {
+            Valid = false;
+            var div_DeliveryDate = document.getElementById("div_DeliveryDate");
+            div_DeliveryDate.classList.add("has-error");
+        }
+        var files = $("#if_ShippingExcelFile").get(0).files;
+        if (files.length <= 0) {
+            Valid = false;
+            var div_ShippingExcelFile = document.getElementById("div_ShippingExcelFile");
+            div_ShippingExcelFile.classList.add("has-error");
+        }
+        var ClientNameColNameValue = document.getElementById("ClientNameColName").value;
+        if (ClientNameColNameValue < 1) {
+            Valid = false;
+            var div_ClientNameColName = document.getElementById("div_ClientNameColName");
+            div_ClientNameColName.classList.add("has-error");
+        }
+        var ClientPhoneNumberColNameValue = document.getElementById("ClientPhoneNumberColName").value;
+        if (ClientPhoneNumberColNameValue < 1) {
+            Valid = false;
+            var div_ClientPhoneNumberColName = document.getElementById("div_ClientPhoneNumberColName");
+            div_ClientPhoneNumberColName.classList.add("has-error");
+        }
+        var AddressColNameValue = document.getElementById("AddressColName").value;
+        if (AddressColNameValue < 1) {
+            Valid = false;
+            var div_AddressColName = document.getElementById("div_AddressColName");
+            div_AddressColName.classList.add("has-error");
+        }
+        var OrderDetailsColNameValue = document.getElementById("OrderDetailsColName").value;
+        if (OrderDetailsColNameValue < 1) {
+            Valid = false;
+            var div_OrderDetailsColName = document.getElementById("div_OrderDetailsColName");
+            div_OrderDetailsColName.classList.add("has-error");
+        }
+        var OrderTotalPriceColNameValue = document.getElementById("OrderTotalPriceColName").value;
+        if (OrderTotalPriceColNameValue < 1) {
+            Valid = false;
+            var div_OrderTotalPriceColName = document.getElementById("div_OrderTotalPriceColName");
+            div_OrderTotalPriceColName.classList.add("has-error");
+        }
+        var ShippingPriceColNameValue = document.getElementById("ShippingPriceColName").value;
+        if (ShippingPriceColNameValue < 1) {
+            Valid = false;
+            var div_ShippingPriceColName = document.getElementById("div_ShippingPriceColName");
+            div_ShippingPriceColName.classList.add("has-error");
+        }
+        var OrderNetPriceColNameValue = document.getElementById("OrderNetPriceColName").value;
+        if (OrderNetPriceColNameValue < 1) {
+            Valid = false;
+            var div_OrderNetPriceColName = document.getElementById("div_OrderNetPriceColName");
+            div_OrderNetPriceColName.classList.add("has-error");
+        }
+      
+        return Valid;
+    }
+
+</script>

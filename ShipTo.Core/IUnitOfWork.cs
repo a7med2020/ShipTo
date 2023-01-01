@@ -17,5 +17,6 @@ namespace ShipTo.Core
         IBaseRepository<Carrier> CarrierRepository { get; }
         IBaseRepository<ShippingOrderColumnInfo> ShippingOrderColumnInfoRepository { get; }
         int Complete();
+        Task<int> CompleteAsync();
     }
 }

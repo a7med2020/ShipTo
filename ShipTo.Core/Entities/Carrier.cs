@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShipTo.Core.Entities._Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShipTo.Core.Entities
 {
-    public class Carrier
+    public class Carrier : BaseEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
@@ -27,5 +28,7 @@ namespace ShipTo.Core.Entities
         [Display(Name = "الإميل")]
         [StringLength(100)]
         public string Email { get; set; }
+        public IList<ShippingOrder> ShippingOrders { get; } = new List<ShippingOrder>();
+
     }
 }

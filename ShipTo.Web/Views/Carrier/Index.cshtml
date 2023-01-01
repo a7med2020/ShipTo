@@ -1,0 +1,152 @@
+﻿@model IEnumerable<ShipTo.Core.Entities.Carrier>
+
+@{
+    ViewData["Title"] = "المندوبون";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>المندوبين</h2>*@
+
+<p>
+    <a onclick="setModelAddUpdate('form_AddUpdate', 0)" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate">  <i class="fa fa-fw fa-plus"></i> إضافة جديد</a>
+</p>
+
+
+<div class="table-responsive">
+    <table id="tbl_Items" class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th class="notExportCol">
+
+                </th>
+            </tr>
+
+        </thead>
+    </table>
+</div>
+
+
+<!-- Add & Update modal -->
+<div class="modal fade" id="Modal_AddUpdate" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalTitle"></h4>
+            </div>
+            <form id="form_AddUpdate" method="post">
+                <div class="modal-body">
+                    <input id="ActionType" name="ActionType" type="hidden" value="0" />
+                    <input id="Id" name="Id" type="hidden" value="0" />
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="required"> @Html.DisplayNameFor(model => model.Name)</label>
+                            <input id="Name" name="Name" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required class="form-control" />
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label> @Html.DisplayNameFor(model => model.Phone)</label>
+                            <input id="Phone" name="Phone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label> @Html.DisplayNameFor(model => model.Address)</label>
+                            <input id="Address" name="Address" class="form-control">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label> @Html.DisplayNameFor(model => model.Email)</label>
+                            <input type="email" id="Email" name="Email" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label> @Html.DisplayNameFor(model => model.Notes) </label>
+                            <textarea id="Notes" name="Notes" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i>  حـفـظ  &nbsp; &nbsp; </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="../Common/_DeleteConfirmation" />
+
+<script>
+
+   var DeleteURL = '@Url.Action("Delete", "Carrier")';
+
+    var Columns = [{ data: "id", visible: false },
+                    { data: "name" },
+                    { data: "phone" },
+                    { data: "address" },
+                    { data: "email" },
+        {
+            data: "createdDate", render: function (data) {
+                    return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+            } },
+                    {
+             searchable: false, search: false,
+                        render: function (data, type, row) {
+                            return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL+'\' , '+  row.id +')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                        }
+                    },
+                ]
+
+    $(document).ready(function () {
+        AddDataTable('tbl_Items', '@Url.Action("GetAll", "Carrier")', Columns)
+
+    });
+
+
+    PostForm('form_AddUpdate', '@Url.Action("AddUpdate", "Carrier")')
+
+    function FillFormAddUpdate(elementId) {
+        var URL = '@Url.Action("GetById", "Carrier")?Id=' + elementId
+        $.ajax({
+            type: "Get",
+            url: URL,
+            success: function (response) {
+                setModelAddUpdate('form_AddUpdate', response.id);
+                document.getElementById("Id").value = response.id;
+                document.getElementById("Name").value = response.name;
+                document.getElementById("Phone").value = response.phone;
+                document.getElementById("Address").value = response.address;
+                document.getElementById("Email").value = response.email;
+                document.getElementById("Notes").value = response.notes;
+            },
+            error: function (error) {
+                toastr.error("حدث خطأ أثناء إرسال البيانات");
+            }
+        });
+    }
+
+
+</script>

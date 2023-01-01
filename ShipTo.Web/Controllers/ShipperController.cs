@@ -5,9 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShipTo.Web.Controllers
 {
+    [Authorize]
     public class ShipperController : Controller
     {
         protected readonly IShipperService _shipperService;
@@ -19,32 +22,43 @@ namespace ShipTo.Web.Controllers
 
         public ActionResult Index()
         {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var shippers = _shipperService.Get();
             return View(shippers);
         }
-
+        [HttpGet]
         public IActionResult GetAll()
         {
             var shippers = _shipperService.Get();
-            return View(shippers);
+            return Json(shippers);
         }
 
-        public IActionResult Add(Shipper shipper)
+        public IActionResult GetById(int Id)
         {
-            var result = _shipperService.Add(shipper);
-            return View(result);
+            var shippers = _shipperService.Get(Id);
+            return Json(shippers);
         }
 
-        public IActionResult Update(Shipper shipper)
+        [HttpPost]
+        public IActionResult AddUpdate(Shipper shipper)
         {
-            var result = _shipperService.Update(shipper);
-            return View(result);
+            if(shipper.ID == 0)
+            {
+                var result = _shipperService.Add(shipper);
+                return Json(result);
+            }
+            else
+            {
+                var result = _shipperService.Update(shipper);
+                return Json(result);
+            }
         }
 
-        public IActionResult Delete(Shipper shipper)
+        [HttpPost]
+        public IActionResult Delete(int Id)
         {
-            var result = _shipperService.Delete(shipper);
-            return View(result);
+            var result = _shipperService.Delete(Id);
+            return Json(result);
         }
     }
 }

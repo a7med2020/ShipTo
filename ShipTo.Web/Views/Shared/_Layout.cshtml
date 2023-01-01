@@ -1,54 +1,54 @@
 ﻿@*<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - ShipTo.Web</title>
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-page="/Index">ShipTo.Web</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                        <partial name="_LoginPartial" />
+        <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>@ViewData["Title"] - ShipTo.Web</title>
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </head>
+        <body>
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container">
+                        <a class="navbar-brand" asp-area="" asp-page="/Index">ShipTo.Web</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                                </li>
+                            </ul>
+                            <partial name="_LoginPartial" />
+                        </div>
                     </div>
-                </div>
-            </nav>
-        </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-
-        <footer class="border-top footer text-muted">
+                </nav>
+            </header>
             <div class="container">
-                &copy; 2022 - ShipTo.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
             </div>
-        </footer>
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2022 - ShipTo.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                </div>
+            </footer>
+     
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
 
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
-    </html>*@
+            @await RenderSectionAsync("Scripts", required: false)
+        </body>
+        </html>*@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 <!DOCTYPE html>
@@ -86,8 +86,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <link href="~/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Plugins/DataTable/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Plugins/DataTable/css/buttons.dataTables.min2.3.2.css" rel="stylesheet" />
+    <link href="~/Plugins/DateTimePicker/css/daterangepicker.css" rel="stylesheet" />
+    @*<link href="~/Plugins/DateTimePicker/css/jquery-ui-timepicker-addon.css" rel="stylesheet" />*@
+    <link href="~/Plugins/Toastr/toastr.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 
 </head>
@@ -95,14 +98,32 @@
 <body>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="~/theme/js/jquery.js"></script>
+    <script src="~/js/jquery-3.5.1.js"></script>
+    <script src="~/theme/js/jquery.js"></script>   @*Old for theme*@
+
     <!-- Bootstrap Core JavaScript -->
     <script src="~/theme/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.dataTables.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>*@
+    <!--  validation script  -->
+    <!--<script src="~/js/jquery.validate1.19.0.min.js"></script>-->
+    <!--  jsrender script  -->
+    <!--<script src="~/js/jsrender.min.js"></script>-->
+    <!-- Essential JS UI widget -->
+    <!--<script src="~/js/ej.web.all.min.js"></script>-->
+    <!--Add custom scripts here -->
+    <script src="~/js/jquery.validate1.19.0.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.4.0.0.min.js"></script>
+    <script src="~/Plugins/DataTable/js/moment2.29.2.min.js"></script>
+    <script src="~/Plugins/DataTable/js/jquery.dataTables.js"></script>
+    <script src="~/Plugins/DataTable/js/dataTables.buttons.min1.3.1.js"></script>
+    <script src="~/Plugins/DataTable/js/jszip.min3.1.3.js"></script>
+    <script src="~/Plugins/DataTable/js/buttons.html5.min1.3.1.js"></script>
+    <script src="~/Plugins/DataTable/js/dataRenderDatetime1.10.21.js"></script>
+    <script src="~/Plugins/Toastr/toastr.js"></script>
     <script src="~/js/site.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+
+
+
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -115,93 +136,97 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin</a>
+                <a class="navbar-brand" href="index.html">الحسن والحسين للشحن</a>
             </div>
-            <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">
-
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @User.Identity.Name <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                <i class="fa fa-fw fa-power-off"></i><button type="submit" class="nav-link btn">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    <li class="active">
-                        <a href="/Shipper/index"><i class="fa fa-fw fa-dashboard"></i> شركات الشحن</a>
-                    </li>
-                    <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
+                <!-- Top Menu Items -->
+                @* --------------------- Logined User --------------------------------------- *@
+                <ul class="nav navbar-right top-nav" style=" float: left !important">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @User.Identity.Name <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
                             <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                    <i class="fa fa-fw fa-power-off"></i><button type="submit" class="nav-link btn">Logout</button>
+                                </form>
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+                </ul>
+                @* -------------------------- بيانات أساسية ------------------------------------------------ *@
+                <ul class="nav navbar-right top-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> بيانات أساسية <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/Shipper/index"><i class="fa fa-fw fa-home"></i> شركات الشحن</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="@Url.Action("Index", "Carrier")"><i class="fa fa-fw fa-male"></i> المندوبون</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>
+
+                        </ul>
                     </li>
                 </ul>
             </div>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            @*
+                    <ul class="nav navbar-nav side-nav">
+                        <li class="active">
+                            <a href="/Shipper/index"><i class="fa fa-fw fa-dashboard"></i> شركات الشحن</a>
+                        </li>
+                        <li>
+                            <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+                        </li>
+                        <li>
+                            <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                        </li>
+                        <li>
+                            <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                        </li>
+                        <li>
+                            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+                        </li>
+                        <li>
+                            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+                        </li>
+                        <li>
+                            <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+                        </li>
+                    </ul>
+                </div>*@
             <!-- /.navbar-collapse -->
         </nav>
-
         <div id="page-wrapper">
-
             <div class="container-fluid" style="display:block">
                 @RenderBody()
-
-
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
 
-
-
-
+    <script src="~/Plugins/DateTimePicker/js/daterangepicker.js"></script>
+    @*<script src="~/Plugins/DateTimePicker/js/jquery-ui-timepicker-addon.js"></script>*@
     <!-- Morris Charts JavaScript -->
     @*<script src="~/theme/js/plugins/morris/raphael.min.js"></script>
         <script src="~/theme/js/plugins/morris/morris.min.js"></script>

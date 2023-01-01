@@ -65,5 +65,16 @@ namespace ShipTo.Core.IRepositories._Base
 
         void Delete(T entity);
         void Delete(Expression<Func<T, bool>> where);
+
+
+
+        //Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        //Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        //Task<int> CompleteAsync(CancellationToken cancellationToken = default);
+
+        void BeginTransaction();
+        void CommitTransaction();
+        void RollbackTransaction();
+         
     }
 }

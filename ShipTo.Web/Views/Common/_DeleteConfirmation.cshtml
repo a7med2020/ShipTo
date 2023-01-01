@@ -1,0 +1,61 @@
+﻿ <!-- Add & Update modal -->
+<div class="modal fade" id="Modal_DeleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalTitle">حذف عنصر</h4>
+            </div>
+            <div class="modal-body" style="margin-right: 10px; font-size:18px">
+                <input id="ActionURL" name="ActionURL" type="hidden" value="0" />
+                <input id="DeletedId" name="DeletedId" type="hidden" value="0" />
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label> هل أنت متأكد من حذف العنصر؟</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="DeleteItem()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp;  حـذف  &nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function DeleteItem() {
+
+        var ActionURL = document.getElementById("ActionURL").value;
+        var DeletedId = document.getElementById("DeletedId").value;
+        var ProcessName = "الحذف";
+       
+            $.ajax({
+                type: "POST",
+                url: ActionURL + '?Id=' + DeletedId,
+                success: function (response) {
+                    if (response.status == AjaxResponseStatusEnum.Success) {
+                        toastr.success("تم " + ProcessName + " بنجاح");
+                        ReLoadDataTable('tbl_Items')
+                       $('.modal').modal('hide'); 
+                    } else {
+                        toastr.error("فشل: " + ProcessName + " " + response.errorMessage);
+                    }
+                    console.log(response);
+                },
+                error: function (error) {
+                    toastr.error("حدث خطأ أثناء إرسال البيانات: " );
+                    console.log(error);
+                }
+
+            });
+       
+    }
+
+
+</script>
