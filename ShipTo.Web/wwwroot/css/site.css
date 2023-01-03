@@ -28,4 +28,8 @@ select {
     content: " *";
     color: red;
 }
+
+.text-danger {
+    color: #d51c19 !important;  
+}
  

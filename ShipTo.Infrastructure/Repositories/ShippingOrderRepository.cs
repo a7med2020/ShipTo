@@ -25,6 +25,8 @@ namespace ShipTo.Infrastructure.Repositories
             {
                 ShippingOrderID = shippingOrder.ID,
                 OrderNumber = shippingOrder.OrderNumber,
+                BulkId = shippingOrder.BulkId,
+                ShippingOrderBulkName = shippingOrder.ShippingOrderBulkName,
                 OrderDate = shippingOrder.OrderDate,
                 ClientName = shippingOrder.ClientName,
                 ClientPhoneNumber = shippingOrder.ClientPhoneNumber,

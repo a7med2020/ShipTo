@@ -43,13 +43,11 @@ namespace ShipTo.Core.Entities
         [Display(Name = "شركة الشحن")]
         [ForeignKey("Shipper")]
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "يجب إدخال شركة الشحن")]
         public int ShipperId { get; set; }
         [Display(Name = "تفاصيل الطلب")]
         [StringLength(300)]
         public string OrderDetails { get; set; }
         [Display(Name = "عدد القطع")]
-        [Range(1, int.MaxValue, ErrorMessage = "يجب إدخال شركة الشحن")]
         public int? OrderPiecesCount { get; set; }
         [Display(Name = "سعر الطلب")]
         [Column(TypeName = "decimal(18, 2)")]

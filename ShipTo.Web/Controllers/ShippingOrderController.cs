@@ -41,6 +41,15 @@ namespace ShipTo.Web.Controllers
         [HttpPost]
         public IActionResult AddFromExcel(ShippingOrderAddFromExcelVM2 shippingOrderAddFromExcelVM)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+                return Json(new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "يوجد بيانات يجب إدخالها" });
+            }
+
+
             IFormFile excelFile = shippingOrderAddFromExcelVM.ShippingExcelFile;
 
             if (excelFile?.Length > 0
@@ -65,30 +74,66 @@ namespace ShipTo.Web.Controllers
                                     shippingOrder.ShippingOrderBulkName = shippingOrderAddFromExcelVM.ShippingOrderBulkName;
                                     shippingOrder.ShipperId = shippingOrderAddFromExcelVM.ShipperId;
                                     shippingOrder.DeliveryStatusId = DeliveryStatusEnum.UnderDelivery;//shippingOrderAddFromExcelVM.DeliveryStatusId;
+                                    shippingOrder.DeliveryDate = shippingOrderAddFromExcelVM.DeliveryDate;//shippingOrderAddFromExcelVM.DeliveryStatusId;
                                     //shippingOrder.CarrierId = shippingOrderAddFromExcelVM.CarrierId;
                                     shippingOrder.OrderDate = DateTime.Now;
-                                    shippingOrder.Notes = shippingOrderAddFromExcelVM.Notes;
+                                    shippingOrder.FileDataName = excelFile.FileName;
+                                    
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ClientNameColName) > 0)
+                                    {
                                         shippingOrder.ClientName = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientNameColName)].Value);
+                                        shippingOrder.ClientName = string.IsNullOrEmpty(shippingOrder.ClientName) ? null : shippingOrder.ClientName;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName) > 0)
-                                        shippingOrder.ClientPhoneNumber =  Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName)].Value);
-                                    if (Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName) > 0)
+                                    {
+                                        shippingOrder.ClientPhoneNumber = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName)].Value);
+                                        shippingOrder.ClientPhoneNumber = string.IsNullOrEmpty(shippingOrder.ClientPhoneNumber) ? null : shippingOrder.ClientPhoneNumber;
+                                    }
+                                    if (Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName) > 0) 
+                                    { 
                                         shippingOrder.Direction = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName)].Value);
+                                        shippingOrder.Direction = string.IsNullOrEmpty(shippingOrder.Direction) ? null : shippingOrder.Direction;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.GovernorateColName) > 0)
+                                    {
                                         shippingOrder.Governorate = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.GovernorateColName)].Value);
+                                        shippingOrder.Governorate = string.IsNullOrEmpty(shippingOrder.Governorate) ? null : shippingOrder.Governorate;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.AddressColName) > 0)
+                                    {
                                         shippingOrder.Address = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.AddressColName)].Value);
+                                        shippingOrder.Address = string.IsNullOrEmpty(shippingOrder.Address) ? null : shippingOrder.Address;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName) > 0)
+                                    {
                                         shippingOrder.OrderDetails = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName)].Value);
+                                        shippingOrder.OrderDetails = string.IsNullOrEmpty(shippingOrder.OrderDetails) ? null : shippingOrder.OrderDetails;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderPiecesCountColName) > 0)
+                                    {
                                         shippingOrder.OrderPiecesCount = Convert.ToInt32(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderPiecesCountColName)].Value);
+                                        shippingOrder.OrderPiecesCount = string.IsNullOrEmpty(Convert.ToString(shippingOrder.OrderPiecesCount)) ? null : (int?)shippingOrder.OrderPiecesCount;
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderTotalPriceColName) > 0)
+                                    {
                                         shippingOrder.OrderTotalPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderTotalPriceColName)].Value));
+
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ShippingPriceColName) > 0)
+                                    {
                                         shippingOrder.ShippingPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ShippingPriceColName)].Value));
+
+                                    }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderNetPriceColName) > 0)
+                                    {
                                         shippingOrder.OrderNetPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderNetPriceColName)].Value));
 
+                                    }
+                                    if (Convert.ToInt32(shippingOrderAddFromExcelVM.NotesColName) > 0)
+                                    {
+                                        shippingOrder.Notes = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.NotesColName)].Value);
+                                        shippingOrder.Notes = string.IsNullOrEmpty(shippingOrder.Notes) ? null : shippingOrder.Notes;
+                                    }
                                     shippingOrders.Add(shippingOrder);
                                 }
 

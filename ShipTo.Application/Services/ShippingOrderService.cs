@@ -45,10 +45,9 @@ namespace ShipTo.Application.IServices
                 string BulkId = DateTime.Now.ToString("yyMMddHHmmss");
                 foreach (var shippingOrder in shippingOrders)
                 {
-                    var lastShippingOrder = _unitOfWork.ShippingOrderRepository.GetAll().OrderBy(x => x.ID).LastOrDefault();
-                    string DayNumber = DateTime.Now.ToString("yyMMdd");
-                    int orderNumberInDay = lastShippingOrder != null? Convert.ToInt32(lastShippingOrder.OrderNumber.Replace(DayNumber,"")) + 1 : 1;
-                    shippingOrder.OrderNumber = DayNumber + orderNumberInDay.ToString();
+                    string lastOrderNumber = _unitOfWork.ShippingOrderRepository.GetAll().OrderBy(x => x.ID).Select(x=>x.OrderNumber).LastOrDefault();
+                    Int64 orderNumber = string.IsNullOrEmpty(lastOrderNumber) ? 100000000001 : Convert.ToInt64(lastOrderNumber) + 1;
+                    shippingOrder.OrderNumber = orderNumber.ToString();
                     shippingOrder.BulkId = BulkId;
                     _unitOfWork.ShippingOrderRepository.Add(shippingOrder);
                     _unitOfWork.Complete();
