@@ -3,7 +3,9 @@ using ShipTo.Core.Entities._Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
- 
+using System.Runtime.Serialization;
+
+
 namespace ShipTo.Core.Entities
 {
     
@@ -26,6 +28,7 @@ namespace ShipTo.Core.Entities
         [Display(Name = "الإميل")]
         [StringLength(100)]
         public string Email { get; set; }
+        [IgnoreDataMember]
         public IList<ShippingOrder> ShippingOrders { get; } = new List<ShippingOrder>();
     }
 }

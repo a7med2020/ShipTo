@@ -6,14 +6,15 @@
 
 /************************************************* DataTable *************************************************************************/
  
-function AddDataTable(tableId, GetURL, columnsArr) {
-    
+function AddDataTable(tableId, GetURL, columnsArr)
+{
+
     $('#' + tableId +' thead tr')
         .clone(true)
         .addClass('filters')
         .appendTo('#' + tableId +' thead');
 
-    var table = $('#' + tableId).DataTable({
+    var table = $('#' + tableId).dataTable({
         dom: 'Bfrtip',
         "ajax": {
             url: GetURL,
@@ -22,9 +23,12 @@ function AddDataTable(tableId, GetURL, columnsArr) {
                 
                 return resdata;
             }
-        } ,
+        },
         columns: columnsArr,
-       
+        columnDefs: [{
+            "defaultContent": "",
+            "targets": "_all"
+        }],
         buttons: [
               'pageLength'
             ,
@@ -94,10 +98,16 @@ function AddDataTable(tableId, GetURL, columnsArr) {
                 });
         },
     });
+
+    return table;
 }
 
 function ReLoadDataTable(tableId) {
     $('#' + tableId).DataTable().ajax.reload();
+}
+
+function ReLoadDataTableWithSearchParam(tableId,url) {
+    $('#' + tableId).DataTable().ajax.url(url).load();
 }
 
 /************************************************** Enums *********************************************************************/
@@ -199,9 +209,10 @@ function setModelAddUpdate(FormId, Id) {
     }
 }
 
-function setModelDelete(ActionURL, Id) {
-    document.getElementById("ActionURL").value = ActionURL;
+function setModelDelete(ActionURL, Id, ReloadActionURL) {
+    document.getElementById("DeletedActionURL").value = ActionURL;
     document.getElementById("DeletedId").value = Id;
+    document.getElementById("ReloadActionURL").value = ReloadActionURL;
 }
 
 const IsEmpty = str => !str.trim().length;
@@ -235,3 +246,22 @@ function PopulateDDLFromList(ddl_Id, List) {
 }
 
 /*********************************************************************************************************************************************************/
+
+
+/*************************************************** Text Box Date******************************************************************************************/
+function InitialTextBoxDate() {
+    $('.txtDate').daterangepicker({
+        locale: { format: 'YYYY-MM-DD' },
+        singleDatePicker: true,
+        showDropdowns: true,
+        //autoUpdateInput: false,
+        pickDate: false,
+        minYear: 1901,
+        maxYear: parseInt(moment().format('YYYY'), 10)
+    }, function (start, end, label) {
+        var years = moment().diff(start, 'years');
+    });
+}
+
+
+/***********************************************************************************************************************************************************/

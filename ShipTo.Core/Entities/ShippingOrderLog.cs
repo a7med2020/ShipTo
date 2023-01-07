@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,7 +78,7 @@ namespace ShipTo.Core.Entities
         [Display(Name = "اسم فيل البيانات")]
         [StringLength(150)]
         public string FileDataName { get; set; }
-
+        [IgnoreDataMember]
         public ShippingOrder ShippingOrder { get; set; }
         public Shipper Shipper { get; set; }
         public DeliveryStatus DeliveryStatus { get; set; }

@@ -28,10 +28,33 @@ namespace ShipTo.Web.Controllers
 
         public IActionResult Index()
         {
-            //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var shippingOrders = _shippingOrderService.Get();
-            return View();
+            return View(new List<ShippingOrder>());
         }
+
+        [HttpGet]
+        public IActionResult GetAll(string DeliveryStatusId,int ShipperId, string ShippingOrderBulkName, string OrderNumber
+            , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
+        {
+            var shippingOrders = _shippingOrderService.Get(DeliveryStatusId, ShipperId, ShippingOrderBulkName, OrderNumber, 
+                CarrierId, DeliveryDateFrom, DeliveryDateTo);
+            return Json(shippingOrders);
+        }
+
+        [HttpPost]
+        public IActionResult AddUpdate(Shipper shipper)
+        {
+            if (shipper.ID == 0)
+            {
+                var result = _shippingOrderService.Add(shipper);
+                return Json(result);
+            }
+            else
+            {
+                var result = _shippingOrderService.Update(shipper);
+                return Json(result);
+            }
+        }
+
         [HttpGet]
         public IActionResult AddFromExcel()
         {
@@ -218,6 +241,13 @@ namespace ShipTo.Web.Controllers
             }
 
             return columns;
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int Id)
+        {
+            var result = _shippingOrderService.Delete(Id);
+            return Json(result);
         }
 
 

@@ -1,5 +1,220 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ShipTo.Core.Entities.ShippingOrder>
+
 @{
+    ViewData["Title"] = "طلبات الشحن";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group col-sm-2" id="div_DeliveryStatusId">
+                <label> @Html.DisplayNameFor(model => model.DeliveryStatusId)</label>
+                <select id="ddlSearch_DeliveryStatusId" name="ddlSearch_DeliveryStatusId" class="form-control">
+                </select>
+            </div>
+            <div class="form-group col-sm-2" id="div_ShipperId">
+                <label> @Html.DisplayNameFor(model => model.ShipperId)</label>
+                <select id="ddlSearch_ShipperId" name="ddlSearch_ShipperId" class="form-control">
+                </select>
+            </div>
+            <div class="form-group col-sm-3" id="div_ShippingOrderBulkName">
+                <label> @Html.DisplayNameFor(model => model.ShippingOrderBulkName)</label>
+                <input id="txtSearch_ShippingOrderBulkName" name="txtSearch_ShippingOrderBulkName" class="form-control" />
+            </div>
+            <div class="form-group col-sm-2" id="div_ShippingOrderBulkName">
+                <label> @Html.DisplayNameFor(model => model.OrderNumber)</label>
+                <input id="txtSearch_OrderNumber" name="txtSearch_OrderNumber" class="form-control" />
+            </div>
+            <div class="form-group col-sm-3" id="div_CarrierId">
+                <label> @Html.DisplayNameFor(model => model.CarrierId)</label>
+                <select id="ddlSearch_CarrierId" name="ddlSearch_CarrierId" class="form-control">
+                </select>
+            </div>
+
+            <div class="form-group col-sm-2" id="div_DeliveryDate">
+                <label> @Html.DisplayNameFor(model => model.DeliveryDate) من</label>
+                <input id="txtSearch_DeliveryDateFrom" name="txtSearch_DeliveryDateFrom" class="form-control txtDate">
+            </div>
+
+            <div class="form-group col-sm-2" id="div_DeliveryDate">
+                <label> @Html.DisplayNameFor(model => model.DeliveryDate) إلي</label>
+                <input id="txtSearch_DeliveryDateTo" name="txtSearch_DeliveryDateTo" class="form-control txtDate">
+            </div>
+            <div class="form-group col-sm-1" id="div_DeliveryDate">
+                <label> &nbsp;&nbsp; </label>
+                <button type="button" onclick="Search()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp;   بحث  <i class="fa fa-search"></i>&nbsp; &nbsp;&nbsp; &nbsp; </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="table-responsive">
+        <table id="tbl_Items" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderNumber)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.BulkId)
+                        </th>*@
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.OrderDate)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShippingOrderBulkName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ClientName)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.ClientPhoneNumber)
+                        </th>*@
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.Direction)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Governorate)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Shipper)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.OrderDetails)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderPiecesCount)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderTotalPrice)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.DeliveryPrice)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShippingPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderNetPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DeliveryStatus)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.DeliveryStatusReason)
+                        </th>*@
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.DeliveryDate)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.Carrier)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.FileDataName)
+                        </th>*@
+
+                    <th class="notExportCol">
+
+                    </th>
+                </tr>
+
+            </thead>
+        </table>
+    </div>
+</div>
+
+<partial name="../Common/_DeleteConfirmation" />
+
+<script>
+
+    function GetSearchURL() {
+
+        var ddlSearch_DeliveryStatusIdValue = document.getElementById("ddlSearch_DeliveryStatusId").value;
+        var ddlSearch_ShipperIdValue = document.getElementById("ddlSearch_ShipperId").value;
+        var txtSearch_ShippingOrderBulkNameValue = document.getElementById("txtSearch_ShippingOrderBulkName").value;
+        var txtSearch_OrderNumberValue = document.getElementById("txtSearch_OrderNumber").value;
+        var ddlSearch_CarrierIdValue = document.getElementById("ddlSearch_CarrierId").value;
+        var txtSearch_DeliveryDateFromValue = document.getElementById("txtSearch_DeliveryDateFrom").value;
+        var txtSearch_DeliveryDateToValue = document.getElementById("txtSearch_DeliveryDateTo").value;
+
+         var GetURL = '@Url.Action("GetAll", "ShippingOrder")?DeliveryStatusId=' + ddlSearch_DeliveryStatusIdValue + '&ShipperId=' + ddlSearch_ShipperIdValue
+            + '&ShippingOrderBulkName=' + txtSearch_ShippingOrderBulkNameValue + '&OrderNumber=' + txtSearch_OrderNumberValue + '&CarrierId=' + ddlSearch_CarrierIdValue
+            + '&DeliveryDateFrom=' + txtSearch_DeliveryDateFromValue + '&DeliveryDateTo=' + txtSearch_DeliveryDateToValue;
+        return GetURL;
+    }
+
+    var DeleteURL = '@Url.Action("Delete", "ShippingOrder")';
+
+
+    var Columns = [{ data: "id", visible: false },
+        { data: "orderNumber" },
+       /* { data: "bulkId" },*/
+         //{
+         //    data: "orderDate", render: function (data) {
+         //           return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+         //   } },
+        { data: "shippingOrderBulkName" },
+        { data: "clientName" },
+     /*   { data: "clientPhoneNumber" },*/
+        //{ data: "direction" },
+        //{ data: "governorate" },
+        { data: "address" },
+        { data: "shipper.name" }, /*{ "data": "shipper.name" , "autoWidth": true },*/
+        //{ data: "orderDetails" },
+        //{ data: "orderPiecesCount" },
+        { data: "orderTotalPrice" },
+    /*    { data: "deliveryPrice" },*/
+        { data: "shippingPrice" },
+        { data: "orderNetPrice" },
+        { data: "deliveryStatus.name" },
+        /* { data: "deliveryStatusReason" },*/
+       /* { data: "deliveryDate" },*/
+        //{
+        //    data: "deliveryDate", render: function (data) {
+        //        return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+        //    }
+        //},
+        { data: "carrier.name" },
+       /* { data: "fileDataName" },*/
+
+        //{
+        //    data: "createdDate", render: function (data) {
+        //            return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+        //    } },
+        {
+    searchable: false, search: false,
+            render: function (data, type, row) {
+                return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+            }
+        },
+            ]
+
+
+
+    $(document).ready(function () {
+
+        AddDataTable('tbl_Items', GetSearchURL(), Columns)
+
+        InitialTextBoxDate();
+         var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('ddlSearch_DeliveryStatusId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Shipper")';
+        PopulateDDL('ddlSearch_ShipperId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
+        PopulateDDL('ddlSearch_CarrierId', getShippersURL);
+
+    });
+
+    function Search() {
+        ReLoadDataTableWithSearchParam('tbl_Items', GetSearchURL())
+
+        }
+
+</script>

@@ -1,5 +1,6 @@
-﻿table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
-      text-align: right; 
+﻿
+body {
+    font-size: 13px;
 }
 
 
@@ -32,4 +33,11 @@ select {
 .text-danger {
     color: #d51c19 !important;  
 }
- 
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+     text-align: right; 
+}
+
+.dropdown-menu {
+    min-width: 270px;
+}

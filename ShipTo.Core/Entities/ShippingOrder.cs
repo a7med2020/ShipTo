@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ShipTo.Core.Entities
@@ -18,10 +20,12 @@ namespace ShipTo.Core.Entities
         [StringLength(30)]
         public string OrderNumber { get; set; }
         [StringLength(100)]
+        [Display(Name = "رقم المجموعة")]
         public string BulkId { get; set; }
         [Display(Name = "تاريخ الطلب")]
         public DateTime OrderDate { get; set; }
         [StringLength(500)]
+        [Display(Name = "الاسم المجمع")]
         public string ShippingOrderBulkName { get; set; }
         [Display(Name = "العميل")]
         [Required]
@@ -38,6 +42,7 @@ namespace ShipTo.Core.Entities
         [StringLength(100)]
         public string Governorate { get; set; }
         [StringLength(250)]
+        [Display(Name = "العنوان")]
         public string Address { get; set; }
         
         [Display(Name = "شركة الشحن")]
@@ -77,11 +82,16 @@ namespace ShipTo.Core.Entities
         [Display(Name = "اسم فيل البيانات")]
         [StringLength(150)]
         public string FileDataName { get; set; }
-
+        [Display(Name = "شركة الشحن")]
         public Shipper Shipper { get; set; }
+        [Display(Name = "حالة التسليم")]
+        [JsonIgnore]
         public DeliveryStatus DeliveryStatus { get; set; }
+        [Display(Name = "المندوب")]
+       
         public Carrier Carrier { get; set; }
-
+        [JsonIgnore]
+        
         public IList<ShippingOrderLog> ShippingOrderLogs { get; } = new List<ShippingOrderLog>();
 
     }

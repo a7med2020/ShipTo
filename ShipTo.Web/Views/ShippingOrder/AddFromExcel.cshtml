@@ -184,7 +184,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" onclick="PostForm_AddFromExcel()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp; <i class="fa fa-fw fa-save"></i>  حـفـظ  &nbsp; &nbsp;&nbsp; &nbsp; </button>
+            <button type="button" onclick="PostForm_AddFromExcel()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp;   حـفـظ <i class="fa fa-fw fa-save"></i> &nbsp; &nbsp;&nbsp; &nbsp; </button>
             @*<button type="reset" class="btn btn-default modalFooterBtn" >إلغاء</button>*@
             <button type="button" onclick="ClearForm()" class="btn btn-default modalFooterBtn">&nbsp;&nbsp; جديد&nbsp;&nbsp;</button>
         </div>
@@ -197,24 +197,12 @@
 
 
     $(document).ready(function () {
-
-        $('.txtDate').daterangepicker({
-            locale: { format: 'YYYY-MM-DD' },
-            singleDatePicker: true,
-            showDropdowns: true,
-            //autoUpdateInput: false,
-            pickDate: false,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'), 10)
-        }, function (start, end, label) {
-            var years = moment().diff(start, 'years');
-        });
-
+        InitialTextBoxDate();
         $.validator.unobtrusive.parse($("#form_AddFromExcel"));
         var getShippersURL = '@Url.Action("GetAll", "Shipper")';
         PopulateDDL('ShipperId', getShippersURL);
-         var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
-        PopulateDDL('DeliveryStatusId', getShippersURL);
+         @*var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('DeliveryStatusId', getShippersURL);*@
          var getShippersURL = '@Url.Action("GetAll", "Carrier")';
         PopulateDDL('CarrierId', getShippersURL);
 

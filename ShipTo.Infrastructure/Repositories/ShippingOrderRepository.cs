@@ -1,4 +1,5 @@
-﻿using ShipTo.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ShipTo.Core.Entities;
 using ShipTo.Core.IRepositories;
 using ShipTo.Infrastructure.Contexts;
 using ShipTo.Infrastructure.Repositories._Base;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Data.Entity;
 
 namespace ShipTo.Infrastructure.Repositories
 {
@@ -57,5 +59,27 @@ namespace ShipTo.Infrastructure.Repositories
             };
             _context.ShippingOrderLogs.Add(ShippingOrderLog);
         }
+
+        public List<ShippingOrder> Get()
+        {
+            var a  = _context.ShippingOrders.Include(x => x.Shipper).Include(x=>x.DeliveryStatus).Include(x => x.Carrier).ToList();
+            return _context.ShippingOrders.ToList();
+        }
+
+        public List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
+            , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
+        {
+            var data = _context.ShippingOrders.Include(x => x.Shipper).Include(x => x.DeliveryStatus).Include(x => x.Carrier)
+                .Where(x=> x.IsDeleted == false
+                          && (x.DeliveryStatusId == DeliveryStatusId || DeliveryStatusId == "-1") 
+                          && (x.ShipperId == ShipperId || ShipperId == -1)
+                          && (ShippingOrderBulkName == null || x.ShippingOrderBulkName.Contains(ShippingOrderBulkName.Trim()))
+                          && (OrderNumber == null  || x.OrderNumber == OrderNumber.Trim())
+                          && (x.ShipperId == CarrierId || CarrierId == -1)
+                          && (x.DeliveryDate >= DeliveryDateFrom && x.DeliveryDate <= DeliveryDateTo))
+                .ToList();
+            return data;
+        }
+
     }
 }

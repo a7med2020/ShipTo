@@ -36,7 +36,7 @@ namespace ShipTo.Web
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDatabaseDeveloperPageExceptionFilter();
-            
+
 
             services.AddDbContext<ShipToContext>(options =>
              options.UseSqlServer(
@@ -56,7 +56,11 @@ namespace ShipTo.Web
             services.AddServices();
             services.AddTransient<IUserResolverHandler, UserResolverHandler>();
             services.AddHttpContextAccessor();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                            .AddNewtonsoftJson(options =>
+                            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                        );
+                                      
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

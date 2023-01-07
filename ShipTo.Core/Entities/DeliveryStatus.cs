@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ShipTo.Core.Entities
@@ -16,7 +18,8 @@ namespace ShipTo.Core.Entities
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
-        public IList<ShippingOrder> ShippingOrders { get; } = new List<ShippingOrder>();
+        [IgnoreDataMember]
+        public IList<ShippingOrder> ShippingOrders { get; }
 
     }
 }

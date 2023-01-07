@@ -101,6 +101,12 @@
 
 <script>
 
+     function GetSearchURL() {
+
+         var GetURL = '@Url.Action("GetAll", "Carrier")';
+        return GetURL;
+    }
+
    var DeleteURL = '@Url.Action("Delete", "Carrier")';
 
     var Columns = [{ data: "id", visible: false },
@@ -115,7 +121,7 @@
                     {
              searchable: false, search: false,
                         render: function (data, type, row) {
-                            return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL+'\' , '+  row.id +')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                            return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
                         }
                     },
                 ]

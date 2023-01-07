@@ -159,17 +159,26 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> بيانات أساسية <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/Shipper/index"><i class="fa fa-fw fa-home"></i> شركات الشحن</a>
+                                <a href="@Url.Action("index", "Shipper")"><i class="fa fa-fw fa-home"></i> شركات الشحن</a>
                             </li>
                             <li class="divider"></li>
                             <li>
                                 <a href="@Url.Action("Index", "Carrier")"><i class="fa fa-fw fa-male"></i> المندوبون</a>
                             </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right top-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> طلبات الشحن <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index", "ShippingOrder")"><i class="fa fa-fw fa-home"></i> إدارة طلبات الشحن</a>
+                            </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                                <a href="@Url.Action("AddFromExcel", "ShippingOrder")"><i class="fa fa-fw fa-male"></i> إضافة من إكسل </a>
                             </li>
-
                         </ul>
                     </li>
                 </ul>

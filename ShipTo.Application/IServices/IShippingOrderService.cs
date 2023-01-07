@@ -10,6 +10,12 @@ namespace ShipTo.Application.IServices
 {
     public interface IShippingOrderService
     {
+        List<ShippingOrder> Get();
+        List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
+          , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);
+        ReturnResultVM Add(ShippingOrder shippingOrder);
+        ReturnResultVM Update(ShippingOrder shippingOrder);
         ReturnResultVM AddRange(List<ShippingOrder> shippingOrders);
+        ReturnResultVM Delete(int Id);
     }
 }

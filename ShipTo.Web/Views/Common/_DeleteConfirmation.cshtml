@@ -8,9 +8,11 @@
                 </button>
                 <h4 class="modal-title" id="modalTitle">حذف عنصر</h4>
             </div>
-            <div class="modal-body" style="margin-right: 10px; font-size:18px">
-                <input id="ActionURL" name="ActionURL" type="hidden" value="0" />
+            <div class="modal-body" style="margin-right: 10px; font-size:16px">
+                <input id="DeletedActionURL" name="DeletedActionURL" type="hidden" value="0" />
                 <input id="DeletedId" name="DeletedId" type="hidden" value="0" />
+                <input id="ReloadActionURL" name="DeletedActionURL" type="hidden" value="0" />
+
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label> هل أنت متأكد من حذف العنصر؟</label>
@@ -31,8 +33,9 @@
 
     function DeleteItem() {
 
-        var ActionURL = document.getElementById("ActionURL").value;
+        var ActionURL = document.getElementById("DeletedActionURL").value;
         var DeletedId = document.getElementById("DeletedId").value;
+        var ReloadActionURL = document.getElementById("ReloadActionURL").value;
         var ProcessName = "الحذف";
        
             $.ajax({
@@ -41,12 +44,11 @@
                 success: function (response) {
                     if (response.status == AjaxResponseStatusEnum.Success) {
                         toastr.success("تم " + ProcessName + " بنجاح");
-                        ReLoadDataTable('tbl_Items')
+                        ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)
                        $('.modal').modal('hide'); 
                     } else {
                         toastr.error("فشل: " + ProcessName + " " + response.errorMessage);
                     }
-                    console.log(response);
                 },
                 error: function (error) {
                     toastr.error("حدث خطأ أثناء إرسال البيانات: " );
