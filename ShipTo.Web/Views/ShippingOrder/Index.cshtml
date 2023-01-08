@@ -4,6 +4,10 @@
     ViewData["Title"] = "طلبات الشحن";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<p>
+    <a onclick="setAdd()" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate"> <i class="fa fa-fw fa-plus"></i> إضافة جديد </a>
+</p>
+
 <div class="row">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -30,7 +34,6 @@
                 <select id="ddlSearch_CarrierId" name="ddlSearch_CarrierId" class="form-control">
                 </select>
             </div>
-
             <div class="form-group col-sm-2" id="div_DeliveryDate">
                 <label> @Html.DisplayNameFor(model => model.DeliveryDate) من</label>
                 <input id="txtSearch_DeliveryDateFrom" name="txtSearch_DeliveryDateFrom" class="form-control txtDate">
@@ -130,6 +133,9 @@
     </div>
 </div>
 
+
+<partial name="../ShippingOrder/_AddUpdate.cshtml" model="new Core.Entities.ShippingOrder()" />
+ 
 <partial name="../Common/_DeleteConfirmation" />
 
 <script>
@@ -191,7 +197,7 @@
         {
     searchable: false, search: false,
             render: function (data, type, row) {
-                return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() +'\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
             }
         },
             ]
@@ -201,7 +207,7 @@
     $(document).ready(function () {
 
         AddDataTable('tbl_Items', GetSearchURL(), Columns)
-
+        $.validator.unobtrusive.parse($("#form_AddUpdate"));
         InitialTextBoxDate();
          var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
         PopulateDDL('ddlSearch_DeliveryStatusId', getShippersURL);
@@ -210,11 +216,104 @@
          var getShippersURL = '@Url.Action("GetAll", "Carrier")';
         PopulateDDL('ddlSearch_CarrierId', getShippersURL);
 
+                 var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('DeliveryStatusId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Shipper")';
+        PopulateDDL('ShipperId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
+        PopulateDDL('CarrierId', getShippersURL);
+
     });
 
     function Search() {
         ReLoadDataTableWithSearchParam('tbl_Items', GetSearchURL())
 
+    }
+
+    function FillFormAddUpdate(elementId, ReloadActionURL) {
+     
+        var URL = '@Url.Action("GetById", "ShippingOrder")?Id=' + elementId
+        var Readonlys = document.getElementsByClassName('Readonly');
+        var Readonlyslength = Readonlys.length;
+        for (var i = 0; i < Readonlyslength; i++) {
+            Readonlys[i].style.display = "block"
         }
+        $.ajax({
+            type: "Get",
+            url: URL,
+            success: function (response) {
+                $.validator.unobtrusive.parse($("#form_AddUpdate"));
+                ClearForm();
+              
+                setModelAddUpdate('form_AddUpdate', response.id, ReloadActionURL);
+                $('#Id').val(response.id);
+                $('#OrderNumber').val(response.orderNumber);
+                $('#lbl_OrderNumber').text(response.orderNumber);
+                $('#BulkId').val(response.bulkId);
+                $('#lbl_BulkId').text(response.bulkId??"");
+                $('#OrderDate').val(response.orderDate);
+                $('#lbl_OrderDate').text(formatDate(response.orderDate));
+                $('#ShippingOrderBulkName').val(response.shippingOrderBulkName);
+                $('#ClientName').val(response.clientName);
+                $('#ClientPhoneNumber').val(response.clientPhoneNumber);
+                document.getElementById("ClientPhoneNumber").value = response.clientPhoneNumber;
+                $('#direction').val(response.direction);
+                $('#Governorate').val(response.governorate);
+                $('#Address').val(response.address);
+                $('#ShipperId').val(response.shipperId);
+                $('#OrderDetails').val(response.orderDetails);
+                $('#OrderPiecesCount').val(response.orderPiecesCount);
+                $('#OrderTotalPrice').val(response.orderTotalPrice);
+                $('#DeliveryPrice').val(response.deliveryPrice);
+                $('#ShippingPrice').val(response.shippingPrice);
+                $('#OrderNetPrice').val(response.orderNetPrice);
+                $('#DeliveryStatusId').val(response.deliveryStatusId);
+                $('#DeliveryStatusReason').val(response.deliveryStatusReason);
+                $('#DeliveryDate').val(formatDate(response.deliveryDate));
+                $('#CarrierId').val(response.carrierId);
+
+                $('#CreatedBy').val(response.createdBy);
+                $('#ModefiedBy').val(response.modefiedBy);
+                $('#CreatedDate').val(response.createdDate);
+                $('#ModefiedDate').val(response.modefiedDate);
+            },
+            error: function (error) {
+                toastr.error("حدث خطأ أثناء إرسال البيانات");
+            }
+        });
+    }
+
+     
+
+    function setAdd() {
+        ClearForm();
+        var Readonlys = document.getElementsByClassName('Readonly');
+        var Readonlyslength = Readonlys.length;
+        for (var i = 0; i < Readonlyslength; i++) {
+            Readonlys[i].style.display = "none"
+        }
+        setModelAddUpdate('form_AddUpdate', 0, GetSearchURL());
+    }
+
+
+    function ClearForm() {
+        var spans = document.getElementsByTagName('span');
+        var l = spans.length;
+        for (var i = 0; i < l; i++) {
+            spans[i].innerHTML = "";
+        }
+        //var inputs = document.getElementsByTagName('input');
+        //var ll = inputs.length;
+        //for (var i = 0; i < ll; i++) {
+        //    inputs[i].value = null;
+        //}
+        $('#Id').val(0);
+        $('#OrderNumber').val(null);
+        $('#lbl_OrderNumber').text("");
+        $('#BulkId').val(null);
+        $('#lbl_BulkId').text("");
+        $('#OrderDate').val(null);
+        $('#lbl_OrderDate').text("");
+    }
 
 </script>

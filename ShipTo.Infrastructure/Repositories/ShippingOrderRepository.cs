@@ -71,12 +71,13 @@ namespace ShipTo.Infrastructure.Repositories
         {
             var data = _context.ShippingOrders.Include(x => x.Shipper).Include(x => x.DeliveryStatus).Include(x => x.Carrier)
                 .Where(x=> x.IsDeleted == false
-                          && (x.DeliveryStatusId == DeliveryStatusId || DeliveryStatusId == "-1") 
+                          && (x.DeliveryStatusId == DeliveryStatusId || DeliveryStatusId == "-1")
                           && (x.ShipperId == ShipperId || ShipperId == -1)
                           && (ShippingOrderBulkName == null || x.ShippingOrderBulkName.Contains(ShippingOrderBulkName.Trim()))
-                          && (OrderNumber == null  || x.OrderNumber == OrderNumber.Trim())
+                          && (OrderNumber == null || x.OrderNumber == OrderNumber.Trim())
                           && (x.ShipperId == CarrierId || CarrierId == -1)
-                          && (x.DeliveryDate >= DeliveryDateFrom && x.DeliveryDate <= DeliveryDateTo))
+                          && (x.DeliveryDate >= DeliveryDateFrom && x.DeliveryDate <= DeliveryDateTo)
+                          )
                 .ToList();
             return data;
         }

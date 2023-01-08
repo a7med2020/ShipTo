@@ -106,7 +106,8 @@ function ReLoadDataTable(tableId) {
     $('#' + tableId).DataTable().ajax.reload();
 }
 
-function ReLoadDataTableWithSearchParam(tableId,url) {
+function ReLoadDataTableWithSearchParam(tableId, url) {
+  /*  alert(tableId + " " + url)*/
     $('#' + tableId).DataTable().ajax.url(url).load();
 }
 
@@ -170,6 +171,7 @@ function PostForm(FormId, PostURL) {
         e.preventDefault(); // avoid to execute the actual submit of the form.
         
         var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
+        var ReloadActionURL = document.getElementById("ReloadActionURL").value;
         var form = $(this);
         $.ajax({
             type: "POST",
@@ -178,7 +180,7 @@ function PostForm(FormId, PostURL) {
             success: function (response) {
                 if (response.status == AjaxResponseStatusEnum.Success) {
                     toastr.success("تم " + ProcessName + " بنجاح");
-                    ReLoadDataTable('tbl_Items')
+                    ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)
                     if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
                     if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
                 } else {
@@ -195,24 +197,28 @@ function PostForm(FormId, PostURL) {
     });
 }
 
-function setModelAddUpdate(FormId, Id) {
+function setModelAddUpdate(FormId, Id, ReloadActionURL = null) {
     if (Id > 0) {
         document.getElementById(FormId).reset();
         document.getElementById("modalTitle").innerHTML = "تعديل";
         document.getElementById("ActionType").value = "Update";
+        document.getElementById("ReloadActionURL").value = ReloadActionURL;
     }
     else {
         document.getElementById(FormId).reset();
         document.getElementById("modalTitle").innerHTML = "إضافة";
         document.getElementById("ActionType").value = "Add";
         document.getElementById("Id").value = "0";
+        document.getElementById("ReloadActionURL").value = ReloadActionURL;
     }
 }
+
+
 
 function setModelDelete(ActionURL, Id, ReloadActionURL) {
     document.getElementById("DeletedActionURL").value = ActionURL;
     document.getElementById("DeletedId").value = Id;
-    document.getElementById("ReloadActionURL").value = ReloadActionURL;
+    document.getElementById("ReloadDeletedURL").value = ReloadActionURL;
 }
 
 const IsEmpty = str => !str.trim().length;
@@ -249,19 +255,36 @@ function PopulateDDLFromList(ddl_Id, List) {
 
 
 /*************************************************** Text Box Date******************************************************************************************/
+
 function InitialTextBoxDate() {
     $('.txtDate').daterangepicker({
         locale: { format: 'YYYY-MM-DD' },
         singleDatePicker: true,
         showDropdowns: true,
-        //autoUpdateInput: false,
-        pickDate: false,
+        autoUpdateInput: true,
+        pickDate: true,
         minYear: 1901,
-        maxYear: parseInt(moment().format('YYYY'), 10)
+        maxYear: parseInt(moment().format('YYYY'), 10),
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
     });
+ 
 }
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 
 
 /***********************************************************************************************************************************************************/

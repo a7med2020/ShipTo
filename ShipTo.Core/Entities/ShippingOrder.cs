@@ -18,21 +18,23 @@ namespace ShipTo.Core.Entities
         public int ID { get; set; }
         [Display(Name = "رقم الطلب")]
         [StringLength(30)]
+        [Required]
         public string OrderNumber { get; set; }
         [StringLength(100)]
         [Display(Name = "رقم المجموعة")]
         public string BulkId { get; set; }
         [Display(Name = "تاريخ الطلب")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime OrderDate { get; set; }
         [StringLength(500)]
         [Display(Name = "الاسم المجمع")]
         public string ShippingOrderBulkName { get; set; }
         [Display(Name = "العميل")]
-        [Required]
+        [Required(ErrorMessage = "يجب إدخال العميل")]
         [StringLength(200)]
         public string ClientName { get; set; }
         [Display(Name = "هاتف العميل")]
-        [Required]
+        [Required(ErrorMessage = "يجب إدخال هاتف العميل")]
         [StringLength(100)]
         public string ClientPhoneNumber { get; set; }
         [Display(Name = "الجهه")]
@@ -43,33 +45,49 @@ namespace ShipTo.Core.Entities
         public string Governorate { get; set; }
         [StringLength(250)]
         [Display(Name = "العنوان")]
+        [Required(ErrorMessage = "يجب إدخال العنوان")]
         public string Address { get; set; }
         
         [Display(Name = "شركة الشحن")]
         [ForeignKey("Shipper")]
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "يجب إدخال شركة الشحن")]
+        [Required(ErrorMessage = "يجب إدخال شركة الشحن")]
         public int ShipperId { get; set; }
         [Display(Name = "تفاصيل الطلب")]
         [StringLength(300)]
+        [Required(ErrorMessage = "يجب إدخال تفاصيل الطلب")]
         public string OrderDetails { get; set; }
         [Display(Name = "عدد القطع")]
         public int? OrderPiecesCount { get; set; }
         [Display(Name = "سعر الطلب")]
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب إدخال سعر الطلب")]
+        [RegularExpression(@"^\d+(\.\d{1,3})?$", ErrorMessage = "سعر الطلب يجب أن يكون رقم أكبر من 1")]
+        [Range(1, 9999999999999999.99, ErrorMessage = "سعر الطلب يجب أن يكون رقم أكبر من 1")]
         public decimal OrderTotalPrice { get; set; }
         [Display(Name = "سعر التسليم")]
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب إدخال سعر التسليم")]
+        [RegularExpression(@"^\d+(\.\d{1,3})?$", ErrorMessage = "سعر التسليم يجب أن يكون رقم أكبر من 1")]
+        [Range(0, 9999999999999999.99, ErrorMessage = "سعر التسليم يجب أن يكون رقم أكبر من 1")]
         public decimal DeliveryPrice { get; set; }
         [Display(Name = "سعر الشحن")]
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب إدخال سعر المنتج")]
+        [RegularExpression(@"^\d+(\.\d{1,3})?$", ErrorMessage = "سعر الشحن يجب أن يكون رقم أكبر من 1")]
+        [Range(1, 9999999999999999.99, ErrorMessage = "سعر الشحن يجب أن يكون رقم أكبر من 1")]
         public decimal ShippingPrice { get; set; }
         [Display(Name = "سعر المنتج")]
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب إدخال سعر المنتج")]
+        [RegularExpression(@"^\d+(\.\d{1,3})?$", ErrorMessage =  "سعر المنتج يجب أن يكون رقم أكبر من 1")]
+        [Range(1, 9999999999999999.99, ErrorMessage = "سعر المنتج يجب أن يكون رقم أكبر من 1")]
         public decimal OrderNetPrice { get; set; }
         [Display(Name = "حالة التسليم")]
         [ForeignKey("DeliveryStatus")]
-        [Required]
         [StringLength(20)]
+        [RegularExpression("UnderDelivery|Delivered|PartialDelivery|Refused", ErrorMessage = "يجب إدخال حالة التسليم")]
+        [Required(ErrorMessage = "يجب إدخال حالة التسليم")]
         public string DeliveryStatusId { get; set; }
         [Display(Name = "سبب حالة التسليم")]
         [StringLength(300)]
@@ -78,6 +96,7 @@ namespace ShipTo.Core.Entities
         public DateTime? DeliveryDate { get; set; }
         [Display(Name = "المندوب")]
         [ForeignKey("Carrier")]
+        //[Range(1, int.MaxValue, ErrorMessage = "يجب إدخال المندوب")]
         public int? CarrierId { get; set; }
         [Display(Name = "اسم فيل البيانات")]
         [StringLength(150)]
@@ -85,10 +104,8 @@ namespace ShipTo.Core.Entities
         [Display(Name = "شركة الشحن")]
         public Shipper Shipper { get; set; }
         [Display(Name = "حالة التسليم")]
-        [JsonIgnore]
         public DeliveryStatus DeliveryStatus { get; set; }
         [Display(Name = "المندوب")]
-       
         public Carrier Carrier { get; set; }
         [JsonIgnore]
         

@@ -11,6 +11,7 @@ namespace ShipTo.Application.IServices
     public interface IShippingOrderService
     {
         List<ShippingOrder> Get();
+        ShippingOrder Get(int Id);
         List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
           , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);
         ReturnResultVM Add(ShippingOrder shippingOrder);

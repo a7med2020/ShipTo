@@ -121,6 +121,7 @@
                 <div class="modal-body">
                     <input id="ActionType" name="ActionType" type="hidden" value="0" />
                     <input id="Id" name="Id" type="hidden" value="0" />
+                    <input id="ReloadActionURL" name="ReloadActionURL" type="hidden" value="0" />
 
                     <div class="row">
                         <div class="form-group col-sm-6">
@@ -129,8 +130,8 @@
                         </div>
 
                         <div class="form-group col-sm-6">
-                            <label > @Html.DisplayNameFor(model => model.Phone)</label>
-                            <input id="Phone" name="Phone" class="form-control" >
+                            <label> @Html.DisplayNameFor(model => model.Phone)</label>
+                            <input id="Phone" name="Phone" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -185,7 +186,7 @@
                     {
              searchable: false, search: false,
                         render: function (data, type, row) {
-                            return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                            return '<a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() +'\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
                         }
                     },
                 ]
@@ -198,13 +199,13 @@
 
     PostForm('form_AddUpdate', '@Url.Action("AddUpdate", "Shipper")')
 
-    function FillFormAddUpdate(elementId) {
+    function FillFormAddUpdate(elementId, ReloadActionURL) {
         var URL = '@Url.Action("GetById", "Shipper")?Id=' + elementId
         $.ajax({
             type: "Get",
             url: URL,
             success: function (response) {
-                setModelAddUpdate('form_AddUpdate', response.id);
+                setModelAddUpdate('form_AddUpdate', response.id, ReloadActionURL);
                 document.getElementById("Id").value = response.id;
                 document.getElementById("Name").value = response.name;
                 document.getElementById("Phone").value = response.phone;

@@ -40,17 +40,23 @@ namespace ShipTo.Web.Controllers
             return Json(shippingOrders);
         }
 
-        [HttpPost]
-        public IActionResult AddUpdate(Shipper shipper)
+        public IActionResult GetById(int Id)
         {
-            if (shipper.ID == 0)
+            var shippingOrder = _shippingOrderService.Get(Id);
+            return Json(shippingOrder);
+        }
+
+        [HttpPost]
+        public IActionResult AddUpdate(ShippingOrder ShippingOrder)
+        {
+            if (ShippingOrder.ID == 0)
             {
-                var result = _shippingOrderService.Add(shipper);
+                var result = _shippingOrderService.Add(ShippingOrder);
                 return Json(result);
             }
             else
             {
-                var result = _shippingOrderService.Update(shipper);
+                var result = _shippingOrderService.Update(ShippingOrder);
                 return Json(result);
             }
         }

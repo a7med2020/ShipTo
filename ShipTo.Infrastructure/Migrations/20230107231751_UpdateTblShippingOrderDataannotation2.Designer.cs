@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShipTo.Infrastructure.Contexts;
 
 namespace ShipTo.Infrastructure.Migrations
 {
     [DbContext(typeof(ShipToContext))]
-    partial class ShipToContextModelSnapshot : ModelSnapshot
+    [Migration("20230107231751_UpdateTblShippingOrderDataannotation2")]
+    partial class UpdateTblShippingOrderDataannotation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -386,6 +388,7 @@ namespace ShipTo.Infrastructure.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("BulkId")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
