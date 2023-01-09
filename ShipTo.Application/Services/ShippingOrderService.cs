@@ -31,8 +31,8 @@ namespace ShipTo.Application.IServices
             return _unitOfWork.ShippingOrderRepository.GetAll(x => x.IsDeleted == false && x.ID == Id).SingleOrDefault();
         }
 
-        public List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
-          , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
+        public List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
+          , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
         {
             return _unitOfWork.ShippingOrderRepository.Get(DeliveryStatusId, ShipperId, ShippingOrderBulkName, OrderNumber
           , CarrierId, DeliveryDateFrom, DeliveryDateTo);
@@ -54,7 +54,6 @@ namespace ShipTo.Application.IServices
         {
             try
             {
-                shippingOrder.OrderDate = DateTime.Now;
                 _unitOfWork.ShippingOrderRepository.BeginTransaction();
                 //string BulkId = DateTime.Now.ToString("yyMMddHHmmss");
                 //shippingOrder.BulkId = BulkId;

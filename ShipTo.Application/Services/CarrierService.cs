@@ -76,9 +76,17 @@ namespace ShipTo.Application.IServices
         {
             try
             {
-                _unitOfWork.CarrierRepository.Delete(x => x.ID == Id);
-                _unitOfWork.Complete();
-                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                if (!_unitOfWork.ShippingOrderRepository.GetAll(x => x.CarrierId == Id && !x.IsDeleted).Any())
+                {
+                    _unitOfWork.CarrierRepository.Delete(x => x.ID == Id);
+                    _unitOfWork.Complete();
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                }
+                else
+                {
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "لا يمكن حذف المندوب لأنه يوجد طلبات شحن مسجله عليه" };
+                }
+              
             }
             catch (Exception ex)
             {

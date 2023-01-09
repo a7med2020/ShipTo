@@ -32,8 +32,8 @@ namespace ShipTo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll(string DeliveryStatusId,int ShipperId, string ShippingOrderBulkName, string OrderNumber
-            , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
+        public IActionResult GetAll(string DeliveryStatusId,int? ShipperId, string ShippingOrderBulkName, string OrderNumber
+            , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
         {
             var shippingOrders = _shippingOrderService.Get(DeliveryStatusId, ShipperId, ShippingOrderBulkName, OrderNumber, 
                 CarrierId, DeliveryDateFrom, DeliveryDateTo);
@@ -46,17 +46,24 @@ namespace ShipTo.Web.Controllers
             return Json(shippingOrder);
         }
 
-        [HttpPost]
-        public IActionResult AddUpdate(ShippingOrder ShippingOrder)
+        public IActionResult Details(int Id)
         {
-            if (ShippingOrder.ID == 0)
+            var shippingOrder = _shippingOrderService.Get(Id);
+            return View(shippingOrder);
+        }
+
+        [HttpPost]
+        public IActionResult AddUpdate(ShippingOrder shippingOrder)
+        {
+            if (shippingOrder.ID == 0)
             {
-                var result = _shippingOrderService.Add(ShippingOrder);
+                shippingOrder.OrderDate = DateTime.Now;
+                var result = _shippingOrderService.Add(shippingOrder);
                 return Json(result);
             }
             else
             {
-                var result = _shippingOrderService.Update(ShippingOrder);
+                var result = _shippingOrderService.Update(shippingOrder);
                 return Json(result);
             }
         }

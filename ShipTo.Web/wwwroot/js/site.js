@@ -232,7 +232,7 @@ function PopulateDDL(ddl_Id, url) {
     var ddl_Id = $('#' + ddl_Id ); // cache it
         $.getJSON(url , function (response) {
             ddl_Id.empty(); // remove any existing options
-            ddl_Id.append($('<option></option>').text('اختر').val(-1));
+            ddl_Id.append($('<option></option>').text('اختر').val(null));
             $.each(response, function (index, item) {
                 ddl_Id.append($('<option></option>').text(item.name).val(item.id));
             });

@@ -12,8 +12,8 @@ namespace ShipTo.Application.IServices
     {
         List<ShippingOrder> Get();
         ShippingOrder Get(int Id);
-        List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
-          , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);
+        List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
+          , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);
         ReturnResultVM Add(ShippingOrder shippingOrder);
         ReturnResultVM Update(ShippingOrder shippingOrder);
         ReturnResultVM AddRange(List<ShippingOrder> shippingOrders);

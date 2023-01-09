@@ -5,40 +5,43 @@
 }
 @model ShipTo.Core.VMs.ShippingOrderAddFromExcelVM
 
+@{
+    ViewData["Title"] = "إضافة من إكسل";
+}
 
-
+ 
 <div class="row">
     <form id="form_AddFromExcel" method="post" enctype="multipart/form-data">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group col-sm-3" id="div_ShippingOrderBulkName">
                     <label asp-for="ShippingOrderBulkName" class="control-label"></label>
-                    <input asp-for="ShippingOrderBulkName" class="form-control"     />
+                    <input asp-for="ShippingOrderBulkName" class="form-control" />
                 </div>
                 <div class="form-group col-sm-3" id="div_ShipperId">
                     <label asp-for="ShipperId" class="control-label required"></label>
                     <select asp-for="ShipperId" class="form-control">
                     </select>
-                    <span asp-validation-for="ShipperId"  class="text-danger"></span>
-                   
+                    <span asp-validation-for="ShipperId" class="text-danger"></span>
+
                 </div>
                 @*<div class="form-group col-sm-2" id="div_DeliveryStatusId">
-                    <label asp-for="DeliveryStatusId" class="control-label required"></label>
-                    <select asp-for="DeliveryStatusId" class="form-control">
-                    </select>
-                </div>*@
+                        <label asp-for="DeliveryStatusId" class="control-label required"></label>
+                        <select asp-for="DeliveryStatusId" class="form-control">
+                        </select>
+                    </div>*@
 
                 @*<div class="form-group col-sm-3" id="div_CarrierId">
-                    <label asp-for="CarrierId" class="control-label"></label>
-                    <select asp-for="CarrierId" class="form-control">
-                    </select>
-                </div>*@
+                        <label asp-for="CarrierId" class="control-label"></label>
+                        <select asp-for="CarrierId" class="form-control">
+                        </select>
+                    </div>*@
 
-            <div class="form-group col-sm-2" id="div_DeliveryDate">
-                <label asp-for="DeliveryDate" class="control-label required"></label>
-                <input asp-for="DeliveryDate" type=""  class="form-control txtDate">
-                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
-            </div>
+                <div class="form-group col-sm-2" id="div_DeliveryDate">
+                    <label asp-for="DeliveryDate" class="control-label required"></label>
+                    <input asp-for="DeliveryDate" type="" class="form-control txtDate">
+                    <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                </div>
             </div>
         </div>
         <div class="panel panel-info">
@@ -170,14 +173,14 @@
                             <textarea id="Phone2" name="Phone" rows="2" class="form-control txtDate"></textarea>
                         </div>
                     </div>*@
-            <div class="row">
-                <div class="form-group col-sm-2">
-                    <label asp-for="NotesColName" class="control-label"></label>
+                <div class="row">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="NotesColName" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <select asp-for="NotesColName" class="form-control"> </select>
+                    </div>
                 </div>
-                <div class="form-group col-sm-3">
-                    <select asp-for="NotesColName" class="form-control"> </select>
-                </div>
-            </div>
 
             </div>
 
@@ -262,7 +265,7 @@
             //var form = $(this);
         /*  if (ValidateForm()) {*/
        /* $('#form_AddFromExcel').validate.form();*/
-        
+
         //var form12 = $(this).closest('form_AddFromExcel');
       /*  $form.validate().form();*/
 
@@ -372,7 +375,7 @@
     //        var div_OrderNetPriceColName = document.getElementById("div_OrderNetPriceColName");
     //        div_OrderNetPriceColName.classList.add("has-error");
     //    }
-      
+
     //    //return Valid;
     //    return true;
     //}

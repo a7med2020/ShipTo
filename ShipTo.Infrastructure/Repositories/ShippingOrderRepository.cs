@@ -66,16 +66,16 @@ namespace ShipTo.Infrastructure.Repositories
             return _context.ShippingOrders.ToList();
         }
 
-        public List<ShippingOrder> Get(string DeliveryStatusId, int ShipperId, string ShippingOrderBulkName, string OrderNumber
-            , int CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
+        public List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
+            , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)
         {
             var data = _context.ShippingOrders.Include(x => x.Shipper).Include(x => x.DeliveryStatus).Include(x => x.Carrier)
                 .Where(x=> x.IsDeleted == false
-                          && (x.DeliveryStatusId == DeliveryStatusId || DeliveryStatusId == "-1")
-                          && (x.ShipperId == ShipperId || ShipperId == -1)
+                          && (x.DeliveryStatusId == DeliveryStatusId || DeliveryStatusId == null)
+                          && (x.ShipperId == ShipperId || ShipperId == null)
                           && (ShippingOrderBulkName == null || x.ShippingOrderBulkName.Contains(ShippingOrderBulkName.Trim()))
                           && (OrderNumber == null || x.OrderNumber == OrderNumber.Trim())
-                          && (x.ShipperId == CarrierId || CarrierId == -1)
+                          && (x.CarrierId == CarrierId || CarrierId == null)
                           && (x.DeliveryDate >= DeliveryDateFrom && x.DeliveryDate <= DeliveryDateTo)
                           )
                 .ToList();

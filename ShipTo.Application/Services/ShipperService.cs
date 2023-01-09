@@ -78,10 +78,18 @@ namespace ShipTo.Application.IServices
         {
             try
             {
-                _unitOfWork.ShipperRepository.Delete(x => x.ID == Id);
-                _unitOfWork.Complete();
-                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                if (!_unitOfWork.ShippingOrderRepository.GetAll(x=>x.ShipperId == Id && !x.IsDeleted).Any())
+                {
+                    _unitOfWork.ShipperRepository.Delete(x => x.ID == Id);
+                    _unitOfWork.Complete();
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                }
+                else
+                {
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "لا يمكن حذف شركة الشحن لأنه يوجد طلبات شحن مسجله عليها" };
+                }
             }
+              
             catch (Exception ex)
             {
                 string Message = ex.Message;
