@@ -164,6 +164,109 @@
 
 <script>
 
+      $(document).ready(function () {
+
+                 var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('DeliveryStatusId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Shipper")';
+        PopulateDDL('ShipperId', getShippersURL);
+         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
+        PopulateDDL('CarrierId', getShippersURL);
+
+    });
+
+    function FillFormAddUpdate(elementId, ReloadActionURL) {
+
+        var URL = '@Url.Action("GetById", "ShippingOrder")?Id=' + elementId
+        var Readonlys = document.getElementsByClassName('Readonly');
+        var Readonlyslength = Readonlys.length;
+        for (var i = 0; i < Readonlyslength; i++) {
+            Readonlys[i].style.display = "block"
+        }
+        $.ajax({
+            type: "Get",
+            url: URL,
+            success: function (response) {
+                $.validator.unobtrusive.parse($("#form_AddUpdate"));
+                ClearForm();
+
+                setModelAddUpdate('form_AddUpdate', response.id, ReloadActionURL);
+                $('#Id').val(response.id);
+                $('#OrderNumber').val(response.orderNumber);
+                $('#lbl_OrderNumber').text(response.orderNumber);
+                $('#BulkId').val(response.bulkId);
+                $('#lbl_BulkId').text(response.bulkId??"");
+                $('#OrderDate').val(response.orderDate);
+                $('#lbl_OrderDate').text(formatDate(response.orderDate));
+                $('#ShippingOrderBulkName').val(response.shippingOrderBulkName);
+                $('#ClientName').val(response.clientName);
+                $('#ClientPhoneNumber').val(response.clientPhoneNumber);
+                document.getElementById("ClientPhoneNumber").value = response.clientPhoneNumber;
+                $('#direction').val(response.direction);
+                $('#Governorate').val(response.governorate);
+                $('#Address').val(response.address);
+                $('#ShipperId').val(response.shipperId);
+                $('#OrderDetails').val(response.orderDetails);
+                $('#OrderPiecesCount').val(response.orderPiecesCount);
+                $('#OrderTotalPrice').val(response.orderTotalPrice);
+                $('#DeliveryPrice').val(response.deliveryPrice);
+                $('#ShippingPrice').val(response.shippingPrice);
+                $('#OrderNetPrice').val(response.orderNetPrice);
+                $('#DeliveryStatusId').val(response.deliveryStatusId);
+                $('#DeliveryStatusReason').val(response.deliveryStatusReason);
+                $('#DeliveryDate').val(formatDate(response.deliveryDate));
+                $('#CarrierId').val(response.carrierId);
+
+                $('#CreatedBy').val(response.createdBy);
+                $('#ModefiedBy').val(response.modefiedBy);
+                $('#CreatedDate').val(response.createdDate);
+                $('#ModefiedDate').val(response.modefiedDate);
+            },
+            error: function (error) {
+                toastr.error("حدث خطأ أثناء إرسال البيانات");
+            }
+        });
+    }
+
+
+
+    function setAdd() {
+        ClearForm();
+        var Readonlys = document.getElementsByClassName('Readonly');
+        var Readonlyslength = Readonlys.length;
+        for (var i = 0; i < Readonlyslength; i++) {
+            Readonlys[i].style.display = "none"
+        }
+        setModelAddUpdate('form_AddUpdate', 0, GetSearchURL());
+    }
+
+
+    function ClearForm() {
+        var spans = document.getElementsByTagName('span');
+        var l = spans.length;
+        for (var i = 0; i < l; i++) {
+            spans[i].innerHTML = "";
+        }
+        //var inputs = document.getElementsByTagName('input');
+        //var ll = inputs.length;
+        //for (var i = 0; i < ll; i++) {
+        //    inputs[i].value = null;
+        //}
+        $('#Id').val(0);
+        $('#OrderNumber').val(null);
+        $('#lbl_OrderNumber').text("");
+        $('#BulkId').val(null);
+        $('#lbl_BulkId').text("");
+        $('#OrderDate').val(null);
+        $('#lbl_OrderDate').text("");
+
+        $('#CreatedBy').val(null);
+        $('#ModefiedBy').val(null);
+        $('#CreatedDate').val(null);
+        $('#ModefiedDate').val(null);
+    }
+
+
     var ShippingOrderAddUpdatePostURL = '@Url.Action("AddUpdate", "ShippingOrder")';
     function PostForm_AddUpdate() {
 
@@ -181,7 +284,8 @@
                 success: function (response) {
                     if (response.status == AjaxResponseStatusEnum.Success) {
                         toastr.success("تم " + ProcessName + " بنجاح");
-                        ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)
+                        Search();
+                       /* ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)*/
                         if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById('form_AddUpdate').reset(); }
                         if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
                     } else {

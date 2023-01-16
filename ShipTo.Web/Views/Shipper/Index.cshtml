@@ -179,10 +179,9 @@
                     { data: "phone" },
                     { data: "address" },
                     { data: "email" },
-        {
-            data: "createdDate", render: function (data) {
-                    return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
-            } },
+                    { data: "createdDate", render: function (data) {
+                         return moment(data, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+                    } },
                     {
              searchable: false, search: false,
                         render: function (data, type, row) {

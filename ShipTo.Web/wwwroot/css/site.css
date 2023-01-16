@@ -41,3 +41,19 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, ta
 .dropdown-menu {
     min-width: 270px;
 }
+
+.nowrap-table th, .nowrap-table  td {
+    
+    white-space: nowrap;
+}
+
+
+  th,   td {
+    white-space: inherit;
+}
+
+table.dataTable tbody tr.selected > * {
+    box-shadow: inset 0 0 0 9999px rgb(132 133 135 / 90%);
+    color: white;
+}
+ 

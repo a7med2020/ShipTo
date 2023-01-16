@@ -15,5 +15,6 @@ namespace ShipTo.Application.IServices
         ReturnResultVM Add(Shipper shipper);
         ReturnResultVM Update(Shipper shipper);
         ReturnResultVM Delete(int ID);
+        
     }
 }

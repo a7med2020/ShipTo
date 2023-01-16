@@ -1,148 +1,176 @@
 ﻿@model ShipTo.Core.Entities.ShippingOrder
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "تفاصيل الطلب: " + Model?.OrderNumber;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
  
 
-<div class="modal-body">
+<p>
+    <a data-toggle="modal" class="btn btn-primary" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate( @Model?.ID ,null)"> <i class="fa fa-fw fa-edit"></i> تعديل</a>
+</p>
+
+<div class="modal-body" style="font-size:16px">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="form-group col-md-3 Readonly">
                     <label asp-for="OrderNumber" class="control-label "></label>
-                    <label id="lbl_OrderNumber" class="form-control" />
-                    @*<span asp-validation-for="OrderNumber" class="text-danger"></span>*@
+                    <br />
+                    @Html.DisplayFor(m => m.OrderNumber, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3 Readonly">
                     <label asp-for="BulkId" class="control-label"></label>
-                    <label id="lbl_BulkId" class="form-control" />
-                    @*<span asp-validation-for="BulkId" class="text-danger"></span>*@
+                    <br />
+                    @Html.DisplayFor(m => m.BulkId, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3 Readonly">
                     <label asp-for="OrderDate" class="control-label"></label>
-                    <label id="lbl_OrderDate" class="form-control" />
-                    @*<span asp-validation-for="OrderDate" class="text-danger"></span>*@
+                    <br />
+                    @Html.DisplayFor(m => m.OrderDate, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="ShippingOrderBulkName" class="control-label"></label>
-                    <input asp-for="ShippingOrderBulkName" class="form-control" />
-                    <span asp-validation-for="ShippingOrderBulkName" class="text-danger"></span>
+                    <br />
+                    @Html.DisplayFor(m => m.ShippingOrderBulkName, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row">
 
-                <div class="form-group col-md-4">
-                    <label asp-for="ClientName" class="control-label required"></label>
-                    @*<textarea asp-for="ClientName" class="form-control" rows="1"></textarea>*@
-                    @Html.TextAreaFor(m => m.ClientName, new { rows = "1", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.ClientName, "", new { @class = "text-danger" })
+                <div class="form-group col-md-3">
+                    <label asp-for="ClientName" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.ClientName, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="ClientPhoneNumber" class="control-label required"></label>
-                    <input asp-for="ClientPhoneNumber" class="form-control" />
-                    <span asp-validation-for="ClientPhoneNumber" class="text-danger"></span>
+                    <label asp-for="ClientPhoneNumber" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.ClientPhoneNumber, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Direction" class="control-label"></label>
-                    <input asp-for="Direction" class="form-control" />
-                    <span asp-validation-for="Direction" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2">
-                    <label asp-for="Governorate" class="control-label"></label>
-                    <input asp-for="Governorate" class="form-control" />
-                    <span asp-validation-for="Governorate" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="form-group col-md-4">
-                    <label asp-for="Address" class="control-label required"></label>
-                    @Html.TextAreaFor(m => m.Address, new { rows = "1", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    <br />
+                    @Html.DisplayFor(m => m.Direction, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="ShipperId" class="control-label required"></label>
-                    <select asp-for="ShipperId" class="form-control" asp-items="ViewBag.ShipperId"></select>
-                    <span asp-validation-for="ShipperId" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-4">
-                    <label asp-for="OrderDetails" class="control-label required"></label>
-                    @Html.TextAreaFor(m => m.OrderDetails, new { rows = "1", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.OrderDetails, "", new { @class = "text-danger" })
+                    <label asp-for="Governorate" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.Governorate, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row">
-               
-               
-                <div class="form-group col-md-4">
-                    <label asp-for="OrderPiecesCount" class="control-label"></label>
-                    <input asp-for="OrderPiecesCount" class="form-control" />
-                    <span asp-validation-for="OrderPiecesCount" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-2">
-                    <label asp-for="OrderTotalPrice" class="control-label required"></label>
-                    <input asp-for="OrderTotalPrice" class="form-control" />
-                    <span asp-validation-for="OrderTotalPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2">
-                    <label asp-for="DeliveryPrice" class="control-label "></label>
-                    <input asp-for="DeliveryPrice" class="form-control" />
-                    <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2">
-                    <label asp-for="ShippingPrice" class="control-label required"></label>
-                    <input asp-for="ShippingPrice" class="form-control" />
-                    <span asp-validation-for="ShippingPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-2">
-                    <label asp-for="OrderNetPrice" class="control-label required"></label>
-                    <input asp-for="OrderNetPrice" class="form-control" />
-                    <span asp-validation-for="OrderNetPrice" class="text-danger"></span>
-                </div>
 
-                <div class="form-group col-md-4">
-                    <label asp-for="DeliveryStatusId" class="control-label required"></label>
-                    <select asp-for="DeliveryStatusId" class="form-control" asp-items="ViewBag.DeliveryStatusId"></select>
-                    <span asp-validation-for="DeliveryStatusId" class="text-danger"></span>
+                <div class="form-group col-md-3">
+                    <label asp-for="ClientName" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.ClientName, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="ClientPhoneNumber" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.ClientPhoneNumber, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Direction" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.Direction, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Governorate" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.Governorate, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
+                    <label asp-for="Address" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.Address, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="ShipperId" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.Shipper.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="OrderDetails" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.OrderDetails, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="OrderPiecesCount" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.OrderPiecesCount, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label asp-for="OrderTotalPrice" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.OrderTotalPrice, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="DeliveryPrice" class="control-label "></label>
+                    <br />
+                    @Html.DisplayFor(m => m.DeliveryPrice, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="ShippingPrice" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.ShippingPrice, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="OrderNetPrice" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.OrderNetPrice, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label asp-for="DeliveryStatusId" class="control-label"></label>
+                    <br />
+                    @Html.DisplayFor(m => m.DeliveryStatus.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
                     <label asp-for="DeliveryStatusReason" class="control-label"></label>
-                    <textarea id="DeliveryStatusReason" name="DeliveryStatusReason" class="form-control" rows="1"></textarea>
+                    <br />
+                    @Html.DisplayFor(m => m.DeliveryStatusReason, new { @class = "form-control" })
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label asp-for="DeliveryDate" class="control-label"></label>
-                    <input id="DeliveryDate" name="DeliveryDate" class="form-control txtDate" />
-                    <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                    <br />
+                    @Html.DisplayFor(m => m.DeliveryDate, new { @class = "form-control" })
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label asp-for="CarrierId" class="control-label"></label>
-                    <select asp-for="CarrierId" class="form-control" asp-items="ViewBag.CarrierId"></select>
-                    <span asp-validation-for="CarrierId" class="text-danger"></span>
+                    <br />
+                    @Html.DisplayFor(m => m.Carrier.Name, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label asp-for="Notes" class="control-label"></label>
-                    <textarea id="Notes" name="Notes" class="form-control" rows="1"></textarea>
-
+                    <br />
+                    @Html.DisplayFor(m => m.Notes, new { @class = "form-control" })
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" onclick="PostForm_AddUpdate()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i> حـفـظ  &nbsp; &nbsp; </button>
-    @*<button type="reset" class="btn btn-default modalFooterBtn" >إلغاء</button>*@
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<hr style="border-top: 1px solid #978f8f" />
+<h3>سجل التعديلات</h3>
+<br/>
+
+<partial name="../ShippingOrder/_DetailsLogTable.cshtml" model="new List<Core.Entities.ShippingOrderLog>()" />
+
+<partial name="../ShippingOrder/_AddUpdate.cshtml" model="new Core.Entities.ShippingOrder()" />
+
+<script>
+    function Search() {
+        ReLoadDataTableWithSearchParam('tbl_Items', GetSearchURL())
+        window.open('@Url.Action("Details", "ShippingOrder")?id=' + @Model.ID)
+    }
+</script>
+

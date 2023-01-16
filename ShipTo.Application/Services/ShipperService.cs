@@ -37,7 +37,7 @@ namespace ShipTo.Application.IServices
             {
                 if (_unitOfWork.ShipperRepository.Get(x => x.Name.Trim() == shipper.Name.Trim() && !x.IsDeleted ) == null )
                 {
-                    _unitOfWork.ShipperRepository.AddAsync(shipper);
+                    _unitOfWork.ShipperRepository.Add(shipper);
                     _unitOfWork.Complete();
                     return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
                 }
@@ -96,5 +96,7 @@ namespace ShipTo.Application.IServices
                 return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ" };
             }
         }
+
+      
     }
 }

@@ -45,11 +45,17 @@ namespace ShipTo.Web.Controllers
             var shippingOrder = _shippingOrderService.Get(Id);
             return Json(shippingOrder);
         }
-
+        [HttpGet]
         public IActionResult Details(int Id)
         {
             var shippingOrder = _shippingOrderService.Get(Id);
             return View(shippingOrder);
+        }
+
+        public IActionResult GetLogById(int Id)
+        {
+            var shippingOrder = _shippingOrderService.GetLog(Id);
+            return Json(shippingOrder);
         }
 
         [HttpPost]

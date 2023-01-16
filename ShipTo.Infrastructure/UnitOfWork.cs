@@ -34,6 +34,7 @@ namespace ShipTo.Infrastructure
             DeliveryStatusRepository = new BaseRepository<DeliveryStatus>(_context);
             CarrierRepository = new BaseRepository<Carrier>(_context);
             ShippingOrderColumnInfoRepository = new BaseRepository<ShippingOrderColumnInfo>(_context);
+            ShippingOrderLogRepository = new BaseRepository<ShippingOrderLog>(_context);
             _userResolverHandler = userResolverHandler;
         }
 
@@ -46,6 +47,8 @@ namespace ShipTo.Infrastructure
         public IBaseRepository<Carrier> CarrierRepository { get; }
 
         public IBaseRepository<ShippingOrderColumnInfo> ShippingOrderColumnInfoRepository { get; }
+
+        public IBaseRepository<ShippingOrderLog> ShippingOrderLogRepository { get; }
 
         public int Complete()
         {

@@ -19,11 +19,14 @@ namespace ShipTo.Core.Entities
         [ForeignKey("ShippingOrder")]
 
         public int ShippingOrderID { get; set; }
+        [Display(Name = "رقم الطلب")]
         public string OrderNumber { get; set; }
+        [Display(Name = "رقم المجموعة")]
         [StringLength(100)]
         public string BulkId { get; set; }
         [Display(Name = "تاريخ الطلب")]
         public DateTime OrderDate { get; set; }
+        [Display(Name = "الاسم المجمع")]
         [StringLength(500)]
         public string ShippingOrderBulkName { get; set; }
         [Display(Name = "العميل")]
@@ -40,6 +43,7 @@ namespace ShipTo.Core.Entities
         [Display(Name = "المحافظه")]
         [StringLength(100)]
         public string Governorate { get; set; }
+        [Display(Name = " اسم العميل")]
         [StringLength(250)]
         public string Address { get; set; }
         [Display(Name = "شركة الشحن")]
@@ -85,30 +89,38 @@ namespace ShipTo.Core.Entities
         public Carrier Carrier { get; set; }
 
 
-
+        [Display(Name = "إضيف بواسطة")]
         [ForeignKey("CreatedByUser")]
         public string CreatedBy { get; set; }
+        [Display(Name = "عدل بواسطة")]
         [ForeignKey("ModefiedByUser")]
         public string ModefiedBy { get; set; }
+        [Display(Name = "تاريخ الإضافة")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }
+        [Display(Name = "تاريخ التعديل")]
         [ScaffoldColumn(false)]
         public DateTime? ModefiedDate { get; set; }
+        [Display(Name = "حذف؟")]
         [ScaffoldColumn(false)]
         public bool IsDeleted { get; set; }
+        [Display(Name = "تاريخ الحذف")]
         [ScaffoldColumn(false)]
         public DateTime? DeletedDate { get; set; }
+        [Display(Name = "حذف بواسطة")]
         [ScaffoldColumn(false)]
+        [ForeignKey("DeletedByUser")]
         public string DeletedBy { get; set; }
         [ScaffoldColumn(false)]
         [Display(Name = "ملاحظات")]
         [StringLength(500)]
         public string Notes { get; set; }
-        [ScaffoldColumn(false)]
+        
         public IdentityUser CreatedByUser { get; set; }
-        [ScaffoldColumn(false)]
+        
         public IdentityUser ModefiedByUser { get; set; }
+        public IdentityUser DeletedByUser { get; set; }
 
     }
 }

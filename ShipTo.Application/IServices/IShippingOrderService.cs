@@ -18,5 +18,6 @@ namespace ShipTo.Application.IServices
         ReturnResultVM Update(ShippingOrder shippingOrder);
         ReturnResultVM AddRange(List<ShippingOrder> shippingOrders);
         ReturnResultVM Delete(int Id);
+        List<ShippingOrderLog> GetLog(int ShippingOrderId);
     }
 }

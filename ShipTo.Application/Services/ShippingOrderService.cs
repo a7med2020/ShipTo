@@ -137,10 +137,10 @@ namespace ShipTo.Application.IServices
                 return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ" };
             }
         }
-
-        //public string GetShippingOrderNumber()
-        //{
-
-        //}
+        public List<ShippingOrderLog> GetLog(int ShippingOrderId)
+        {
+            var shippingOrderLogList = _unitOfWork.ShippingOrderRepository.GetLog(ShippingOrderId);
+            return shippingOrderLogList;
+        }
     }
 }

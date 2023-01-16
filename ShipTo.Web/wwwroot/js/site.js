@@ -5,10 +5,8 @@
 
 
 /************************************************* DataTable *************************************************************************/
- 
 function AddDataTable(tableId, GetURL, columnsArr)
 {
-
     $('#' + tableId +' thead tr')
         .clone(true)
         .addClass('filters')
@@ -24,6 +22,7 @@ function AddDataTable(tableId, GetURL, columnsArr)
                 return resdata;
             }
         },
+        "autoWidth": true,
         columns: columnsArr,
         columnDefs: [{
             "defaultContent": "",
@@ -98,7 +97,126 @@ function AddDataTable(tableId, GetURL, columnsArr)
                 });
         },
     });
+    return table;
+}
 
+function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = []) {
+
+    $('#' + tableId + ' thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#' + tableId + ' thead');
+
+    var table = $('#' + tableId).DataTable({
+        dom: 'Bfrtip',
+        "ajax": {
+            url: GetURL,
+            type: "GET",
+            dataSrc: function (resdata) {
+
+                return resdata;
+            }
+        },
+        "autoWidth": true,
+        columns: columnsArr,
+        columnDefs: [
+            {
+                "defaultContent": "",
+                "targets": "_all"
+            },
+            {
+                targets: 0,
+                data: 'id',
+                defaultContent: '',
+                orderable: false,
+                className: 'select-checkbox',
+            },
+
+        ],
+        select: {
+            style: 'multi',
+            selector: 'td:first-child',
+        },
+        order: [[1, 'asc']],
+        buttons: ButtonsArr.concat([
+            'pageLength',
+            {
+                extend: 'excel',
+                text: 'استخراج كملف إكسل',
+                exportOptions: {
+                    columns: ':visible:not(.notExportCol)'
+                }
+            },
+
+        ]),
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+        orderCellsTop: true,
+        fixedHeader: true,
+        orderCellsTop: true,
+        "bLengthChange": true,
+        initComplete: function () {
+            var api = this.api();
+            // For each column
+            api
+                .columns(':visible')
+                .eq(0)
+                .each(function (colIdx) {
+                    //Except last column that have Actions
+                    /*  alert(this.columns(':visible').count());  */
+                    /* alert(colIdx);*/
+                    if (colIdx == this.columns(':visible').count() || colIdx == 0) {
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        $(cell).html('');
+                        return;
+                    }
+                    // Set the header cell to contain the input element
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    $(cell).html('<input  type="text" style="width: ' + cell.width() + 'PX; max-width:150px"   />');
+
+                    // On every keypress in this input
+                    $(
+                        'input',
+                        $('.filters th').eq($(api.column(colIdx).header()).index())
+                    )
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                            /*.setSelectionRange(cursorPosition, cursorPosition);*/
+                        });
+                });
+        },
+    });
     return table;
 }
 
@@ -110,6 +228,8 @@ function ReLoadDataTableWithSearchParam(tableId, url) {
   /*  alert(tableId + " " + url)*/
     $('#' + tableId).DataTable().ajax.url(url).load();
 }
+
+ 
 
 /************************************************** Enums *********************************************************************/
 
@@ -223,6 +343,10 @@ function setModelDelete(ActionURL, Id, ReloadActionURL) {
 
 const IsEmpty = str => !str.trim().length;
 
+function OpenInTab(URL) {
+    window.open(URL, '_blank');
+}
+
 /*********************************************************************************************************************************************************/
 
 
@@ -288,3 +412,40 @@ function formatDate(date) {
 
 
 /***********************************************************************************************************************************************************/
+
+
+//$(document).ready(function () {
+
+//    table = $('#example').DataTable({
+//        columnDefs: [{
+//            targets: 0,
+//            data: null,
+//            defaultContent: '',
+//            orderable: false,
+//            className: 'select-checkbox',
+//        },
+//        {
+//            targets: 1,
+//            visible: false
+//        }],
+//        select: {
+//            style: 'multi',
+//            selector: 'td:first-child'
+//        },
+//        order: [[1, 'asc']]
+//    });
+
+//    $('#example').on('click', '#select_all', function () {
+//        if ($('#select_all:checked').val() === 'on')
+//            table.rows().select();
+//        else
+//            table.rows().deselect();
+//    });
+
+//    $('#example tbody').on('click', 'tr td:first-child', function () {
+//        console.log(table.cell(this).render());
+//        console.log(table.row($(this).closest('tr')).data());
+//    });
+
+
+//});

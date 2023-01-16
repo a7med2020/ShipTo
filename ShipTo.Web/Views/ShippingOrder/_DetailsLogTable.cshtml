@@ -1,0 +1,180 @@
+﻿@model IEnumerable<ShipTo.Core.Entities.ShippingOrderLog>
+
+@{
+    ViewData["Title"] = "log";
+
+}
+
+
+<div class="table-responsive">
+    <table id="tbl_Items" class="table table-bordered table-hover table-striped" style="white-space:nowrap">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BulkId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ShippingOrderBulkName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientPhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direction)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Governorate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDetails)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderPiecesCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTotalPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ShippingPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderNetPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryStatusReason)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FileDataName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ShipperId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryStatusId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarrierId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModefiedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModefiedBy)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.IsDeleted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeletedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeletedBy)
+                </th>*@
+                @*<th class="notExportCol">
+
+                </th>*@
+            </tr>
+        </thead>
+    </table>
+</div>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+ 
+<script>
+         function GetSearchURL() {
+             var GetURL = '@Url.Action("GetLogById", "ShippingOrder")?Id=' + @HttpContextAccessor.HttpContext.Request.Query["id"];
+        return GetURL;
+    }
+
+        var Columns = [{ data: "id", visible: false },
+            { data: "orderNumber" },
+            { data: "bulkId" },
+            {
+                data: "orderDate", render: function (data) {
+                    return moment(data, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD')
+                }
+            },
+            { data: "shippingOrderBulkName" },
+            { data: "clientName" },
+            { data: "clientPhoneNumber" },
+            { data: "direction" },
+            { data: "governorate" },
+            { data: "address" },
+            { data: "orderDetails" },
+            { data: "orderPiecesCount" },
+            { data: "orderTotalPrice" },
+            { data: "deliveryPrice" },
+            { data: "shippingPrice" },
+            { data: "orderNetPrice" },
+            { data: "deliveryStatusReason" },
+            {
+                data: "deliveryDate", render: function (data) {
+                    if (data != null)
+                        return moment(data, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD')
+                    else
+                        return null;
+                }
+            },
+            { data: "fileDataName" },
+            { data: "shipper.name" },
+            { data: "deliveryStatus.name" },
+            { data: "carrier.name" },
+            { data: "notes" },
+            {
+                data: "createdDate", render: function (data) {
+                    return moment(data, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            { data: "createdByUser.userName" },
+            {
+                data: "modefiedDate", render: function (data) {
+                    if (data != null)
+                        return moment(data, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+                    else
+                        return null;
+                }
+            },
+            { data: "modefiedByUser.userName" },
+            //{ data: "isDeleted" },
+            //{ data: "deletedDate" },
+            //{ data: "deletedByUser.userName" },
+
+        ]
+
+
+
+        $(document).ready(function () {
+            AddDataTable('tbl_Items', GetSearchURL(), Columns)
+        });
+
+
+</script>

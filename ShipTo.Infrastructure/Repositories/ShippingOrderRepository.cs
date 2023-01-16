@@ -82,5 +82,14 @@ namespace ShipTo.Infrastructure.Repositories
             return data;
         }
 
+        public List<ShippingOrderLog> GetLog(int shippingOrderID)
+        {
+            var data = _context.ShippingOrderLogs
+                .Include(x => x.Shipper).Include(x => x.DeliveryStatus).Include(x => x.Carrier)
+                .Include(x => x.CreatedByUser).Include(x => x.ModefiedByUser)
+                .Where(x=>x.ShippingOrderID == shippingOrderID)
+                .ToList();
+            return data;
+        }
     }
 }

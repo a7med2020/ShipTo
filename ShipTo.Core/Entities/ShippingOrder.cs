@@ -24,12 +24,12 @@ namespace ShipTo.Core.Entities
         [Display(Name = "رقم المجموعة")]
         public string BulkId { get; set; }
         [Display(Name = "تاريخ الطلب")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime OrderDate { get; set; }
         [StringLength(500)]
         [Display(Name = "الاسم المجمع")]
         public string ShippingOrderBulkName { get; set; }
-        [Display(Name = "العميل")]
+        [Display(Name = " اسم العميل")]
         [Required(ErrorMessage = "يجب إدخال العميل")]
         [StringLength(200)]
         public string ClientName { get; set; }
@@ -44,7 +44,7 @@ namespace ShipTo.Core.Entities
         [StringLength(100)]
         public string Governorate { get; set; }
         [StringLength(250)]
-        [Display(Name = "العنوان")]
+        [Display(Name = "العنوان العميل")]
         [Required(ErrorMessage = "يجب إدخال العنوان")]
         public string Address { get; set; }
         
@@ -93,6 +93,7 @@ namespace ShipTo.Core.Entities
         [StringLength(300)]
         public string DeliveryStatusReason { get; set; }
         [Display(Name = "تاريخ التسليم")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DeliveryDate { get; set; }
         [Display(Name = "المندوب")]
         [ForeignKey("Carrier")]
