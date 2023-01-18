@@ -14,11 +14,13 @@ namespace ShipTo.Application.IServices
     public class ShippingOrderService : IShippingOrderService
     {
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IFileManagementService _fileManagementService;
         protected readonly IUserResolverHandler _userResolverHandler;
 
-        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler)
+        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler, IFileManagementService fileManagementService)
         {
             _unitOfWork = unitOfWork;
+            _fileManagementService = fileManagementService;
             _userResolverHandler = userResolverHandler;
         }
         public List<ShippingOrder> Get()
@@ -142,5 +144,42 @@ namespace ShipTo.Application.IServices
             var shippingOrderLogList = _unitOfWork.ShippingOrderRepository.GetLog(ShippingOrderId);
             return shippingOrderLogList;
         }
+
+        public ReturnResultVM UpdateCarrier(List<int> shippingOrderIds, int carrierId)
+        {
+            try
+            {
+                _unitOfWork.ShippingOrderRepository.BeginTransaction();
+                var shippingOrders = _unitOfWork.ShippingOrderRepository.GetAll(x => shippingOrderIds.Contains(x.ID) && !x.IsDeleted).ToList();
+                shippingOrders.ForEach(x => {
+                    x.CarrierId = carrierId;
+                });
+                _unitOfWork.Complete();
+                _unitOfWork.ShippingOrderRepository.CommitTransaction();
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success, DataObj = shippingOrders };
+            }
+            catch (Exception ex)
+            {
+                string Msg = ex.Message;
+                _unitOfWork.ShippingOrderRepository.RollbackTransaction();
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تحديث المندوب" };
+            }
+        }
+
+        //public ReturnResultVM ExtractToCarrierAsExcelFile(List<int> shippingOrderIds, int carrierId)
+        //{
+        //    try
+        //    {
+        //        ReturnResultVM returnResultVM = UpdateCarrier(shippingOrderIds, carrierId);
+
+        //        _fileManagementService.CreateSimpleExcelFileAndSave()
+        //    }
+        //    catch (Exception ex)
+        //    {
+                 
+        //        return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تحديث المندوب" };
+        //    }
+        //}
+
     }
 }

@@ -138,8 +138,8 @@
 
 
 <partial name="../ShippingOrder/_AddUpdate.cshtml" model="new Core.Entities.ShippingOrder()" />
-<partial name="../Common/_DeleteConfirmation" />
-<partial name="../ShippingOrder/_ExtractToShipper.cshtml" />
+<partial name="../ShippingOrder/_ExtractToCarrier.cshtml"  model="new Core.VMs.ExtractToCarrierVM()" />
+<partial name="../Common/_DeleteConfirmation.cshtml" />
 
 <script>
 
@@ -220,7 +220,7 @@
             text: 'استخراج لمندوب',
             action: function (e, dt, node, config) {
                 /* alert(tbl.rows({ selected: true }).data().toArray().length);*/
-                $('#Modal_ExtractToShipper').modal('show');
+                $('#Modal_ExtractToCarrier').modal('show');
             }
         }
     ]
@@ -232,12 +232,12 @@
         tbl = AddDataTable_WithMultiSelect('tbl_Items', GetSearchURL(), Columns, dataTable_Buttons)
         $.validator.unobtrusive.parse($("#form_AddUpdate"));
         InitialTextBoxDate();
-         var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
-        PopulateDDL('ddlSearch_DeliveryStatusId', getShippersURL);
+        var getDeliveryStatusesURL = '@Url.Action("GetAll", "DeliveryStatus")';
+        PopulateDDL('ddlSearch_DeliveryStatusId', getDeliveryStatusesURL);
          var getShippersURL = '@Url.Action("GetAll", "Shipper")';
         PopulateDDL('ddlSearch_ShipperId', getShippersURL);
-         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
-        PopulateDDL('ddlSearch_CarrierId', getShippersURL);
+        var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
+        PopulateDDL('ddlSearch_CarrierId', getCarriersURL);
 
 
                  @*var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';

@@ -74,6 +74,13 @@ namespace ShipTo.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult ExtractToCarrier([FromBody] ExtractToCarrierVM extractToCarrierVM)
+        {
+            return null;
+        }
+
+        #region AddFromExcel
         [HttpGet]
         public IActionResult AddFromExcel()
         {
@@ -261,6 +268,9 @@ namespace ShipTo.Web.Controllers
 
             return columns;
         }
+        #endregion
+
+
 
         [HttpPost]
         public IActionResult Delete(int Id)

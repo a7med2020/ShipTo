@@ -31,97 +31,97 @@
                                 <div class="form-group col-md-4 Readonly">
                                     <label asp-for="OrderNumber" class="control-label "></label>
                                     <label id="lbl_OrderNumber" class="form-control" />
-                                    @*<span asp-validation-for="OrderNumber" class="text-danger"></span>*@
+                                    @*<span asp-validation-for="OrderNumber" class="text-danger ValidationSpan"></span>*@
                                 </div>
                                 <div class="form-group col-md-4 Readonly">
                                     <label asp-for="BulkId" class="control-label"></label>
                                     <label id="lbl_BulkId" class="form-control" />
-                                    @*<span asp-validation-for="BulkId" class="text-danger"></span>*@
+                                    @*<span asp-validation-for="BulkId" class="text-danger ValidationSpan"></span>*@
                                 </div>
                                 <div class="form-group col-md-4 Readonly">
                                     <label asp-for="OrderDate" class="control-label"></label>
                                     <label id="lbl_OrderDate" class="form-control" />
-                                    @*<span asp-validation-for="OrderDate" class="text-danger"></span>*@
+                                    @*<span asp-validation-for="OrderDate" class="text-danger ValidationSpan"></span>*@
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label asp-for="ShippingOrderBulkName" class="control-label"></label>
                                     <input asp-for="ShippingOrderBulkName" class="form-control" />
-                                    <span asp-validation-for="ShippingOrderBulkName" class="text-danger"></span>
+                                    <span asp-validation-for="ShippingOrderBulkName" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="ClientName" class="control-label required"></label>
                                     @*<textarea asp-for="ClientName" class="form-control" rows="1"></textarea>*@
                                     @Html.TextAreaFor(m => m.ClientName, new { rows = "1", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.ClientName, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.ClientName, "", new { @class = "text-danger ValidationSpan" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="ClientPhoneNumber" class="control-label required"></label>
                                     <input asp-for="ClientPhoneNumber" class="form-control" />
-                                    <span asp-validation-for="ClientPhoneNumber" class="text-danger"></span>
+                                    <span asp-validation-for="ClientPhoneNumber" class="text-danger ValidationSpan"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label asp-for="Direction" class="control-label"></label>
                                     <input asp-for="Direction" class="form-control" />
-                                    <span asp-validation-for="Direction" class="text-danger"></span>
+                                    <span asp-validation-for="Direction" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="Governorate" class="control-label"></label>
                                     <input asp-for="Governorate" class="form-control" />
-                                    <span asp-validation-for="Governorate" class="text-danger"></span>
+                                    <span asp-validation-for="Governorate" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="Address" class="control-label required"></label>
                                     @Html.TextAreaFor(m => m.Address, new { rows = "1", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger ValidationSpan" })
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label asp-for="ShipperId" class="control-label required"></label>
                                     <select asp-for="ShipperId" class="form-control" asp-items="ViewBag.ShipperId"></select>
-                                    <span asp-validation-for="ShipperId" class="text-danger"></span>
+                                    <span asp-validation-for="ShipperId" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="OrderDetails" class="control-label required"></label>
                                     @Html.TextAreaFor(m => m.OrderDetails, new { rows = "1", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.OrderDetails, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.OrderDetails, "", new { @class = "text-danger ValidationSpan" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="OrderPiecesCount" class="control-label"></label>
                                     <input asp-for="OrderPiecesCount" class="form-control" />
-                                    <span asp-validation-for="OrderPiecesCount" class="text-danger"></span>
+                                    <span asp-validation-for="OrderPiecesCount" class="text-danger ValidationSpan"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-2">
                                     <label asp-for="OrderTotalPrice" class="control-label required"></label>
                                     <input asp-for="OrderTotalPrice" class="form-control" />
-                                    <span asp-validation-for="OrderTotalPrice" class="text-danger"></span>
+                                    <span asp-validation-for="OrderTotalPrice" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label asp-for="DeliveryPrice" class="control-label "></label>
                                     <input asp-for="DeliveryPrice" class="form-control" />
-                                    <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
+                                    <span asp-validation-for="DeliveryPrice" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label asp-for="ShippingPrice" class="control-label required"></label>
                                     <input asp-for="ShippingPrice" class="form-control" />
-                                    <span asp-validation-for="ShippingPrice" class="text-danger"></span>
+                                    <span asp-validation-for="ShippingPrice" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label asp-for="OrderNetPrice" class="control-label required"></label>
                                     <input asp-for="OrderNetPrice" class="form-control" />
-                                    <span asp-validation-for="OrderNetPrice" class="text-danger"></span>
+                                    <span asp-validation-for="OrderNetPrice" class="text-danger ValidationSpan"></span>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label asp-for="DeliveryStatusId" class="control-label required"></label>
                                     <select asp-for="DeliveryStatusId" class="form-control" asp-items="ViewBag.DeliveryStatusId"></select>
-                                    <span asp-validation-for="DeliveryStatusId" class="text-danger"></span>
+                                    <span asp-validation-for="DeliveryStatusId" class="text-danger ValidationSpan"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -132,12 +132,12 @@
                                 <div class="form-group col-md-4">
                                     <label asp-for="DeliveryDate" class="control-label"></label>
                                     <input id="DeliveryDate" name="DeliveryDate" class="form-control txtDate" />
-                                    <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                                    <span asp-validation-for="DeliveryDate" class="text-danger ValidationSpan"></span>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="CarrierId" class="control-label"></label>
-                                    <select asp-for="CarrierId" class="form-control" asp-items="ViewBag.CarrierId"></select>
-                                    <span asp-validation-for="CarrierId" class="text-danger"></span>
+                                    <select asp-for="CarrierId" class="form-control" ></select>
+                                    <span asp-validation-for="CarrierId" class="text-danger ValidationSpan"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -166,12 +166,12 @@
 
       $(document).ready(function () {
 
-                 var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
-        PopulateDDL('DeliveryStatusId', getShippersURL);
+          var getDeliveryStatusesURL = '@Url.Action("GetAll", "DeliveryStatus")';
+          PopulateDDL('DeliveryStatusId', getDeliveryStatusesURL);
          var getShippersURL = '@Url.Action("GetAll", "Shipper")';
         PopulateDDL('ShipperId', getShippersURL);
-         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
-        PopulateDDL('CarrierId', getShippersURL);
+          var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
+          PopulateDDL('CarrierId', getCarriersURL);
 
     });
 
@@ -215,6 +215,7 @@
                 $('#DeliveryStatusId').val(response.deliveryStatusId);
                 $('#DeliveryStatusReason').val(response.deliveryStatusReason);
                 $('#DeliveryDate').val(formatDate(response.deliveryDate));
+                document.getElementById("DeliveryDate").setAttribute("value", formatDate(response.deliveryDate));
                 $('#CarrierId').val(response.carrierId);
 
                 $('#CreatedBy').val(response.createdBy);
@@ -242,7 +243,7 @@
 
 
     function ClearForm() {
-        var spans = document.getElementsByTagName('span');
+        var spans = document.getElementsByClassName('ValidationSpan');
         var l = spans.length;
         for (var i = 0; i < l; i++) {
             spans[i].innerHTML = "";
