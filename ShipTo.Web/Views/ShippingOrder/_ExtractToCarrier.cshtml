@@ -14,9 +14,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group col-md-6">
-                                <label asp-for="CarrierId" class="control-label"></label>
-                                <select id="ddlCarrierId" name="ddlCarrierId" class="form-control"></select>
-                                <span asp-validation-for="CarrierId" class="text-danger ValidationSpan"></span>
+                                <label asp-for="Carrier" class="control-label"></label>
+                                <select asp-for="Carrier" class="form-control"></select>
+                                <span asp-validation-for="Carrier" class="text-danger ValidationSpan"></span>
                             </div>
                         </div>
                     </div>
@@ -31,9 +31,10 @@
 </div>
 
 <script>
-      $(document).ready(function () {
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse($("#form_ExtractToCarrier"));
          var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
-          PopulateDDL('ddlCarrierId', getCarriersURL);
+        PopulateDDL('Carrier', getCarriersURL);
       });
 
     function PostForm_ExtractToCarrier() {
@@ -43,7 +44,7 @@
             //data_ExtractToCarrier.append("CarrierId", document.getElementById('ddlCarrierId').value);
             var shippingOrderIds = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
             var data2send  = {
-                CarrierId: document.getElementById('ddlCarrierId').value, ShippingOrderIds: shippingOrderIds
+                Carrier: document.getElementById('Carrier').value, ShippingOrderIds: shippingOrderIds
             }
             var extractToCarrier_Data = JSON.stringify(data2send);
             console.log(extractToCarrier_Data)

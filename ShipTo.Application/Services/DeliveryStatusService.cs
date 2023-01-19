@@ -1,4 +1,5 @@
-﻿using ShipTo.Core;
+﻿using ShipTo.Application.IServices;
+using ShipTo.Core;
 using ShipTo.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipTo.Application.IServices
+namespace ShipTo.Application.Services
 {
     public class DeliveryStatusService : IDeliveryStatusService
     {

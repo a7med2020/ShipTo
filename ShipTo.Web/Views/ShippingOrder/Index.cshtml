@@ -219,8 +219,10 @@
         {
             text: 'استخراج لمندوب',
             action: function (e, dt, node, config) {
-                /* alert(tbl.rows({ selected: true }).data().toArray().length);*/
-                $('#Modal_ExtractToCarrier').modal('show');
+                if (tbl.rows({ selected: true }).data().toArray().length > 0 )
+                    $('#Modal_ExtractToCarrier').modal('show');
+                else
+                    toastr.warning("يجب تحديد طلبات اولاً");
             }
         }
     ]

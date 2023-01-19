@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ShipTo.Application.IServices;
+using ShipTo.Application.Services;
 
 namespace ShipTo.Web.Extensions
 {
@@ -12,6 +13,7 @@ namespace ShipTo.Web.Extensions
              serviceCollection.AddScoped<IDeliveryStatusService, DeliveryStatusService>();
              serviceCollection.AddScoped<ICarrierService, CarrierService>();
              serviceCollection.AddScoped<IShippingOrderColumnInfoService, ShippingOrderColumnInfoService>();
+             serviceCollection.AddScoped<IFileManagementService, FileManagementService>();
         }
     }
 }

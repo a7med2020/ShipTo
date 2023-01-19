@@ -1,4 +1,5 @@
-﻿using ShipTo.Core;
+﻿using ShipTo.Application.IServices;
+using ShipTo.Core;
 using ShipTo.Core.Entities;
 using ShipTo.Core.Enums;
 using ShipTo.Core.VMs;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipTo.Application.IServices
+namespace ShipTo.Application.Services
 {
     public class CarrierService : ICarrierService
     {

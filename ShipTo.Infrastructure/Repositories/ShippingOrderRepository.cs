@@ -81,6 +81,13 @@ namespace ShipTo.Infrastructure.Repositories
                 .ToList();
             return data;
         }
+        public List<ShippingOrder> Get(List<int> shippingOrderIds)
+        {
+            var data = _context.ShippingOrders.Include(x => x.Shipper).Include(x => x.DeliveryStatus).Include(x => x.Carrier)
+                .Where(x => x.IsDeleted == false && shippingOrderIds.Contains(x.ID))
+                .ToList();
+            return data;
+        }
 
         public List<ShippingOrderLog> GetLog(int shippingOrderID)
         {

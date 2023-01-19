@@ -14,7 +14,7 @@ namespace ShipTo.Core.IRepositories
         
         List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
           , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);
-
+        List<ShippingOrder> Get(List<int> shippingOrderIds);
         void Log(ShippingOrder shippingOrder);
         List<ShippingOrderLog> GetLog(int shippingOrderID);
     }

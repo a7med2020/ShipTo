@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using ShipTo.Application.IServices;
 using ShipTo.Core;
 using ShipTo.Core.Entities;
 using ShipTo.Core.Enums;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ShipTo.Application.IServices
+namespace ShipTo.Application.Services
 {
     public class ShipperService : IShipperService
     {

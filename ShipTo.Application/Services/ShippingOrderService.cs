@@ -1,4 +1,6 @@
-﻿using ShipTo.Core;
+﻿using Microsoft.Extensions.Configuration;
+using ShipTo.Application.IServices;
+using ShipTo.Core;
 using ShipTo.Core.Entities;
 using ShipTo.Core.Enums;
 using ShipTo.Core.VMs;
@@ -9,19 +11,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipTo.Application.IServices
+namespace ShipTo.Application.Services
 {
     public class ShippingOrderService : IShippingOrderService
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IFileManagementService _fileManagementService;
         protected readonly IUserResolverHandler _userResolverHandler;
-
-        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler, IFileManagementService fileManagementService)
+        private readonly IConfiguration _configuration;
+        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler, IFileManagementService fileManagementService, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _fileManagementService = fileManagementService;
             _userResolverHandler = userResolverHandler;
+            _configuration = configuration;
         }
         public List<ShippingOrder> Get()
         {
@@ -156,7 +159,7 @@ namespace ShipTo.Application.IServices
                 });
                 _unitOfWork.Complete();
                 _unitOfWork.ShippingOrderRepository.CommitTransaction();
-                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success, DataObj = shippingOrders };
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success};
             }
             catch (Exception ex)
             {
@@ -166,20 +169,71 @@ namespace ShipTo.Application.IServices
             }
         }
 
-        //public ReturnResultVM ExtractToCarrierAsExcelFile(List<int> shippingOrderIds, int carrierId)
-        //{
-        //    try
-        //    {
-        //        ReturnResultVM returnResultVM = UpdateCarrier(shippingOrderIds, carrierId);
+        public ReturnResultVM ExtractToCarrierAsExcelFile(List<int> shippingOrderIds, int carrierId)
+        {
+            try
+            {
+                var UpdateCarrierResult =  UpdateCarrier(shippingOrderIds, carrierId);
+                if (UpdateCarrierResult.Status != ReturnResultStatusEnum.Success)
+                    return UpdateCarrierResult;
+                var shippingOrders= _unitOfWork.ShippingOrderRepository.Get(shippingOrderIds);
+                var shippingOrdersForFile = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
+                {
+                    OrderNumber = x.OrderNumber,
+                    ClientName = x.OrderNumber,
+                    ClientPhoneNumber = x.ClientPhoneNumber,
+                    Governorate = x.Governorate,
+                    Address = x.Address,
+                    ShipperName = x.Shipper.Name,
+                    OrderTotalPrice = x.OrderTotalPrice,
+                    DeliveryPrice = x.DeliveryPrice,
+                    ShippingPrice = x.ShippingPrice,
+                    OrderNetPrice = x.OrderNetPrice,
+                    DeliveryStatusName = x.DeliveryStatus.Name,
+                    DeliveryStatusReason = x.DeliveryStatusReason,
+                    Notes = x.Notes,
+                    CarrierName = x.Carrier.Name,
+                }).ToList();
+      
 
-        //        _fileManagementService.CreateSimpleExcelFileAndSave()
-        //    }
-        //    catch (Exception ex)
-        //    {
-                 
-        //        return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تحديث المندوب" };
-        //    }
-        //}
+              string FileName = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:FileName");
+                ReturnResultVM returnResultVM = UpdateCarrier(shippingOrderIds, carrierId);
+                string fileName = FileName + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+                ExcelFileInfo<ShippingOrderCarrierFileVM> shippingOrderList = new ExcelFileInfo<ShippingOrderCarrierFileVM>()
+                {
+                    WorkbookTitle = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:WorkbookTitle"),
+                    WorkbookSubject = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:WorkbookSubject"),
+                    WorkbookAuthor = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:WorkbookAuthor"),
+                    SheetName = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:SheetName"),
+                    ColumnNames = new string[] {
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderNumber"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientName "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientPhoneNumber "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Governorate "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Address "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShipperName "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderTotalPrice "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryPrice "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShippingPrice "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderNetPrice "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusName "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusReason "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Notes "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:CarrierName "),
+                    },
+                    RowDataList = shippingOrdersForFile,
+                    SaveFolderPath = FolderPathEnum.ShippingOrderAddFromExcel,
+                    FileName = fileName
+                };
+                _fileManagementService.CreateSimpleExcelFileAndSave(shippingOrderList);
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, DataObj = fileName };
+            }
+            catch (Exception ex)
+            {
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تحديث المندوب" };
+            }
+        }
 
+       
     }
 }

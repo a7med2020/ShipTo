@@ -14,7 +14,7 @@ namespace ShipTo.Core.VMs
         [ForeignKey("Carrier")]
         [Range(1, int.MaxValue, ErrorMessage = "يجب إدخال المندوب")]
         [Required]
-        public int CarrierId { get; set; }
+        public int Carrier { get; set; }
 
         public List<int> ShippingOrderIds { get; set; }
     }
