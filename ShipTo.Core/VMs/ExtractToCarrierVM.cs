@@ -12,9 +12,9 @@ namespace ShipTo.Core.VMs
     {
         [Display(Name = "المندوب")]
         [ForeignKey("Carrier")]
-        [Range(1, int.MaxValue, ErrorMessage = "يجب إدخال المندوب")]
-        [Required]
-        public int Carrier { get; set; }
+        [Required(ErrorMessage = "يجب اختيار المندوب")]
+        [Range(1, int.MaxValue, ErrorMessage = "يجب اختيار المندوب")]
+        public int Carrier_Id { get; set; }
 
         public List<int> ShippingOrderIds { get; set; }
     }

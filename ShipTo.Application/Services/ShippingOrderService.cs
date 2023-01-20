@@ -152,13 +152,17 @@ namespace ShipTo.Application.Services
         {
             try
             {
-                _unitOfWork.ShippingOrderRepository.BeginTransaction();
                 var shippingOrders = _unitOfWork.ShippingOrderRepository.GetAll(x => shippingOrderIds.Contains(x.ID) && !x.IsDeleted).ToList();
-                shippingOrders.ForEach(x => {
-                    x.CarrierId = carrierId;
-                });
-                _unitOfWork.Complete();
-                _unitOfWork.ShippingOrderRepository.CommitTransaction();
+                foreach (var shippingOrder in shippingOrders)
+                {
+                    shippingOrder.CarrierId = carrierId;
+                    var result = Update(shippingOrder);
+                    if (result.Status != ReturnResultStatusEnum.Success)
+                    {
+                        result.ErrorMessage = "حدث خطأ اثناء تحديث المندوب";
+                        return result;
+                    }
+                }
                 return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success};
             }
             catch (Exception ex)
@@ -180,13 +184,13 @@ namespace ShipTo.Application.Services
                 var shippingOrdersForFile = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
                 {
                     OrderNumber = x.OrderNumber,
-                    ClientName = x.OrderNumber,
+                    ClientName = x.ClientName,
                     ClientPhoneNumber = x.ClientPhoneNumber,
                     Governorate = x.Governorate,
                     Address = x.Address,
                     ShipperName = x.Shipper.Name,
                     OrderTotalPrice = x.OrderTotalPrice,
-                    DeliveryPrice = x.DeliveryPrice,
+                    DeliveryPrice = x.DeliveryPrice == 0 ? null : x.DeliveryPrice,
                     ShippingPrice = x.ShippingPrice,
                     OrderNetPrice = x.OrderNetPrice,
                     DeliveryStatusName = x.DeliveryStatus.Name,
@@ -194,10 +198,27 @@ namespace ShipTo.Application.Services
                     Notes = x.Notes,
                     CarrierName = x.Carrier.Name,
                 }).ToList();
-      
+
+                ShippingOrderCarrierFileVM shippingOrdersFileFooter = new ShippingOrderCarrierFileVM() {
+                    OrderNumber = null,
+                    ClientName = null,
+                    ClientPhoneNumber = null,
+                    Governorate = null,
+                    Address = null,
+                    ShipperName = null,
+                    OrderTotalPrice = shippingOrders.Sum(x=>x.OrderTotalPrice),
+                    DeliveryPrice = 0,
+                    ShippingPrice = shippingOrders.Sum(x => x.ShippingPrice),
+                    OrderNetPrice = shippingOrders.Sum(x => x.OrderNetPrice),
+                    DeliveryStatusName = null,
+                    DeliveryStatusReason = null,
+                    Notes = null,
+                    CarrierName = null,
+                };
+
+                shippingOrdersForFile.Add(shippingOrdersFileFooter);
 
               string FileName = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:FileName");
-                ReturnResultVM returnResultVM = UpdateCarrier(shippingOrderIds, carrierId);
                 string fileName = FileName + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
                 ExcelFileInfo<ShippingOrderCarrierFileVM> shippingOrderList = new ExcelFileInfo<ShippingOrderCarrierFileVM>()
                 {
@@ -225,12 +246,12 @@ namespace ShipTo.Application.Services
                     SaveFolderPath = FolderPathEnum.ShippingOrderAddFromExcel,
                     FileName = fileName
                 };
-                _fileManagementService.CreateSimpleExcelFileAndSave(shippingOrderList);
-                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, DataObj = fileName };
+                _fileManagementService.CreateWellStyled1ExcelFileAndSave(shippingOrderList, true);
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success, DataObj = fileName };
             }
             catch (Exception ex)
             {
-                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تحديث المندوب" };
+                return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "حدث خطأ اثناء تكوين الملف" };
             }
         }
 

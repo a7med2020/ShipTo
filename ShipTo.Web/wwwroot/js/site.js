@@ -216,6 +216,45 @@ function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = 
                         });
                 });
         },
+        footerCallback: function (row, data, start, end, display) {
+            var api = this.api(), data;
+
+            // converting to interger to find total
+            var intVal = function (i) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '') * 1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+
+            // computing column Total of the complete result 
+            var orderTotalPrice = api
+                .column(7)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            var shippingPrice = api
+                .column(8)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            var orderNetPrice = api
+                .column(9)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            // Update footer by showing the total with the reference of the column index 
+            $(api.column(0).footer()).html('الإجمالي');
+            $(api.column(7).footer()).html(orderTotalPrice);
+            $(api.column(8).footer()).html(shippingPrice);
+            $(api.column(9).footer()).html(orderNetPrice);
+        }
     });
     return table;
 }

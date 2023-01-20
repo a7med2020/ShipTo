@@ -13,6 +13,7 @@ using OfficeOpenXml;
 using ShipTo.Core.VMs;
 using ShipTo.Core.Enums;
 using ShipTo.Application.Utilities;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ShipTo.Web.Controllers
 {
@@ -20,10 +21,12 @@ namespace ShipTo.Web.Controllers
     public class ShippingOrderController : Controller
     {
         protected readonly IShippingOrderService _shippingOrderService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ShippingOrderController(IShippingOrderService shippingOrderService)
+        public ShippingOrderController(IShippingOrderService shippingOrderService, IWebHostEnvironment webHostEnvironment)
         {
             _shippingOrderService = shippingOrderService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -77,7 +80,31 @@ namespace ShipTo.Web.Controllers
         [HttpPost]
         public IActionResult ExtractToCarrier([FromBody] ExtractToCarrierVM extractToCarrierVM)
         {
-            return null;
+            var result = _shippingOrderService.ExtractToCarrierAsExcelFile(extractToCarrierVM.ShippingOrderIds, extractToCarrierVM.Carrier_Id);
+            return Json(result);
+        }
+
+        [HttpGet]
+        public ActionResult ExtractToCarrierDownloadFile(string fileName)
+        {
+            try
+            {
+                if (fileName != null)
+                {
+                    var environmentRootPath = _webHostEnvironment.ContentRootPath;
+                    var filePath = System.IO.Path.Combine(environmentRootPath, FolderPathEnum.ShippingOrderAddFromExcel, fileName);
+                    byte[] fileByteArray = System.IO.File.ReadAllBytes(filePath);
+                    return File(fileByteArray, "application/vnd.ms-excel", fileName);
+                }
+                else
+                {
+                    return Content("لم يتم إرسال اسم ملف");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content("حدث خطأ غير معروف: " + ex.Message);
+            }
         }
 
         #region AddFromExcel
@@ -270,7 +297,7 @@ namespace ShipTo.Web.Controllers
         }
         #endregion
 
-
+       
 
         [HttpPost]
         public IActionResult Delete(int Id)

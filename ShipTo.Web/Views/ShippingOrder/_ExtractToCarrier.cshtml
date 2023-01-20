@@ -14,9 +14,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group col-md-6">
-                                <label asp-for="Carrier" class="control-label"></label>
-                                <select asp-for="Carrier" class="form-control"></select>
-                                <span asp-validation-for="Carrier" class="text-danger ValidationSpan"></span>
+                                <label asp-for="Carrier_Id" class="control-label"></label>
+                                <select asp-for="Carrier_Id" class="form-control"></select>
+                                <span asp-validation-for="Carrier_Id" class="text-danger ValidationSpan"></span>
                             </div>
                         </div>
                     </div>
@@ -34,21 +34,21 @@
     $(document).ready(function () {
         $.validator.unobtrusive.parse($("#form_ExtractToCarrier"));
          var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
-        PopulateDDL('Carrier', getCarriersURL);
+        PopulateDDL('Carrier_Id', getCarriersURL);
       });
 
     function PostForm_ExtractToCarrier() {
+      
         if ($("#form_ExtractToCarrier").valid()) {
             //var form = document.getElementById("form_ExtractToCarrier");
             //var data_ExtractToCarrier = new FormData(form);
             //data_ExtractToCarrier.append("CarrierId", document.getElementById('ddlCarrierId').value);
             var shippingOrderIds = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
             var data2send  = {
-                Carrier: document.getElementById('Carrier').value, ShippingOrderIds: shippingOrderIds
+                Carrier_Id: document.getElementById('Carrier_Id').value, ShippingOrderIds: shippingOrderIds
             }
             var extractToCarrier_Data = JSON.stringify(data2send);
-            console.log(extractToCarrier_Data)
-
+          
             var PostURL = '@Url.Action("ExtractToCarrier", "ShippingOrder")'
             $.ajax({
                 type: "POST",
@@ -57,6 +57,11 @@
                 data: extractToCarrier_Data,
                 success: function (response) {
                     if (response.status == AjaxResponseStatusEnum.Success) {
+                        var _fileName = response.dataObj
+                        window.open('@Url.Action("ExtractToCarrierDownloadFile", "ShippingOrder")?fileName=' + _fileName, '_blank');
+                        Search();
+                        document.getElementById('form_ExtractToCarrier').reset();
+                        $('.modal').modal('hide');
                         toastr.success("تم بنجاح");
                     } else {
                         toastr.error("فشل "  +" :" + response.errorMessage);

@@ -8,6 +8,7 @@
     <a onclick="setAdd()" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate"> <i class="fa fa-fw fa-plus"></i> إضافة جديد </a>
 </p>
 
+@*Search Controls*@
 <div class="row">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -40,7 +41,6 @@
             </div>
 
             <div class="form-group col-sm-2" id="div_DeliveryDate">
-                -
                 <label> @Html.DisplayNameFor(model => model.DeliveryDate) إلي</label>
                 <input id="txtSearch_DeliveryDateTo" name="txtSearch_DeliveryDateTo" class="form-control txtDate">
             </div>
@@ -52,12 +52,13 @@
     </div>
 </div>
 
+@*Data Table*@
 <div class="row">
     <div class="table-responsive">
         <table id="tbl_Items" class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
-                    <th style="text-align: center"><input type="checkbox" id="select_all" /></th>
+                    <th class="notExportCol" style="text-align: center"><input type="checkbox" id="select_all" /></th>
                     <th>
                         @Html.DisplayNameFor(model => model.ID)
                     </th>
@@ -66,11 +67,11 @@
                         @Html.DisplayNameFor(model => model.OrderNumber)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.BulkId)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.BulkId)
+                </th>*@
                     @*<th>
-                            @Html.DisplayNameFor(model => model.OrderDate)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.ShippingOrderBulkName)
                     </th>
@@ -78,14 +79,14 @@
                         @Html.DisplayNameFor(model => model.ClientName)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.ClientPhoneNumber)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.ClientPhoneNumber)
+                </th>*@
                     @*<th>
-                            @Html.DisplayNameFor(model => model.Direction)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Governorate)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.Direction)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Governorate)
+                </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Address)
                     </th>
@@ -93,17 +94,17 @@
                         @Html.DisplayNameFor(model => model.Shipper)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.OrderDetails)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OrderPiecesCount)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.OrderDetails)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderPiecesCount)
+                </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.OrderTotalPrice)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.DeliveryPrice)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.DeliveryPrice)
+                </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.ShippingPrice)
                     </th>
@@ -114,24 +115,27 @@
                         @Html.DisplayNameFor(model => model.DeliveryStatus)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.DeliveryStatusReason)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.DeliveryStatusReason)
+                </th>*@
                     @*<th>
-                            @Html.DisplayNameFor(model => model.DeliveryDate)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.DeliveryDate)
+                </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Carrier)
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.FileDataName)
-                        </th>*@
+                    @Html.DisplayNameFor(model => model.FileDataName)
+                </th>*@
 
                     <th class="notExportCol" style="width:200px">
 
                     </th>
                 </tr>
-
             </thead>
+            <tfoot align="right">
+                <tr><th colspan="7"></th><th></th><th></th><th></th><th colspan="3"></th></tr>
+            </tfoot>
+             
         </table>
     </div>
 </div>
@@ -143,8 +147,8 @@
 
 <script>
 
+    //Link used in reload data
     function GetSearchURL() {
-
         var ddlSearch_DeliveryStatusIdValue = document.getElementById("ddlSearch_DeliveryStatusId").value;
         var ddlSearch_ShipperIdValue = document.getElementById("ddlSearch_ShipperId").value;
         var txtSearch_ShippingOrderBulkNameValue = document.getElementById("txtSearch_ShippingOrderBulkName").value;
@@ -162,9 +166,8 @@
     var DeleteURL = '@Url.Action("Delete", "ShippingOrder")';
     var DetailsURL = '@Url.Action("Details", "ShippingOrder")?id=';
 
-
+   /* DataTable Columns*/
     var Columns = [
-
         {
             searchable: false,
             render: function (data, type, row) {
@@ -230,8 +233,9 @@
     var tbl;
 
     $(document).ready(function () {
-
+        //Add DataTable
         tbl = AddDataTable_WithMultiSelect('tbl_Items', GetSearchURL(), Columns, dataTable_Buttons)
+        //set Form Validation
         $.validator.unobtrusive.parse($("#form_AddUpdate"));
         InitialTextBoxDate();
         var getDeliveryStatusesURL = '@Url.Action("GetAll", "DeliveryStatus")';
@@ -240,15 +244,8 @@
         PopulateDDL('ddlSearch_ShipperId', getShippersURL);
         var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
         PopulateDDL('ddlSearch_CarrierId', getCarriersURL);
-
-
-                 @*var getShippersURL = '@Url.Action("GetAll", "DeliveryStatus")';
-        PopulateDDL('DeliveryStatusId', getShippersURL);
-         var getShippersURL = '@Url.Action("GetAll", "Shipper")';
-        PopulateDDL('ShipperId', getShippersURL);
-         var getShippersURL = '@Url.Action("GetAll", "Carrier")';
-        PopulateDDL('CarrierId', getShippersURL);*@
-
+ 
+        //Select All CheckBox
         $('#tbl_Items').on('click', '#select_all', function () {
             if ($('#select_all:checked').val() === 'on')
                 tbl.rows().select();

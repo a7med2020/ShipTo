@@ -16,7 +16,7 @@ namespace ShipTo.Core.VMs
         public string Address { get; set; }
         public string ShipperName { get; set; }
         public decimal OrderTotalPrice { get; set; }
-        public decimal DeliveryPrice { get; set; }
+        public decimal? DeliveryPrice { get; set; }
         public decimal ShippingPrice { get; set; }
         public decimal OrderNetPrice { get; set; }
         public string DeliveryStatusName { get; set; }

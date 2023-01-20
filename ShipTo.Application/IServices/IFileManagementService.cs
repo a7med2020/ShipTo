@@ -12,5 +12,7 @@ namespace ShipTo.Application.IServices
     {
         MemoryStream CreateSimpleExcelFileStream<T>(ExcelFileInfo<T> fileInfo);
         void CreateSimpleExcelFileAndSave<T>(ExcelFileInfo<T> fileInfo);
+        MemoryStream CreateWellStyled1ExcelFileStream<T>(ExcelFileInfo<T> fileInfo, bool IsHaveFooter = false);
+        void CreateWellStyled1ExcelFileAndSave<T>(ExcelFileInfo<T> fileInfo, bool IsHaveFooter = false);
     }
 }
