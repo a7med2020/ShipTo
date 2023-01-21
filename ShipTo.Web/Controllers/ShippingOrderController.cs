@@ -305,8 +305,11 @@ namespace ShipTo.Web.Controllers
         {
             string mimType = "";
             int extension = 1;
-            var path = $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
+            
+            //var path =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
+            var path =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
             LocalReport localReport = new LocalReport(path);
+            //localReport.EnableExternalImages = true;
             List<int> shippingOrderIds = new List<int>();
             shippingOrderIds.Add(71);
             var shippingOrders = _shippingOrderService.GetForInvoice(shippingOrderIds);

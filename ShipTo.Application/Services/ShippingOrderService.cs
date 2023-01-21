@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using ShipTo.Application.IServices;
 using ShipTo.Core;
 using ShipTo.Core.Entities;
@@ -19,17 +20,18 @@ namespace ShipTo.Application.Services
         protected readonly IFileManagementService _fileManagementService;
         protected readonly IUserResolverHandler _userResolverHandler;
         private readonly IConfiguration _configuration;
-        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler, IFileManagementService fileManagementService, IConfiguration configuration)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ShippingOrderService(IUnitOfWork unitOfWork, IUserResolverHandler userResolverHandler, IFileManagementService fileManagementService, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _fileManagementService = fileManagementService;
             _userResolverHandler = userResolverHandler;
             _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
-        //public List<ShippingOrder> Get()
-        //{
-        //    return _unitOfWork.ShippingOrderRepository.Get();
-        //}
+       
+
+       
 
         public ShippingOrder Get(int Id)
         {
@@ -48,6 +50,9 @@ namespace ShipTo.Application.Services
             var shippingOrders = _unitOfWork.ShippingOrderRepository.Get(shippingOrderIds);
             var shippingOrdersForInvoice = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
             {
+                CompanyName = _configuration.GetValue<string>("Company:Name"),
+                //CompanyLogo = "file:///" + $"{_webHostEnvironment.WebRootPath}" + _configuration.GetValue<string>("Company:LogoPath"),
+                CompanyLogo = new Uri(_webHostEnvironment.WebRootPath + _configuration.GetValue<string>("Company:LogoPath")).AbsoluteUri,
                 OrderNumber = x.OrderNumber,
                 ClientName = x.ClientName,
                 ClientPhoneNumber = x.ClientPhoneNumber,

@@ -279,6 +279,10 @@ namespace ShipTo.Reporting.Reports {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class ShippingOrderInvoiceDataTable : global::System.Data.TypedTableBase<ShippingOrderInvoiceRow> {
             
+            private global::System.Data.DataColumn columnCompanyName;
+            
+            private global::System.Data.DataColumn columnCompanyLogo;
+            
             private global::System.Data.DataColumn columnOrderNumber;
             
             private global::System.Data.DataColumn columnClientName;
@@ -340,6 +344,22 @@ namespace ShipTo.Reporting.Reports {
             protected ShippingOrderInvoiceDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CompanyNameColumn {
+                get {
+                    return this.columnCompanyName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CompanyLogoColumn {
+                get {
+                    return this.columnCompanyLogo;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -499,9 +519,28 @@ namespace ShipTo.Reporting.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ShippingOrderInvoiceRow AddShippingOrderInvoiceRow(string OrderNumber, string ClientName, string ClientPhoneNumber, string Governorate, string Address, string ShipperName, string OrderDetails, string OrderTotalPrice, string DeliveryPrice, string ShippingPrice, string OrderNetPrice, string DeliveryStatusName, string DeliveryStatusReason, string Notes, string CarrierName) {
+            public ShippingOrderInvoiceRow AddShippingOrderInvoiceRow(
+                        string CompanyName, 
+                        string CompanyLogo, 
+                        string OrderNumber, 
+                        string ClientName, 
+                        string ClientPhoneNumber, 
+                        string Governorate, 
+                        string Address, 
+                        string ShipperName, 
+                        string OrderDetails, 
+                        string OrderTotalPrice, 
+                        string DeliveryPrice, 
+                        string ShippingPrice, 
+                        string OrderNetPrice, 
+                        string DeliveryStatusName, 
+                        string DeliveryStatusReason, 
+                        string Notes, 
+                        string CarrierName) {
                 ShippingOrderInvoiceRow rowShippingOrderInvoiceRow = ((ShippingOrderInvoiceRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        CompanyName,
+                        CompanyLogo,
                         OrderNumber,
                         ClientName,
                         ClientPhoneNumber,
@@ -539,6 +578,8 @@ namespace ShipTo.Reporting.Reports {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
+                this.columnCompanyName = base.Columns["CompanyName"];
+                this.columnCompanyLogo = base.Columns["CompanyLogo"];
                 this.columnOrderNumber = base.Columns["OrderNumber"];
                 this.columnClientName = base.Columns["ClientName"];
                 this.columnClientPhoneNumber = base.Columns["ClientPhoneNumber"];
@@ -559,6 +600,10 @@ namespace ShipTo.Reporting.Reports {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
+                this.columnCompanyName = new global::System.Data.DataColumn("CompanyName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCompanyName);
+                this.columnCompanyLogo = new global::System.Data.DataColumn("CompanyLogo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCompanyLogo);
                 this.columnOrderNumber = new global::System.Data.DataColumn("OrderNumber", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOrderNumber);
                 this.columnClientName = new global::System.Data.DataColumn("ClientName", typeof(string), null, global::System.Data.MappingType.Element);
@@ -589,6 +634,8 @@ namespace ShipTo.Reporting.Reports {
                 base.Columns.Add(this.columnNotes);
                 this.columnCarrierName = new global::System.Data.DataColumn("CarrierName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCarrierName);
+                this.columnCompanyName.Caption = "OrderNumber";
+                this.columnCompanyLogo.Caption = "OrderNumber";
                 this.columnClientName.Caption = "OrderNumber";
                 this.columnClientPhoneNumber.Caption = "OrderNumber";
                 this.columnGovernorate.Caption = "OrderNumber";
@@ -741,6 +788,38 @@ namespace ShipTo.Reporting.Reports {
             internal ShippingOrderInvoiceRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
                 this.tableShippingOrderInvoice = ((ShippingOrderInvoiceDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CompanyName {
+                get {
+                    try {
+                        return ((string)(this[this.tableShippingOrderInvoice.CompanyNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CompanyName\' in table \'ShippingOrderInvoice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableShippingOrderInvoice.CompanyNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CompanyLogo {
+                get {
+                    try {
+                        return ((string)(this[this.tableShippingOrderInvoice.CompanyLogoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CompanyLogo\' in table \'ShippingOrderInvoice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableShippingOrderInvoice.CompanyLogoColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -985,6 +1064,30 @@ namespace ShipTo.Reporting.Reports {
                 set {
                     this[this.tableShippingOrderInvoice.CarrierNameColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCompanyNameNull() {
+                return this.IsNull(this.tableShippingOrderInvoice.CompanyNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCompanyNameNull() {
+                this[this.tableShippingOrderInvoice.CompanyNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCompanyLogoNull() {
+                return this.IsNull(this.tableShippingOrderInvoice.CompanyLogoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCompanyLogoNull() {
+                this[this.tableShippingOrderInvoice.CompanyLogoColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

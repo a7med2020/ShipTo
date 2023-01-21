@@ -23,7 +23,7 @@
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
         <Top>0.26113in</Top>
-        <Left>3.21062in</Left>
+        <Left>3.4502in</Left>
         <Height>0.375in</Height>
         <Width>1.8125in</Width>
         <Style>
@@ -43,9 +43,16 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>الحسن والحسين</Value>
+                <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=Fields!CompanyName.Value</Value>
+                <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -57,9 +64,9 @@
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
         <Top>0.88558in</Top>
-        <Left>2.53353in</Left>
+        <Left>4.18978in</Left>
         <Height>0.28125in</Height>
-        <Width>4.26042in</Width>
+        <Width>2.77778in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -81,8 +88,8 @@
               <TextRun>
                 <Value>شركة الشحن:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -93,9 +100,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
         <Top>0.88558in</Top>
-        <Left>6.80783in</Left>
+        <Left>6.99533in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18056in</Width>
+        <Width>0.99306in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -117,8 +124,8 @@
               <TextRun>
                 <Value>رقم طلب الشحن:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -129,9 +136,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
         <Top>1.18071in</Top>
-        <Left>6.80784in</Left>
+        <Left>6.99534in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18055in</Width>
+        <Width>0.99305in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -153,14 +160,14 @@
               <TextRun>
                 <Value>=Fields!OrderNumber.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -172,9 +179,9 @@
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
         <Top>1.18071in</Top>
-        <Left>2.53353in</Left>
+        <Left>4.18978in</Left>
         <Height>0.28125in</Height>
-        <Width>4.26042in</Width>
+        <Width>2.77778in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -196,14 +203,14 @@
               <TextRun>
                 <Value>=Fields!ShipperName.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -215,9 +222,9 @@
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
         <Top>1.46196in</Top>
-        <Left>2.54742in</Left>
+        <Left>4.18978in</Left>
         <Height>0.28125in</Height>
-        <Width>4.24653in</Width>
+        <Width>2.77778in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -239,8 +246,8 @@
               <TextRun>
                 <Value>الشركة الراسله:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -251,9 +258,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
         <Top>1.46196in</Top>
-        <Left>6.80784in</Left>
+        <Left>6.99534in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18055in</Width>
+        <Width>0.99305in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -275,8 +282,8 @@
               <TextRun>
                 <Value>اسم العميل:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -286,10 +293,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>1.77098in</Top>
-        <Left>6.80784in</Left>
+        <Top>0.88557in</Top>
+        <Left>2.95605in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18055in</Width>
+        <Width>1.0243in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -311,14 +318,14 @@
               <TextRun>
                 <Value>=Fields!ClientName.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -329,10 +336,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
-        <Top>1.77098in</Top>
-        <Left>2.54742in</Left>
+        <Top>0.88557in</Top>
+        <Left>0.19563in</Left>
         <Height>0.28125in</Height>
-        <Width>4.24653in</Width>
+        <Width>2.76041in</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -354,14 +361,14 @@
               <TextRun>
                 <Value>=Fields!ClientPhoneNumber.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -372,10 +379,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
-        <Top>2.06612in</Top>
-        <Left>2.54742in</Left>
+        <Top>1.18071in</Top>
+        <Left>0.19563in</Left>
         <Height>0.28125in</Height>
-        <Width>4.24653in</Width>
+        <Width>2.76041in</Width>
         <ZIndex>9</ZIndex>
         <Style>
           <Border>
@@ -397,8 +404,8 @@
               <TextRun>
                 <Value>رقم هاتف العميل:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -408,10 +415,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>2.06612in</Top>
-        <Left>6.80784in</Left>
+        <Top>1.18071in</Top>
+        <Left>2.95605in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18055in</Width>
+        <Width>1.0243in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -433,8 +440,8 @@
               <TextRun>
                 <Value>عنوان العميل:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -444,10 +451,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>2.37514in</Top>
-        <Left>6.80783in</Left>
+        <Top>1.48973in</Top>
+        <Left>2.95604in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18056in</Width>
+        <Width>1.02431in</Width>
         <ZIndex>11</ZIndex>
         <Style>
           <Border>
@@ -469,14 +476,14 @@
               <TextRun>
                 <Value>=Fields!Address.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value xml:space="preserve"> </Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -487,10 +494,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderNumber</rd:DefaultName>
-        <Top>2.37514in</Top>
-        <Left>2.54742in</Left>
+        <Top>1.48973in</Top>
+        <Left>0.19563in</Left>
         <Height>0.28125in</Height>
-        <Width>4.24653in</Width>
+        <Width>2.76041in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -504,13 +511,14 @@
         </Style>
       </Textbox>
       <Line Name="Line2">
-        <Top>3.32237in</Top>
-        <Left>2.24424in</Left>
-        <Height>2.15625in</Height>
+        <Top>1.9439in</Top>
+        <Left>3.6272in</Left>
+        <Height>1.31738in</Height>
         <Width>0in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
+            <Color>Silver</Color>
             <Style>Solid</Style>
           </Border>
         </Style>
@@ -524,8 +532,8 @@
               <TextRun>
                 <Value>سعر الطلب:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -535,10 +543,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>3.32237in</Top>
-        <Left>1.04979in</Left>
+        <Top>1.9439in</Top>
+        <Left>2.79386in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18056in</Width>
+        <Width>0.76389in</Width>
         <ZIndex>14</ZIndex>
         <Style>
           <Border>
@@ -560,8 +568,8 @@
               <TextRun>
                 <Value>سعر الشحن:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -571,10 +579,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>3.92291in</Top>
-        <Left>1.04979in</Left>
+        <Top>1.9439in</Top>
+        <Left>1.7626in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18056in</Width>
+        <Width>0.79514in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -596,8 +604,8 @@
               <TextRun>
                 <Value>إجمالي السعر:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -607,10 +615,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>4.55138in</Top>
-        <Left>1.04979in</Left>
+        <Top>1.9439in</Top>
+        <Left>0.56598in</Left>
         <Height>0.28125in</Height>
-        <Width>1.18056in</Width>
+        <Width>0.86458in</Width>
         <ZIndex>16</ZIndex>
         <Style>
           <Border>
@@ -632,8 +640,8 @@
               <TextRun>
                 <Value>تفاصيل الطلب:</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -643,8 +651,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>3.17724in</Top>
-        <Left>6.68284in</Left>
+        <Top>1.8821in</Top>
+        <Left>6.81724in</Left>
         <Height>0.28125in</Height>
         <Width>1.18056in</Width>
         <ZIndex>17</ZIndex>
@@ -668,8 +676,8 @@
               <TextRun>
                 <Value>توقيع الاستلام</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -679,8 +687,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox45</rd:DefaultName>
-        <Top>5.7736in</Top>
-        <Left>1.60535in</Left>
+        <Top>2.98002in</Top>
+        <Left>0.43056in</Left>
         <Height>0.28125in</Height>
         <Width>1.18056in</Width>
         <ZIndex>18</ZIndex>
@@ -703,7 +711,7 @@
               <TextRun>
                 <Value>=First(Fields!OrderDetails.Value, "DS_ShippingOrderInvoice")</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -713,10 +721,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderDetails</rd:DefaultName>
-        <Top>3.57237in</Top>
-        <Left>2.6654in</Left>
-        <Height>1.76112in</Height>
-        <Width>5.198in</Width>
+        <Top>2.2189in</Top>
+        <Left>3.69664in</Left>
+        <Height>1.04237in</Height>
+        <Width>4.29175in</Width>
         <ZIndex>19</ZIndex>
         <Style>
           <Border>
@@ -735,9 +743,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ShippingPrice.Value, "DS_ShippingOrderInvoice")</Value>
+                <Value>=Fields!ShippingPrice.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -747,8 +755,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ShippingPrice</rd:DefaultName>
-        <Top>4.21805in</Top>
-        <Left>1.23035in</Left>
+        <Top>2.25292in</Top>
+        <Left>1.55775in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>20</ZIndex>
@@ -770,9 +778,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!OrderNetPrice.Value, "DS_ShippingOrderInvoice")</Value>
+                <Value>=Fields!OrderNetPrice.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -782,10 +790,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderNetPrice</rd:DefaultName>
-        <Top>3.60362in</Top>
-        <Left>1.23035in</Left>
+        <Top>2.23903in</Top>
+        <Left>2.67927in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>0.89237in</Width>
         <ZIndex>21</ZIndex>
         <Style>
           <Border>
@@ -805,9 +813,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!OrderTotalPrice.Value, "DS_ShippingOrderInvoice")</Value>
+                <Value>=Fields!OrderTotalPrice.Value</Value>
                 <Style>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -817,8 +825,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>OrderTotalPrice</rd:DefaultName>
-        <Top>4.84652in</Top>
-        <Left>1.23035in</Left>
+        <Top>2.25292in</Top>
+        <Left>0.43056in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>22</ZIndex>
@@ -833,8 +841,67 @@
           <Direction>RTL</Direction>
         </Style>
       </Textbox>
+      <Line Name="Line1">
+        <Top>1.81265in</Top>
+        <Left>0.125in</Left>
+        <Height>0in</Height>
+        <Width>7.9978in</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Color>Silver</Color>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Image Name="image_CompanyLogo">
+        <Source>External</Source>
+        <Value>=Fields!CompanyLogo.Value</Value>
+        <MIMEType>image/jpeg</MIMEType>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.12375in</Top>
+        <Left>1.41542in</Left>
+        <Height>0.65625in</Height>
+        <Width>0.875in</Width>
+        <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="CompanyLogo">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Fields!CompanyLogo.Value</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>CompanyLogo</rd:DefaultName>
+        <Top>3.61333in</Top>
+        <Left>3.35292in</Left>
+        <Height>0.25in</Height>
+        <Width>1in</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>6.98958in</Height>
+    <Height>4.59375in</Height>
     <Style />
   </Body>
   <Width>8.26966in</Width>
@@ -858,6 +925,14 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogo">
+          <DataField>CompanyLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="OrderNumber">
           <DataField>OrderNumber</DataField>
           <rd:TypeName>System.String</rd:TypeName>

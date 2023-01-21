@@ -1,11 +1,10 @@
-﻿using ShipTo.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipTo.Core.VMs
+namespace ShipTo.Reporting.VMs
 {
     public class ShippingOrderCarrierFileVM
     {

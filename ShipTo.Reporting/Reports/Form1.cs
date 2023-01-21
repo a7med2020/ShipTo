@@ -1,4 +1,5 @@
 ﻿using Microsoft.Reporting.WinForms;
+using ShipTo.Reporting.VMs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,8 @@ namespace ShipTo.Reporting.Reports
         {
             ShippingOrderCarrierFileVM shippingOrder = new ShippingOrderCarrierFileVM()
             {
+                CompanyName = "الحسن والحسين",
+                CompanyLogo =    System.IO.Directory.GetCurrentDirectory().Replace(@"\bin\Debug", @"\Photos\CompanyLogo.jpg") + "",
                 OrderNumber = "100000000023",
                 ClientName = "اسلام علي محمد",
                 ClientPhoneNumber = "01223443554",
@@ -54,6 +57,12 @@ namespace ShipTo.Reporting.Reports
             reportViewer1.LocalReport.ReportPath = System.IO.Directory.GetCurrentDirectory().Replace(@"\bin\Debug", "") + @"\Reports\dc_ShippingOrderInvoice.rdlc";
             ReportDataSource datasource = new ReportDataSource("DS_ShippingOrderInvoice", LoadData());
             reportViewer1.LocalReport.DataSources.Clear();
+            
+            //reportViewer1.LocalReport.EnableExternalImages = true;
+            //reportViewer1.LocalReport.SetParameters(new ReportParameter[] {
+            //    new ReportParameter("CompanyName", "الحسن والحسين"),
+            //    new ReportParameter("CompanyLogo", LogoPath),
+            //    });
             reportViewer1.LocalReport.DataSources.Add(datasource);
             this.reportViewer1.RefreshReport();
 
@@ -61,22 +70,5 @@ namespace ShipTo.Reporting.Reports
         }
     }
 
-    public class ShippingOrderCarrierFileVM
-    {
-        public string OrderNumber { get; set; }
-        public string ClientName { get; set; }
-        public string ClientPhoneNumber { get; set; }
-        public string Governorate { get; set; }
-        public string Address { get; set; }
-        public string ShipperName { get; set; }
-        public string OrderDetails { get; set; }
-        public decimal OrderTotalPrice { get; set; }
-        public decimal? DeliveryPrice { get; set; }
-        public decimal ShippingPrice { get; set; }
-        public decimal OrderNetPrice { get; set; }
-        public string DeliveryStatusName { get; set; }
-        public string DeliveryStatusReason { get; set; }
-        public string Notes { get; set; }
-        public string CarrierName { get; set; }
-    }
+    
 }
