@@ -15,6 +15,7 @@ namespace ShipTo.Core.VMs
         public string Governorate { get; set; }
         public string Address { get; set; }
         public string ShipperName { get; set; }
+        public string OrderDetails { get; set; }
         public decimal OrderTotalPrice { get; set; }
         public decimal? DeliveryPrice { get; set; }
         public decimal ShippingPrice { get; set; }
@@ -23,7 +24,5 @@ namespace ShipTo.Core.VMs
         public string DeliveryStatusReason { get; set; }
         public string Notes { get; set; }
         public string CarrierName { get; set; }
-
-
     }
 }

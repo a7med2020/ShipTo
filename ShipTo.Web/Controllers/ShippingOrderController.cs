@@ -14,6 +14,7 @@ using ShipTo.Core.VMs;
 using ShipTo.Core.Enums;
 using ShipTo.Application.Utilities;
 using Microsoft.AspNetCore.Hosting;
+using AspNetCore.Reporting;
 
 namespace ShipTo.Web.Controllers
 {
@@ -27,6 +28,7 @@ namespace ShipTo.Web.Controllers
         {
             _shippingOrderService = shippingOrderService;
             _webHostEnvironment = webHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
         public IActionResult Index()
@@ -297,7 +299,21 @@ namespace ShipTo.Web.Controllers
         }
         #endregion
 
-       
+
+        [HttpGet]
+        public IActionResult Print()
+        {
+            string mimType = "";
+            int extension = 1;
+            var path = $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
+            LocalReport localReport = new LocalReport(path);
+            List<int> shippingOrderIds = new List<int>();
+            shippingOrderIds.Add(71);
+            var shippingOrders = _shippingOrderService.GetForInvoice(shippingOrderIds);
+            localReport.AddDataSource("DS_ShippingOrderInvoice", shippingOrders);
+            var result =  localReport.Execute(RenderType.Pdf,1,null, mimType);
+            return File(result.MainStream, "application/pdf");
+        }
 
         [HttpPost]
         public IActionResult Delete(int Id)

@@ -60,11 +60,10 @@ namespace ShipTo.Infrastructure.Repositories
             _context.ShippingOrderLogs.Add(ShippingOrderLog);
         }
 
-        public List<ShippingOrder> Get()
-        {
-            var a  = _context.ShippingOrders.Include(x => x.Shipper).Include(x=>x.DeliveryStatus).Include(x => x.Carrier).ToList();
-            return _context.ShippingOrders.ToList();
-        }
+        //public List<ShippingOrder> Get()
+        //{
+        //    return _context.ShippingOrders.ToList();
+        //}
 
         public List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
             , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo)

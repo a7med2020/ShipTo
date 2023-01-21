@@ -10,7 +10,7 @@ namespace ShipTo.Core.IRepositories
 {
     public interface IShippingOrderRepository : IBaseRepository<ShippingOrder>
     {
-        List<ShippingOrder> Get();
+        //List<ShippingOrder> Get();
         
         List<ShippingOrder> Get(string DeliveryStatusId, int? ShipperId, string ShippingOrderBulkName, string OrderNumber
           , int? CarrierId, DateTime? DeliveryDateFrom, DateTime? DeliveryDateTo);

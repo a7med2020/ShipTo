@@ -26,10 +26,10 @@ namespace ShipTo.Application.Services
             _userResolverHandler = userResolverHandler;
             _configuration = configuration;
         }
-        public List<ShippingOrder> Get()
-        {
-            return _unitOfWork.ShippingOrderRepository.Get();
-        }
+        //public List<ShippingOrder> Get()
+        //{
+        //    return _unitOfWork.ShippingOrderRepository.Get();
+        //}
 
         public ShippingOrder Get(int Id)
         {
@@ -41,6 +41,30 @@ namespace ShipTo.Application.Services
         {
             return _unitOfWork.ShippingOrderRepository.Get(DeliveryStatusId, ShipperId, ShippingOrderBulkName, OrderNumber
           , CarrierId, DeliveryDateFrom, DeliveryDateTo);
+        }
+
+        public List<ShippingOrderCarrierFileVM> GetForInvoice(List<int> shippingOrderIds)
+        {
+            var shippingOrders = _unitOfWork.ShippingOrderRepository.Get(shippingOrderIds);
+            var shippingOrdersForInvoice = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
+            {
+                OrderNumber = x.OrderNumber,
+                ClientName = x.ClientName,
+                ClientPhoneNumber = x.ClientPhoneNumber,
+                Governorate = x.Governorate,
+                Address = x.Address,
+                ShipperName = x.Shipper.Name,
+                OrderDetails = x.OrderDetails,
+                OrderTotalPrice = x.OrderTotalPrice,
+                DeliveryPrice = x.DeliveryPrice == 0 ? null : x.DeliveryPrice,
+                ShippingPrice = x.ShippingPrice,
+                OrderNetPrice = x.OrderNetPrice,
+                DeliveryStatusName = x.DeliveryStatus.Name,
+                DeliveryStatusReason = x.DeliveryStatusReason,
+                Notes = x.Notes,
+                CarrierName = x.Carrier.Name,
+            }).ToList();
+            return shippingOrdersForInvoice;
         }
 
         public ReturnResultVM AddNew(ShippingOrder shippingOrder)
@@ -189,6 +213,7 @@ namespace ShipTo.Application.Services
                     Governorate = x.Governorate,
                     Address = x.Address,
                     ShipperName = x.Shipper.Name,
+                    OrderDetails = x.OrderDetails,
                     OrderTotalPrice = x.OrderTotalPrice,
                     DeliveryPrice = x.DeliveryPrice == 0 ? null : x.DeliveryPrice,
                     ShippingPrice = x.ShippingPrice,
@@ -206,6 +231,7 @@ namespace ShipTo.Application.Services
                     Governorate = null,
                     Address = null,
                     ShipperName = null,
+                    OrderDetails = null,
                     OrderTotalPrice = shippingOrders.Sum(x=>x.OrderTotalPrice),
                     DeliveryPrice = 0,
                     ShippingPrice = shippingOrders.Sum(x => x.ShippingPrice),
@@ -228,19 +254,19 @@ namespace ShipTo.Application.Services
                     SheetName = _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:SheetName"),
                     ColumnNames = new string[] {
                         _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderNumber"),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientName "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientPhoneNumber "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Governorate "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Address "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShipperName "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderTotalPrice "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryPrice "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShippingPrice "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderNetPrice "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusName "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusReason "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Notes "),
-                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:CarrierName "),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientName"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ClientPhoneNumber"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Governorate"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Address"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShipperName"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderTotalPrice"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryPrice"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:ShippingPrice"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:OrderNetPrice"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusName"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:DeliveryStatusReason"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:Notes"),
+                        _configuration.GetValue<string>("FilesInfo:ShippingOrderCarrierFile:columnsNameAR:CarrierName"),
                     },
                     RowDataList = shippingOrdersForFile,
                     SaveFolderPath = FolderPathEnum.ShippingOrderAddFromExcel,
