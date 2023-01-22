@@ -855,56 +855,27 @@
         </Style>
       </Line>
       <Image Name="image_CompanyLogo">
-        <Source>External</Source>
+        <Source>Database</Source>
         <Value>=Fields!CompanyLogo.Value</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>FitProportional</Sizing>
         <Top>0.12375in</Top>
-        <Left>1.41542in</Left>
+        <Left>0.32063in</Left>
         <Height>0.65625in</Height>
         <Width>0.875in</Width>
         <ZIndex>24</ZIndex>
+        <ToolTip>Logo</ToolTip>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Image>
-      <Textbox Name="CompanyLogo">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=Fields!CompanyLogo.Value</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>CompanyLogo</rd:DefaultName>
-        <Top>3.61333in</Top>
-        <Left>3.35292in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>25</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
     </ReportItems>
-    <Height>4.59375in</Height>
+    <Height>3.84375in</Height>
     <Style />
   </Body>
-  <Width>8.26966in</Width>
+  <Width>9.1228in</Width>
   <Page>
     <Style />
   </Page>

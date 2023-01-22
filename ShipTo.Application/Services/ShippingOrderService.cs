@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using ShipTo.Application.IServices;
+using ShipTo.Application.Utilities;
 using ShipTo.Core;
 using ShipTo.Core.Entities;
 using ShipTo.Core.Enums;
@@ -48,11 +49,12 @@ namespace ShipTo.Application.Services
         public List<ShippingOrderCarrierFileVM> GetForInvoice(List<int> shippingOrderIds)
         {
             var shippingOrders = _unitOfWork.ShippingOrderRepository.Get(shippingOrderIds);
+
+            string logoPath = _webHostEnvironment.WebRootPath + _configuration.GetValue<string>("Company:LogoPath");
             var shippingOrdersForInvoice = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
             {
                 CompanyName = _configuration.GetValue<string>("Company:Name"),
-                //CompanyLogo = "file:///" + $"{_webHostEnvironment.WebRootPath}" + _configuration.GetValue<string>("Company:LogoPath"),
-                CompanyLogo = new Uri(_webHostEnvironment.WebRootPath + _configuration.GetValue<string>("Company:LogoPath")).AbsoluteUri,
+                CompanyLogo = StringFunctions.ConvertImageToBase64String(logoPath),
                 OrderNumber = x.OrderNumber,
                 ClientName = x.ClientName,
                 ClientPhoneNumber = x.ClientPhoneNumber,

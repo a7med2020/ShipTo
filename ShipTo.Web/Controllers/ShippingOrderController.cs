@@ -305,13 +305,12 @@ namespace ShipTo.Web.Controllers
         {
             string mimType = "";
             int extension = 1;
-            
-            //var path =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
-            var path =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
-            LocalReport localReport = new LocalReport(path);
+            var reportPath =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
+            LocalReport localReport = new LocalReport(reportPath);
             //localReport.EnableExternalImages = true;
             List<int> shippingOrderIds = new List<int>();
             shippingOrderIds.Add(71);
+            shippingOrderIds.Add(72);
             var shippingOrders = _shippingOrderService.GetForInvoice(shippingOrderIds);
             localReport.AddDataSource("DS_ShippingOrderInvoice", shippingOrders);
             var result =  localReport.Execute(RenderType.Pdf,1,null, mimType);

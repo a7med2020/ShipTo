@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +21,23 @@ namespace ShipTo.Application.Utilities
             }
 
             return input;
+        }
+
+        public static string ConvertImageToBase64String(string imagePath)
+        {
+            string result = null;
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                using (var b = new Bitmap(imagePath))
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        b.Save(ms, ImageFormat.Bmp);
+                        result = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+            }
+            return result;
         }
     }
 }
