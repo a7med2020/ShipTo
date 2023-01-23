@@ -299,22 +299,22 @@ namespace ShipTo.Web.Controllers
         }
         #endregion
 
-
-        [HttpGet]
-        public IActionResult Print()
+        FileContentResult CreateInvoice(List<int> shippingOrderIds)
         {
             string mimType = "";
-            int extension = 1;
-            var reportPath =  $"{_webHostEnvironment.WebRootPath}\\Reports\\dc_ShippingOrderInvoice.rdlc";
+            var reportPath = _webHostEnvironment.WebRootPath + "\\Reports\\dc_ShippingOrderInvoice.rdlc";
             LocalReport localReport = new LocalReport(reportPath);
-            //localReport.EnableExternalImages = true;
-            List<int> shippingOrderIds = new List<int>();
-            shippingOrderIds.Add(71);
-            shippingOrderIds.Add(72);
             var shippingOrders = _shippingOrderService.GetForInvoice(shippingOrderIds);
             localReport.AddDataSource("DS_ShippingOrderInvoice", shippingOrders);
-            var result =  localReport.Execute(RenderType.Pdf,1,null, mimType);
+            var result = localReport.Execute(RenderType.Pdf, 1, null, mimType);
             return File(result.MainStream, "application/pdf");
+        }
+
+         
+        [HttpGet]
+        public IActionResult Print(List<int> Ids)
+        {
+            return CreateInvoice(Ids);
         }
 
         [HttpPost]
@@ -323,8 +323,6 @@ namespace ShipTo.Web.Controllers
             var result = _shippingOrderService.Delete(Id);
             return Json(result);
         }
-
-
     }
 
     public class ShippingOrderAddFromExcelVM2 : ShippingOrderAddFromExcelVM

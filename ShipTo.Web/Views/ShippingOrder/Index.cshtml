@@ -165,7 +165,7 @@
 
     var DeleteURL = '@Url.Action("Delete", "ShippingOrder")';
     var DetailsURL = '@Url.Action("Details", "ShippingOrder")?id=';
-
+    PrintInvoiceURL = '@Url.Action("Print", "ShippingOrder")?ids='
    /* DataTable Columns*/
     var Columns = [
         {
@@ -213,7 +213,7 @@
         {
     searchable: false, search: false,
             render: function (data, type, row) {
-                return '<a    onclick="OpenInTab(\'' + DetailsURL  + row.id +'\')"> <i class="fa fa-fw fa-eye"></i> التفاصيل</a> | <a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() +'\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                return '<a onclick="OpenInTab(\'' + DetailsURL + row.id + '\')"> <i class="fa fa-fw fa-eye"></i> التفاصيل</a> | <a onclick="OpenInTab(\'' + PrintInvoiceURL + row.id +'\')"> <i class="fa fa-fw fa-eye"></i> طباعة فاتورة </a> | <a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() +'\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
             }
         },
             ]
@@ -224,6 +224,17 @@
             action: function (e, dt, node, config) {
                 if (tbl.rows({ selected: true }).data().toArray().length > 0 )
                     $('#Modal_ExtractToCarrier').modal('show');
+                else
+                    toastr.warning("يجب تحديد طلبات اولاً");
+            }
+        },
+        {
+            text: 'طباعة الفواتير',
+            action: function (e, dt, node, config) {
+                if (tbl.rows({ selected: true }).data().toArray().length > 0) {
+                    var _Ids = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
+                    OpenInTab('@Url.Action("Print", "ShippingOrder")?ids=') + _Ids
+                }
                 else
                     toastr.warning("يجب تحديد طلبات اولاً");
             }
@@ -244,7 +255,7 @@
         PopulateDDL('ddlSearch_ShipperId', getShippersURL);
         var getCarriersURL = '@Url.Action("GetAll", "Carrier")';
         PopulateDDL('ddlSearch_CarrierId', getCarriersURL);
- 
+
         //Select All CheckBox
         $('#tbl_Items').on('click', '#select_all', function () {
             if ($('#select_all:checked').val() === 'on')
