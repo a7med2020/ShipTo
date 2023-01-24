@@ -87,7 +87,7 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect("/Home/Index");
+                    return LocalRedirect("/ShippingOrder/Index");
                 }
                 if (result.RequiresTwoFactor)
                 {

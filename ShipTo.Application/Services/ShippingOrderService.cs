@@ -46,12 +46,12 @@ namespace ShipTo.Application.Services
           , CarrierId, DeliveryDateFrom, DeliveryDateTo);
         }
 
-        public List<ShippingOrderCarrierFileVM> GetForInvoice(List<int> shippingOrderIds)
+        public List<ShippingOrderInvoiceVM> GetForInvoice(List<int> shippingOrderIds)
         {
             var shippingOrders = _unitOfWork.ShippingOrderRepository.Get(shippingOrderIds);
 
             string logoPath = _webHostEnvironment.WebRootPath + _configuration.GetValue<string>("Company:LogoPath");
-            var shippingOrdersForInvoice = shippingOrders.Select(x => new ShippingOrderCarrierFileVM()
+            var shippingOrdersForInvoice = shippingOrders.Select(x => new ShippingOrderInvoiceVM()
             {
                 CompanyName = _configuration.GetValue<string>("Company:Name"),
                 CompanyLogo = StringFunctions.ConvertImageToBase64String(logoPath),
@@ -220,7 +220,7 @@ namespace ShipTo.Application.Services
                     Governorate = x.Governorate,
                     Address = x.Address,
                     ShipperName = x.Shipper.Name,
-                    OrderDetails = x.OrderDetails,
+                    //OrderDetails = x.OrderDetails,
                     OrderTotalPrice = x.OrderTotalPrice,
                     DeliveryPrice = x.DeliveryPrice == 0 ? null : x.DeliveryPrice,
                     ShippingPrice = x.ShippingPrice,
@@ -238,7 +238,7 @@ namespace ShipTo.Application.Services
                     Governorate = null,
                     Address = null,
                     ShipperName = null,
-                    OrderDetails = null,
+                    //OrderDetails = null,
                     OrderTotalPrice = shippingOrders.Sum(x=>x.OrderTotalPrice),
                     DeliveryPrice = 0,
                     ShippingPrice = shippingOrders.Sum(x => x.ShippingPrice),

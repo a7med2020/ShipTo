@@ -100,7 +100,7 @@ function AddDataTable(tableId, GetURL, columnsArr)
     return table;
 }
 
-function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = []) {
+function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = [], footerCallback = null) {
 
     $('#' + tableId + ' thead tr')
         .clone(true)
@@ -216,45 +216,7 @@ function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = 
                         });
                 });
         },
-        footerCallback: function (row, data, start, end, display) {
-            var api = this.api(), data;
-
-            // converting to interger to find total
-            var intVal = function (i) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '') * 1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
-
-            // computing column Total of the complete result 
-            var orderTotalPrice = api
-                .column(7)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
-
-            var shippingPrice = api
-                .column(8)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
-
-            var orderNetPrice = api
-                .column(9)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
-
-            // Update footer by showing the total with the reference of the column index 
-            $(api.column(0).footer()).html('الإجمالي');
-            $(api.column(7).footer()).html(orderTotalPrice);
-            $(api.column(8).footer()).html(shippingPrice);
-            $(api.column(9).footer()).html(orderNetPrice);
-        }
+        footerCallback: footerCallback
     });
     return table;
 }
@@ -434,9 +396,6 @@ function InitialTextBoxDate() {
  
 }
 
-
- 
-
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -451,43 +410,7 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-
-
 /***********************************************************************************************************************************************************/
 
 
-//$(document).ready(function () {
-
-//    table = $('#example').DataTable({
-//        columnDefs: [{
-//            targets: 0,
-//            data: null,
-//            defaultContent: '',
-//            orderable: false,
-//            className: 'select-checkbox',
-//        },
-//        {
-//            targets: 1,
-//            visible: false
-//        }],
-//        select: {
-//            style: 'multi',
-//            selector: 'td:first-child'
-//        },
-//        order: [[1, 'asc']]
-//    });
-
-//    $('#example').on('click', '#select_all', function () {
-//        if ($('#select_all:checked').val() === 'on')
-//            table.rows().select();
-//        else
-//            table.rows().deselect();
-//    });
-
-//    $('#example tbody').on('click', 'tr td:first-child', function () {
-//        console.log(table.cell(this).render());
-//        console.log(table.row($(this).closest('tr')).data());
-//    });
-
-
-//});
+ 

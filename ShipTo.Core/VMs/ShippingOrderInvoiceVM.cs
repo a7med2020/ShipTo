@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace ShipTo.Core.VMs
 {
-    public class ShippingOrderCarrierFileVM
+    public class ShippingOrderInvoiceVM
     {
+        public string CompanyName { get; set; }
+        public string CompanyLogo { get; set; }
         public string OrderNumber { get; set; }
         public string ClientName { get; set; }
         public string ClientPhoneNumber { get; set; }
         public string Governorate { get; set; }
         public string Address { get; set; }
         public string ShipperName { get; set; }
-        //public string OrderDetails { get; set; }
+        public string OrderDetails { get; set; }
         public decimal OrderTotalPrice { get; set; }
         public decimal? DeliveryPrice { get; set; }
         public decimal ShippingPrice { get; set; }

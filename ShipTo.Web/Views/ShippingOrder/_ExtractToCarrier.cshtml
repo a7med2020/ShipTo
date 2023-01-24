@@ -40,9 +40,6 @@
     function PostForm_ExtractToCarrier() {
       
         if ($("#form_ExtractToCarrier").valid()) {
-            //var form = document.getElementById("form_ExtractToCarrier");
-            //var data_ExtractToCarrier = new FormData(form);
-            //data_ExtractToCarrier.append("CarrierId", document.getElementById('ddlCarrierId').value);
             var shippingOrderIds = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
             var data2send  = {
                 Carrier_Id: document.getElementById('Carrier_Id').value, ShippingOrderIds: shippingOrderIds

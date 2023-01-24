@@ -307,14 +307,34 @@ namespace ShipTo.Web.Controllers
             var shippingOrders = _shippingOrderService.GetForInvoice(shippingOrderIds);
             localReport.AddDataSource("DS_ShippingOrderInvoice", shippingOrders);
             var result = localReport.Execute(RenderType.Pdf, 1, null, mimType);
-            return File(result.MainStream, "application/pdf");
+
+            string fileName = "Invoice";
+            if (shippingOrders.Count == 1)
+              fileName =  "فاتورة طلب رقم" + shippingOrders.FirstOrDefault().OrderNumber + ".pdf";
+            else if (shippingOrders.Count > 1)
+              fileName = $"فاتورة مجمعة.pdf";
+
+            // Response...
+            System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = fileName,
+                Inline = true  // false = prompt the user for downloading;  true = browser to try to show the file inline
+            };
+            Response.Headers.Add("Content-Disposition", cd.ToString());
+            Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+            //return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+
+             return File(result.MainStream, "application/pdf");
         }
 
          
         [HttpGet]
-        public IActionResult Print(List<int> Ids)
+        public IActionResult Print(string Ids)
         {
-            return CreateInvoice(Ids);
+            
+            List<int> _Ids = Ids?.Split(',')?.Select(Int32.Parse)?.ToList();
+            return CreateInvoice(_Ids);
         }
 
         [HttpPost]
