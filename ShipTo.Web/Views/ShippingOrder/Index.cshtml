@@ -313,7 +313,9 @@
 
     /********************* Search *********************************/
     function Search() {
+        ShowSpinner()
         ReLoadDataTableWithSearchParam('tbl_Items', GetSearchURL())
+        HideSpinner()
     }
 
 

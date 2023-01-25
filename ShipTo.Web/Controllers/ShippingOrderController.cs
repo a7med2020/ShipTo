@@ -160,32 +160,32 @@ namespace ShipTo.Web.Controllers
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ClientNameColName) > 0)
                                     {
                                         shippingOrder.ClientName = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientNameColName)].Value);
-                                        shippingOrder.ClientName = string.IsNullOrEmpty(shippingOrder.ClientName) ? null : shippingOrder.ClientName;
+                                        shippingOrder.ClientName = string.IsNullOrEmpty(shippingOrder.ClientName) ? null : shippingOrder.ClientName.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName) > 0)
                                     {
                                         shippingOrder.ClientPhoneNumber = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName)].Value);
-                                        shippingOrder.ClientPhoneNumber = string.IsNullOrEmpty(shippingOrder.ClientPhoneNumber) ? null : shippingOrder.ClientPhoneNumber;
+                                        shippingOrder.ClientPhoneNumber = string.IsNullOrEmpty(shippingOrder.ClientPhoneNumber) ? null : shippingOrder.ClientPhoneNumber.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName) > 0) 
                                     { 
                                         shippingOrder.Direction = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName)].Value);
-                                        shippingOrder.Direction = string.IsNullOrEmpty(shippingOrder.Direction) ? null : shippingOrder.Direction;
+                                        shippingOrder.Direction = string.IsNullOrEmpty(shippingOrder.Direction) ? null : shippingOrder.Direction.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.GovernorateColName) > 0)
                                     {
                                         shippingOrder.Governorate = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.GovernorateColName)].Value);
-                                        shippingOrder.Governorate = string.IsNullOrEmpty(shippingOrder.Governorate) ? null : shippingOrder.Governorate;
+                                        shippingOrder.Governorate = string.IsNullOrEmpty(shippingOrder.Governorate) ? null : shippingOrder.Governorate.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.AddressColName) > 0)
                                     {
                                         shippingOrder.Address = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.AddressColName)].Value);
-                                        shippingOrder.Address = string.IsNullOrEmpty(shippingOrder.Address) ? null : shippingOrder.Address;
+                                        shippingOrder.Address = string.IsNullOrEmpty(shippingOrder.Address) ? null : shippingOrder.Address.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName) > 0)
                                     {
                                         shippingOrder.OrderDetails = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName)].Value);
-                                        shippingOrder.OrderDetails = string.IsNullOrEmpty(shippingOrder.OrderDetails) ? null : shippingOrder.OrderDetails;
+                                        shippingOrder.OrderDetails = string.IsNullOrEmpty(shippingOrder.OrderDetails) ? null : shippingOrder.OrderDetails.Trim();
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderPiecesCountColName) > 0)
                                     {

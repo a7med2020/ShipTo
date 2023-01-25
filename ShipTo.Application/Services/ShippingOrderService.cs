@@ -9,6 +9,8 @@ using ShipTo.Core.VMs;
 using ShipTo.Infrastructure.UserResolverHandler;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,7 +71,7 @@ namespace ShipTo.Application.Services
                 DeliveryStatusName = x.DeliveryStatus.Name,
                 DeliveryStatusReason = x.DeliveryStatusReason,
                 Notes = x.Notes,
-                CarrierName = x.Carrier.Name,
+                CarrierName = x.Carrier?.Name,
             }).ToList();
             return shippingOrdersForInvoice;
         }
@@ -138,12 +140,14 @@ namespace ShipTo.Application.Services
                     shippingOrder.BulkId = BulkId;
                     AddNew(shippingOrder);
                 }
+
                 _unitOfWork.Complete();
                 _unitOfWork.ShippingOrderRepository.CommitTransaction();
                 return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
-            }
+            } 
             catch (Exception ex)
             {
+                string a = ex.GetType().Name;
                 string Msg = ex.Message;
                 _unitOfWork.ShippingOrderRepository.RollbackTransaction();
                 return new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = " حدث خطأ " + ":" + ex.Message };

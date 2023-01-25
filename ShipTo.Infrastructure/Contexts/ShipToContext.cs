@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShipTo.Core.Entities;
 using ShipTo.Infrastructure.Extentions;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ShipTo.Infrastructure.Contexts
 {
@@ -60,6 +63,24 @@ namespace ShipTo.Infrastructure.Contexts
              .OnDelete(DeleteBehavior.NoAction);
 
 
+        }
+
+        public override int SaveChanges()
+        {
+            var entities = (from entry in ChangeTracker.Entries()
+                            where entry.State == EntityState.Modified || entry.State == EntityState.Added
+                            select entry.Entity);
+
+            var validationResults = new List<ValidationResult>();
+            foreach (var entity in entities)
+            {
+                if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+                {
+                     
+                }
+            }
+
+            return base.SaveChanges();
         }
 
 

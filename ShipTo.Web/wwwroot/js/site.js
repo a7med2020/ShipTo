@@ -290,7 +290,6 @@ function InvalidMsg(textbox) {
 function PostForm(FormId, PostURL) {
     $('#' + FormId).submit(function (e) {
         e.preventDefault(); // avoid to execute the actual submit of the form.
-        
         var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
         var ReloadActionURL = document.getElementById("ReloadActionURL").value;
         var form = $(this);
@@ -300,6 +299,7 @@ function PostForm(FormId, PostURL) {
             data: form.serialize(), // serializes the form's elements.
             success: function (response) {
                 if (response.status == AjaxResponseStatusEnum.Success) {
+                    HideSpinner();
                     toastr.success("تم " + ProcessName + " بنجاح");
                     ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)
                     if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
@@ -411,6 +411,17 @@ function formatDate(date) {
 }
 
 /***********************************************************************************************************************************************************/
+
+
+/************* Spinner *********************/
+function ShowSpinner() {
+    document.getElementById("overlayDiv").style.display = "block";
+}
+
+function HideSpinner() {
+    document.getElementById("overlayDiv").style.display = "none";
+}
+/***********************************/
 
 
  

@@ -38,7 +38,7 @@
       });
 
     function PostForm_ExtractToCarrier() {
-      
+        ShowSpinner()
         if ($("#form_ExtractToCarrier").valid()) {
             var shippingOrderIds = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
             var data2send  = {
@@ -70,6 +70,7 @@
                 }
             });
         }
+        HideSpinner()
     }
 </script>
 

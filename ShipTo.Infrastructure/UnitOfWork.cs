@@ -52,6 +52,18 @@ namespace ShipTo.Infrastructure
 
         public int Complete()
         {
+            // var entities = (from entry in ChangeTracker.Entries()
+            //                where entry.State == EntityState.Modified || entry.State == EntityState.Added
+            //                select entry.Entity);
+
+            //var validationResults = new List<ValidationResult>();
+            //foreach (var entity in entities)
+            //{
+            //    if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+            //    {
+                     
+            //    }
+            //}
             _context.ChangeTracker.ApplyAuditInformation(_userResolverHandler);
             return _context.SaveChanges();
         }

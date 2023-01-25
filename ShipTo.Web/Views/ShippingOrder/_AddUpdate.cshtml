@@ -270,7 +270,7 @@
 
     var ShippingOrderAddUpdatePostURL = '@Url.Action("AddUpdate", "ShippingOrder")';
     function PostForm_AddUpdate() {
-
+        ShowSpinner()
         if ($("#form_AddUpdate").valid()) {
             var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
             var ReloadActionURL = document.getElementById("ReloadActionURL").value;
@@ -284,6 +284,7 @@
                 data: formData, // serializes the form's elements.
                 success: function (response) {
                     if (response.status == AjaxResponseStatusEnum.Success) {
+                        HideSpinner()
                         toastr.success("تم " + ProcessName + " بنجاح");
                         Search();
                        /* ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)*/
@@ -301,6 +302,7 @@
 
             });
         }
+        HideSpinner()
     }
 
 
