@@ -1,6 +1,6 @@
 ﻿@model ShipTo.Core.Entities.ShippingOrder
 <!-- Add & Update modal -->
-<div class="modal fade" id="Modal_AddUpdate" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal_AddUpdate_ShippingOrder" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 </button>
                 <h4 class="modal-title" id="modalTitle"></h4>
             </div>
-            <form id="form_AddUpdate">
+            <form id="form_AddUpdate_ShippingOrder">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -17,6 +17,8 @@
                             <input id="ActionType" name="ActionType" type="hidden" value="0" />
                             <input id="Id" name="Id" type="hidden" value="0" />
                             <input id="ReloadActionURL" name="ReloadActionURL" type="hidden" value="0" />
+                            <input id="IsUsedExternal" name="IsUsedExternal" type="hidden" value="false" />
+                            <input id="ControlId" name="ControlId" type="hidden" />
 
                             <input id="OrderNumber" name="OrderNumber" type="hidden" />
                             <input id="BulkId" name="BulkId" type="hidden" />
@@ -26,8 +28,8 @@
                             <input id="ModefiedBy" name="ModefiedBy" type="hidden" />
                             <input id="CreatedDate" name="CreatedDate" type="hidden" />
                             <input id="ModefiedDate" name="ModefiedDate" type="hidden" />
- 
-                            <div class="row"  >
+
+                            <div class="row">
                                 <div class="form-group col-md-4 Readonly">
                                     <label asp-for="OrderNumber" class="control-label "></label>
                                     <label id="lbl_OrderNumber" class="form-control" />
@@ -136,7 +138,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label asp-for="CarrierId" class="control-label"></label>
-                                    <select asp-for="CarrierId" class="form-control" ></select>
+                                    <select asp-for="CarrierId" class="form-control"></select>
                                     <span asp-validation-for="CarrierId" class="text-danger ValidationSpan"></span>
                                 </div>
                             </div>
@@ -151,8 +153,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="PostForm_AddUpdate()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i> حـفـظ  &nbsp; &nbsp; </button>
-                    @*<button type="reset" class="btn btn-default modalFooterBtn" >إلغاء</button>*@
+                    <button type="button" onclick="PostForm_AddUpdate_ShippingOrder()" class="btn btn-primary modalFooterToRight">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i> حـفـظ  &nbsp; &nbsp; </button>
+                    @*<button type="reset" class="btn btn-default modalFooterToRight" >إلغاء</button>*@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
                 </div>
             </form>
@@ -175,8 +177,7 @@
 
     });
 
-    function FillFormAddUpdate(elementId, ReloadActionURL) {
-
+    function FillFormAddUpdate(elementId, ReloadActionURL, IsUsedExternal, ControlId, EntityName) {
         var URL = '@Url.Action("GetById", "ShippingOrder")?Id=' + elementId
         var Readonlys = document.getElementsByClassName('Readonly');
         var Readonlyslength = Readonlys.length;
@@ -186,42 +187,42 @@
         $.ajax({
             type: "Get",
             url: URL,
-            success: function (response) {
-                $.validator.unobtrusive.parse($("#form_AddUpdate"));
+            success: function (fillAddUpdateResponse) {
+                $.validator.unobtrusive.parse($("#form_AddUpdate_ShippingOrder"));
                 ClearForm();
 
-                setModelAddUpdate('form_AddUpdate', response.id, ReloadActionURL);
-                $('#Id').val(response.id);
-                $('#OrderNumber').val(response.orderNumber);
-                $('#lbl_OrderNumber').text(response.orderNumber);
-                $('#BulkId').val(response.bulkId);
-                $('#lbl_BulkId').text(response.bulkId??"");
-                $('#OrderDate').val(response.orderDate);
-                $('#lbl_OrderDate').text(formatDate(response.orderDate));
-                $('#ShippingOrderBulkName').val(response.shippingOrderBulkName);
-                $('#ClientName').val(response.clientName);
-                $('#ClientPhoneNumber').val(response.clientPhoneNumber);
-                document.getElementById("ClientPhoneNumber").value = response.clientPhoneNumber;
-                $('#direction').val(response.direction);
-                $('#Governorate').val(response.governorate);
-                $('#Address').val(response.address);
-                $('#ShipperId').val(response.shipperId);
-                $('#OrderDetails').val(response.orderDetails);
-                $('#OrderPiecesCount').val(response.orderPiecesCount);
-                $('#OrderTotalPrice').val(response.orderTotalPrice);
-                $('#DeliveryPrice').val(response.deliveryPrice);
-                $('#ShippingPrice').val(response.shippingPrice);
-                $('#OrderNetPrice').val(response.orderNetPrice);
-                $('#DeliveryStatusId').val(response.deliveryStatusId);
-                $('#DeliveryStatusReason').val(response.deliveryStatusReason);
-                $('#DeliveryDate').val(formatDate(response.deliveryDate));
-                document.getElementById("DeliveryDate").setAttribute("value", formatDate(response.deliveryDate));
-                $('#CarrierId').val(response.carrierId);
+                setModelAddUpdate('form_AddUpdate_ShippingOrder', fillAddUpdateResponse.id, ReloadActionURL, IsUsedExternal, ControlId, EntityName);
+                $('#Id').val(fillAddUpdateResponse.id);
+                $('#OrderNumber').val(fillAddUpdateResponse.orderNumber);
+                $('#lbl_OrderNumber').text(fillAddUpdateResponse.orderNumber);
+                $('#BulkId').val(fillAddUpdateResponse.bulkId);
+                $('#lbl_BulkId').text(fillAddUpdateResponse.bulkId??"");
+                $('#OrderDate').val(fillAddUpdateResponse.orderDate);
+                $('#lbl_OrderDate').text(formatDate(fillAddUpdateResponse.orderDate));
+                $('#ShippingOrderBulkName').val(fillAddUpdateResponse.shippingOrderBulkName);
+                $('#ClientName').val(fillAddUpdateResponse.clientName);
+                $('#ClientPhoneNumber').val(fillAddUpdateResponse.clientPhoneNumber);
+                document.getElementById("ClientPhoneNumber").value = fillAddUpdateResponse.clientPhoneNumber;
+                $('#direction').val(fillAddUpdateResponse.direction);
+                $('#Governorate').val(fillAddUpdateResponse.governorate);
+                $('#Address').val(fillAddUpdateResponse.address);
+                $('#ShipperId').val(fillAddUpdateResponse.shipperId);
+                $('#OrderDetails').val(fillAddUpdateResponse.orderDetails);
+                $('#OrderPiecesCount').val(fillAddUpdateResponse.orderPiecesCount);
+                $('#OrderTotalPrice').val(fillAddUpdateResponse.orderTotalPrice);
+                $('#DeliveryPrice').val(fillAddUpdateResponse.deliveryPrice);
+                $('#ShippingPrice').val(fillAddUpdateResponse.shippingPrice);
+                $('#OrderNetPrice').val(fillAddUpdateResponse.orderNetPrice);
+                $('#DeliveryStatusId').val(fillAddUpdateResponse.deliveryStatusId);
+                $('#DeliveryStatusReason').val(fillAddUpdateResponse.deliveryStatusReason);
+                $('#DeliveryDate').val(formatDate(fillAddUpdateResponse.deliveryDate));
+                document.getElementById("DeliveryDate").setAttribute("value", formatDate(fillAddUpdateResponse.deliveryDate));
+                $('#CarrierId').val(fillAddUpdateResponse.carrierId);
 
-                $('#CreatedBy').val(response.createdBy);
-                $('#ModefiedBy').val(response.modefiedBy);
-                $('#CreatedDate').val(response.createdDate);
-                $('#ModefiedDate').val(response.modefiedDate);
+                $('#CreatedBy').val(fillAddUpdateResponse.createdBy);
+                $('#ModefiedBy').val(fillAddUpdateResponse.modefiedBy);
+                $('#CreatedDate').val(fillAddUpdateResponse.createdDate);
+                $('#ModefiedDate').val(fillAddUpdateResponse.modefiedDate);
             },
             error: function (error) {
                 toastr.error("حدث خطأ أثناء إرسال البيانات");
@@ -238,7 +239,7 @@
         for (var i = 0; i < Readonlyslength; i++) {
             Readonlys[i].style.display = "none"
         }
-        setModelAddUpdate('form_AddUpdate', 0, GetSearchURL());
+        setModelAddUpdate('form_AddUpdate_ShippingOrder', 0, GetSearchURL(), false, 'tbl_Items', 'طلب شحن');
     }
 
 
@@ -269,12 +270,12 @@
 
 
     var ShippingOrderAddUpdatePostURL = '@Url.Action("AddUpdate", "ShippingOrder")';
-    function PostForm_AddUpdate() {
+    function PostForm_AddUpdate_ShippingOrder() {
         ShowSpinner()
-        if ($("#form_AddUpdate").valid()) {
+        if ($("#form_AddUpdate_ShippingOrder").valid()) {
             var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
             var ReloadActionURL = document.getElementById("ReloadActionURL").value;
-            var form2 = document.getElementById("form_AddUpdate");
+            var form2 = document.getElementById("form_AddUpdate_ShippingOrder");
             var formData = new FormData(form2);
             $.ajax({
                 type: "POST",
@@ -282,22 +283,22 @@
                 processData: false,
                 contentType: false,
                 data: formData, // serializes the form's elements.
-                success: function (response) {
-                    if (response.status == AjaxResponseStatusEnum.Success) {
+                success: function (postFormAddUpdateResponse) {
+                    if (postFormAddUpdateResponse.status == AjaxResponseStatusEnum.Success) {
                         HideSpinner()
                         toastr.success("تم " + ProcessName + " بنجاح");
                         Search();
                        /* ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)*/
-                        if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById('form_AddUpdate').reset(); }
+                        if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById('form_AddUpdate_ShippingOrder').reset(); }
                         if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
                     } else {
-                        toastr.error("فشل " + ProcessName + " :" + response.errorMessage);
+                        toastr.error("فشل " + ProcessName + " :" + postFormAddUpdateResponse.errorMessage);
                     }
-                    console.log(response);
+                    console.log(postFormAddUpdateResponse);
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + postFormAddUpdateResponse.errorMessage);
                 }
 
             });

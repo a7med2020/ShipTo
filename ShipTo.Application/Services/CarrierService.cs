@@ -22,7 +22,7 @@ namespace ShipTo.Application.Services
 
         public List<Carrier> Get()
         {
-            return _unitOfWork.CarrierRepository.GetAll(x => x.IsDeleted == false).ToList();
+            return _unitOfWork.CarrierRepository.GetAll(x => x.IsDeleted == false).OrderBy(x => x.Name).ToList();
         }
 
         public Carrier Get(int Id)

@@ -1,0 +1,83 @@
+﻿@model ShipTo.Core.Entities.Shipper
+<!-- Add & Update modal -->
+<div class="modal fade" id="Modal_AddUpdate_Shipper" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalTitle"></h4>
+            </div>
+            <form id="form_AddUpdate_Shipper" method="post">
+                <div class="modal-body">
+                    <input id="ActionType" name="ActionType" type="hidden" value="0" />
+                    <input id="Id" name="Id" type="hidden" value="0" />
+                    <input id="ReloadActionURL" name="ReloadActionURL" type="hidden"   />
+                    <input id="IsUsedExternal" name="IsUsedExternal" type="hidden" value="false" />
+                    <input id="ControlId" name="ControlId" type="hidden"  />
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Name" class="control-label required"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger ValidationSpan"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Phone" class="control-label"></label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger ValidationSpan"></span>
+                        </div>
+                        @*<div class="form-group col-sm-6">
+                <label class="required"> @Html.DisplayNameFor(model => model.Name)</label>
+                <input id="Name" name="Name" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" required class="form-control" />
+            </div>*@
+
+                        @*<div class="form-group col-sm-6">
+                <label> @Html.DisplayNameFor(model => model.Phone)</label>
+                <input id="Phone" name="Phone" class="form-control">
+            </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger ValidationSpan"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger ValidationSpan"></span>
+                        </div>
+                        @*<div class="form-group col-sm-6">
+                <label> @Html.DisplayNameFor(model => model.Address)</label>
+                <input id="Address" name="Address" class="form-control">
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label> @Html.DisplayNameFor(model => model.Email)</label>
+                <input type="email" id="Email" name="Email" class="form-control">
+            </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Notes" class="control-label required"></label>
+                            <input asp-for="Notes" class="form-control" />
+                            <span asp-validation-for="Notes" class="text-danger ValidationSpan"></span>
+                        </div>
+                        @*<div class="form-group col-sm-12">
+                <label> @Html.DisplayNameFor(model => model.Notes) </label>
+                <textarea id="Notes" name="Notes" class="form-control" rows="3"></textarea>
+            </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="PostForm('form_AddUpdate_Shipper', '@Url.Action("AddUpdate", "Shipper")')"  class="btn btn-primary modalFooterToRight">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i> حـفـظ  &nbsp; &nbsp; </button>
+                    @*<button type="reset" class="btn btn-default modalFooterToRight" >إلغاء</button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

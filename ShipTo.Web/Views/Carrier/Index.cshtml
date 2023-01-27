@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i>  حـفـظ  &nbsp; &nbsp; </button>
+                    <button type="submit" class="btn btn-primary modalFooterToRight">&nbsp;&nbsp; <i class="fa fa-fw fa-save"></i>  حـفـظ  &nbsp; &nbsp; </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
                 </div>
             </form>
@@ -140,14 +140,14 @@
         $.ajax({
             type: "Get",
             url: URL,
-            success: function (response) {
-                setModelAddUpdate('form_AddUpdate', response.id, ReloadActionURL);
-                document.getElementById("Id").value = response.id;
-                document.getElementById("Name").value = response.name;
-                document.getElementById("Phone").value = response.phone;
-                document.getElementById("Address").value = response.address;
-                document.getElementById("Email").value = response.email;
-                document.getElementById("Notes").value = response.notes;
+            success: function (fillFormAddUpdateResponse) {
+                setModelAddUpdate('form_AddUpdate', fillFormAddUpdateResponse.id, ReloadActionURL);
+                document.getElementById("Id").value = fillFormAddUpdateResponse.id;
+                document.getElementById("Name").value = fillFormAddUpdateResponse.name;
+                document.getElementById("Phone").value = fillFormAddUpdateResponse.phone;
+                document.getElementById("Address").value = fillFormAddUpdateResponse.address;
+                document.getElementById("Email").value = fillFormAddUpdateResponse.email;
+                document.getElementById("Notes").value = fillFormAddUpdateResponse.notes;
             },
             error: function (error) {
                 toastr.error("حدث خطأ أثناء إرسال البيانات");

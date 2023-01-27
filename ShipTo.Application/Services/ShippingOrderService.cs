@@ -9,10 +9,14 @@ using ShipTo.Core.VMs;
 using ShipTo.Infrastructure.UserResolverHandler;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace ShipTo.Application.Services
@@ -292,6 +296,29 @@ namespace ShipTo.Application.Services
             }
         }
 
-       
+        public string VidateExcelData(List<ShippingOrder> entities)
+        {
+            string message = null;
+            int row = 2;
+            foreach (var entity in entities)
+            {
+                var validationResults = new List<ValidationResult>();
+                if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+                {
+
+                }
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    WriteIndented = true
+                };
+                string strValidationResults = JsonSerializer.Serialize(validationResults.Select(x=>x.ErrorMessage), options);
+                if (!string.IsNullOrEmpty(strValidationResults))
+                    message += "صف رقم: " + row + "<br/>" + strValidationResults + "<br/>";
+                row++;
+            }
+            return message;
+        }
+
     }
 }

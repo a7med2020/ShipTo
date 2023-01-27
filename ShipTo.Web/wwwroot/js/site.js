@@ -5,12 +5,11 @@
 
 
 /************************************************* DataTable *************************************************************************/
-function AddDataTable(tableId, GetURL, columnsArr)
-{
-    $('#' + tableId +' thead tr')
+function AddDataTable(tableId, GetURL, columnsArr) {
+    $('#' + tableId + ' thead tr')
         .clone(true)
         .addClass('filters')
-        .appendTo('#' + tableId +' thead');
+        .appendTo('#' + tableId + ' thead');
 
     var table = $('#' + tableId).dataTable({
         dom: 'Bfrtip',
@@ -18,7 +17,7 @@ function AddDataTable(tableId, GetURL, columnsArr)
             url: GetURL,
             type: "GET",
             dataSrc: function (resdata) {
-                
+
                 return resdata;
             }
         },
@@ -29,7 +28,7 @@ function AddDataTable(tableId, GetURL, columnsArr)
             "targets": "_all"
         }],
         buttons: [
-              'pageLength'
+            'pageLength'
             ,
             {
                 extend: 'excel',
@@ -37,12 +36,13 @@ function AddDataTable(tableId, GetURL, columnsArr)
                 exportOptions: {
                     columns: ':visible:not(.notExportCol)'
                 }
-            } 
+            }
         ],
         orderCellsTop: true,
         fixedHeader: true,
         orderCellsTop: true,
         "bLengthChange": true,
+       /* stateSave: true,*/
         initComplete: function () {
             var api = this.api();
             // For each column
@@ -51,9 +51,9 @@ function AddDataTable(tableId, GetURL, columnsArr)
                 .eq(0)
                 .each(function (colIdx) {
                     //Except last column that have Actions
-                  /*  alert(this.columns(':visible').count());  */
-                   /* alert(colIdx);*/
-                    if (colIdx == this.columns(':visible').count()  )
+                    /*  alert(this.columns(':visible').count());  */
+                    /* alert(colIdx);*/
+                    if (colIdx == this.columns(':visible').count())
                         return;
                     // Set the header cell to contain the input element
                     var cell = $('.filters th').eq(
@@ -92,7 +92,7 @@ function AddDataTable(tableId, GetURL, columnsArr)
                             $(this).trigger('change');
                             $(this)
                                 .focus()[0]
-                                /*.setSelectionRange(cursorPosition, cursorPosition);*/
+                            /*.setSelectionRange(cursorPosition, cursorPosition);*/
                         });
                 });
         },
@@ -222,20 +222,20 @@ function AddDataTable_WithMultiSelect(tableId, GetURL, columnsArr, ButtonsArr = 
 }
 
 function ReLoadDataTable(tableId) {
-    $('#' + tableId).DataTable().ajax.reload();
+    $('#' + tableId).DataTable().ajax.reload(null, false);
 }
 
 function ReLoadDataTableWithSearchParam(tableId, url) {
-  /*  alert(tableId + " " + url)*/
-    $('#' + tableId).DataTable().ajax.url(url).load();
+   /* alert(tableId + " " + url) */
+    $('#' + tableId).DataTable().ajax.url(url).load(null, false);
 }
 
- 
+
 
 /************************************************** Enums *********************************************************************/
 
 const AjaxResponseStatusEnum = {
-    Success:'success',
+    Success: 'success',
     Failure: 'failure',
 }
 
@@ -288,49 +288,58 @@ function InvalidMsg(textbox) {
 
 
 function PostForm(FormId, PostURL) {
-    $('#' + FormId).submit(function (e) {
-        e.preventDefault(); // avoid to execute the actual submit of the form.
+    if ($('#' + FormId).valid()) {
         var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
         var ReloadActionURL = document.getElementById("ReloadActionURL").value;
-        var form = $(this);
+        var IsUsedExternal = document.getElementById("IsUsedExternal").value;
+        var ControlId = document.getElementById("ControlId").value;
+
+        var form = document.getElementById(FormId);
+        var formData_ForPost = new FormData(form);
         $.ajax({
             type: "POST",
             url: PostURL,
-            data: form.serialize(), // serializes the form's elements.
-            success: function (response) {
-                if (response.status == AjaxResponseStatusEnum.Success) {
+            processData: false,
+            contentType: false,
+            data: formData_ForPost,
+            success: function (postFormResponse) {
+                if (postFormResponse.status == AjaxResponseStatusEnum.Success) {
                     HideSpinner();
                     toastr.success("تم " + ProcessName + " بنجاح");
-                    ReLoadDataTableWithSearchParam('tbl_Items', ReloadActionURL)
+                    reloadAfterPostSuccess(IsUsedExternal, FormId, ControlId, ReloadActionURL, postFormResponse.dataObj)
                     if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
                     if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
                 } else {
-                    toastr.error("فشل " + ProcessName + " :" + response.errorMessage);
+                    toastr.error("فشل " + ProcessName + " :" + postFormResponse.errorMessage);
                 }
-                console.log(response);
+                console.log(postFormResponse);
             },
             error: function (error) {
                 console.log(error);
-                toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+                toastr.error("حدث خطأ أثناء إرسال البيانات: " + postFormResponse.errorMessage);
             }
 
         });
-    });
+    };
 }
 
-function setModelAddUpdate(FormId, Id, ReloadActionURL = null) {
+function setModelAddUpdate(FormId, Id, ReloadActionURL, IsUsedExternal, ControlId, EntityName) {
     if (Id > 0) {
         document.getElementById(FormId).reset();
-        document.getElementById("modalTitle").innerHTML = "تعديل";
+        document.getElementById("modalTitle").innerHTML = "تعديل" + " " + EntityName;
         document.getElementById("ActionType").value = "Update";
         document.getElementById("ReloadActionURL").value = ReloadActionURL;
+        document.getElementById("IsUsedExternal").value = IsUsedExternal;
+        document.getElementById("ControlId").value = ControlId;
     }
     else {
         document.getElementById(FormId).reset();
-        document.getElementById("modalTitle").innerHTML = "إضافة";
+        document.getElementById("modalTitle").innerHTML = "إضافة" + " " + EntityName;
         document.getElementById("ActionType").value = "Add";
         document.getElementById("Id").value = "0";
         document.getElementById("ReloadActionURL").value = ReloadActionURL;
+        document.getElementById("IsUsedExternal").value = IsUsedExternal;
+        document.getElementById("ControlId").value = ControlId;
     }
 }
 
@@ -340,6 +349,15 @@ function setModelDelete(ActionURL, Id, ReloadActionURL) {
     document.getElementById("DeletedActionURL").value = ActionURL;
     document.getElementById("DeletedId").value = Id;
     document.getElementById("ReloadDeletedURL").value = ReloadActionURL;
+}
+
+function reloadAfterPostSuccess(IsUsedExternal, FormId, ControlId, ReloadActionURL, PostElementId) {
+    debugger
+    if (IsUsedExternal === 'true') {
+        PopulateDDL(ControlId, ReloadActionURL, PostElementId);
+    } else {
+        ReLoadDataTableWithSearchParam(ControlId, ReloadActionURL)
+    }
 }
 
 const IsEmpty = str => !str.trim().length;
@@ -353,27 +371,28 @@ function OpenInTab(URL) {
 
 /********************************************************** Drop Down List *******************************************************************************/
 
-function PopulateDDL(ddl_Id, url) {
-    var ddl_Id = $('#' + ddl_Id ); // cache it
-        $.getJSON(url , function (response) {
-            ddl_Id.empty(); // remove any existing options
-            ddl_Id.append($('<option></option>').text('اختر').val(null));
-            $.each(response, function (index, item) {
-                ddl_Id.append($('<option></option>').text(item.name).val(item.id));
-            });
+function PopulateDDL(ddl_Id, url,selected) {
+    var ddl_Id = $('#' + ddl_Id); // cache it
+    $.getJSON(url, function (populateDDLResponse) {
+        ddl_Id.empty(); // remove any existing options
+        ddl_Id.append($('<option></option>').text('اختر').val(null));
+        $.each(populateDDLResponse, function (index, item) {
+            ddl_Id.append($('<option></option>').text(item.name).val(item.id));
         });
+        ddl_Id.val(selected)
+    });
 }
 
 function PopulateDDLFromList(ddl_Id, List) {
     var ddl_Id = $('#' + ddl_Id); // cache it
     ddl_Id.empty(); // remove any existing options
     ddl_Id.append($('<option></option>').text('اختر').val(-1));
-            for (var item in List) {
-                if (List.hasOwnProperty(item)) {
-                    ddl_Id.append($('<option></option>').text(List[item]).val(item));
-            }
+    for (var item in List) {
+        if (List.hasOwnProperty(item)) {
+            ddl_Id.append($('<option></option>').text(List[item]).val(item));
         }
-   
+    }
+
 }
 
 /*********************************************************************************************************************************************************/
@@ -393,7 +412,7 @@ function InitialTextBoxDate() {
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
     });
- 
+
 }
 
 function formatDate(date) {
@@ -424,4 +443,4 @@ function HideSpinner() {
 /***********************************/
 
 
- 
+

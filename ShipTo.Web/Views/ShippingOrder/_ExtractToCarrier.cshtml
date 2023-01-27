@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="PostForm_ExtractToCarrier()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp;  استخراج لمندوب  &nbsp;&nbsp;</button>
+                    <button type="button" onclick="PostForm_ExtractToCarrier()" class="btn btn-primary modalFooterToRight">&nbsp;&nbsp;  استخراج لمندوب  &nbsp;&nbsp;</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
                 </div>
             </form>
@@ -52,21 +52,21 @@
                 url: PostURL,
                 contentType: 'application/json',
                 data: extractToCarrier_Data,
-                success: function (response) {
-                    if (response.status == AjaxResponseStatusEnum.Success) {
-                        var _fileName = response.dataObj
+                success: function (extractToCarrierResponse) {
+                    if (extractToCarrierResponse.status == AjaxResponseStatusEnum.Success) {
+                        var _fileName = extractToCarrierResponse.dataObj
                         window.open('@Url.Action("ExtractToCarrierDownloadFile", "ShippingOrder")?fileName=' + _fileName, '_blank');
                         Search();
                         document.getElementById('form_ExtractToCarrier').reset();
                         $('.modal').modal('hide');
                         toastr.success("تم بنجاح");
                     } else {
-                        toastr.error("فشل "  +" :" + response.errorMessage);
+                        toastr.error("فشل "  +" :" + extractToCarrierResponse.errorMessage);
                     }
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + extractToCarrierResponse.errorMessage);
                 }
             });
         }

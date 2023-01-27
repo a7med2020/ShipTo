@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <p>
-    <a onclick="setAdd()" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate"> <i class="fa fa-fw fa-plus"></i> إضافة جديد </a>
+    <a onclick="setAdd()" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate_ShippingOrder"> <i class="fa fa-fw fa-plus"></i> إضافة جديد </a>
 </p>
 
 @*Search Controls*@
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group col-sm-1" id="div_DeliveryDate">
                 <label> &nbsp;&nbsp; </label>
-                <button type="button" onclick="Search()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp;   بحث  <i class="fa fa-search"></i>&nbsp; &nbsp;&nbsp; &nbsp; </button>
+                <button type="button" onclick="Search()" class="btn btn-primary modalFooterToRight">&nbsp;&nbsp; &nbsp;&nbsp;   بحث  <i class="fa fa-search"></i>&nbsp; &nbsp;&nbsp; &nbsp; </button>
             </div>
         </div>
     </div>
@@ -144,7 +144,7 @@
 <partial name="../ShippingOrder/_AddUpdate.cshtml" model="new Core.Entities.ShippingOrder()" />
 <partial name="../ShippingOrder/_ExtractToCarrier.cshtml"  model="new Core.VMs.ExtractToCarrierVM()" />
 <partial name="../Common/_DeleteConfirmation.cshtml" />
-
+<partial name="../Shipper/_AddUpdate.cshtml" model="new Core.Entities.Shipper()" />
 <script>
 
     /********************* Links *********************************/
@@ -215,7 +215,7 @@
         {
     searchable: false, search: false,
             render: function (data, type, row) {
-                return '<a onclick="OpenInTab(\'' + DetailsURL + row.id + '\')"> <i class="fa fa-fw fa-eye"></i> التفاصيل</a> | <a onclick="OpenInTab(\'' + PrintInvoiceURL + row.id +'\')"> <i class="fa fa-fw fa-print"></i> طباعة فاتورة </a> | <a  data-toggle="modal" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() +'\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
+                return '<a onclick="OpenInTab(\'' + DetailsURL + row.id + '\')"> <i class="fa fa-fw fa-eye"></i> التفاصيل</a> | <a onclick="OpenInTab(\'' + PrintInvoiceURL + row.id + '\')"> <i class="fa fa-fw fa-print"></i> طباعة فاتورة </a> | <a  data-toggle="modal" data-target="#Modal_AddUpdate_ShippingOrder" onclick="FillFormAddUpdate(' + row.id + ',\'' + GetSearchURL() + '\',\''+ false + '\',\'' + 'tbl_Items' + '\',\'' + 'طلب شحن' + '\')"> <i class="fa fa-fw fa-edit"></i> تعديل</a> | <a data-toggle="modal" data-target="#Modal_DeleteConfirmation" onclick="setModelDelete( \'' + DeleteURL + '\' , ' + row.id + ',\'' + GetSearchURL() +'\')" > <i class="fa fa-fw fa-trash-o"></i> حذف </a>'
             }
         },
             ]

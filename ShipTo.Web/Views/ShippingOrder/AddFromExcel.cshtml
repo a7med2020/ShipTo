@@ -9,7 +9,7 @@
     ViewData["Title"] = "إضافة من إكسل";
 }
 
- 
+
 <div class="row">
     <form id="form_AddFromExcel" method="post" enctype="multipart/form-data">
         <div class="panel panel-default">
@@ -20,8 +20,10 @@
                 </div>
                 <div class="form-group col-sm-3" id="div_ShipperId">
                     <label asp-for="ShipperId" class="control-label required"></label>
-                    <select asp-for="ShipperId" class="form-control">
-                    </select>
+                    <div class="form-inline">
+                        <select asp-for="ShipperId" class="form-control" style="width: 80%; display: unset; "></select>
+                        <a onclick="setModelAddUpdate('form_AddUpdate_Shipper', 0, '@Url.Action("GetAll", "Shipper")', true, 'ShipperId', 'شركة شحن')" style=" padding: 6px 1px;" class="btn btn-success" data-toggle="modal" data-target="#Modal_AddUpdate_Shipper"> <i class="fa fa-fw fa-plus"></i> </a>
+                    </div>
                     <span asp-validation-for="ShipperId" class="text-danger"></span>
 
                 </div>
@@ -187,13 +189,17 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" onclick="PostForm_AddFromExcel()" class="btn btn-primary modalFooterBtn">&nbsp;&nbsp; &nbsp;&nbsp;   حـفـظ <i class="fa fa-fw fa-save"></i> &nbsp; &nbsp;&nbsp; &nbsp; </button>
-            @*<button type="reset" class="btn btn-default modalFooterBtn" >إلغاء</button>*@
-            <button type="button" onclick="ClearForm()" class="btn btn-default modalFooterBtn">&nbsp;&nbsp; جديد&nbsp;&nbsp;</button>
+            <button type="button" onclick="PostForm_AddFromExcel()" class="btn btn-primary modalFooterToRight">&nbsp;&nbsp; &nbsp;&nbsp;   حـفـظ <i class="fa fa-fw fa-save"></i> &nbsp; &nbsp;&nbsp; &nbsp; </button>
+            @*<button type="reset" class="btn btn-default modalFooterToRight" >إلغاء</button>*@
+            <button type="button" onclick="ClearForm()" class="btn btn-default modalFooterToRight">&nbsp;&nbsp; جديد&nbsp;&nbsp;</button>
+            <br />
+            <br />
+            <br />
+            <span id="sp_ExcelValidationMessage" class="text-danger modalFooterToRight"></span>
         </div>
     </form>
 </div>
-
+<partial name="../Shipper/_AddUpdate.cshtml" model="new Core.Entities.Shipper()" />
 
 <script>
 
@@ -225,26 +231,27 @@
                 contentType: false,
                 processData: false,
                 data: data,
-                success: function (response) {
+                success: function (fileResponse) {
                   /*  HideSpinner();*/
-                    if (response.status == AjaxResponseStatusEnum.Success) {
+                    if (fileResponse.status == AjaxResponseStatusEnum.Success) {
 
-                        PopulateDDLFromList('ClientNameColName', response.dataObj);
-                        PopulateDDLFromList('ClientPhoneNumberColName', response.dataObj);
-                        PopulateDDLFromList('DirectionColName', response.dataObj);
-                        PopulateDDLFromList('GovernorateColName', response.dataObj);
-                        PopulateDDLFromList('AddressColName', response.dataObj);
-                        PopulateDDLFromList('OrderDetailsColName', response.dataObj);
-                        PopulateDDLFromList('OrderPiecesCountColName', response.dataObj);
-                        PopulateDDLFromList('OrderTotalPriceColName', response.dataObj);
-                        PopulateDDLFromList('ShippingPriceColName', response.dataObj);
-                        PopulateDDLFromList('OrderNetPriceColName', response.dataObj);
-                        PopulateDDLFromList('NotesColName', response.dataObj);
+                        PopulateDDLFromList('ClientNameColName', fileResponse.dataObj);
+                        PopulateDDLFromList('ClientPhoneNumberColName', fileResponse.dataObj);
+                        PopulateDDLFromList('DirectionColName', fileResponse.dataObj);
+                        PopulateDDLFromList('GovernorateColName', fileResponse.dataObj);
+                        PopulateDDLFromList('AddressColName', fileResponse.dataObj);
+                        PopulateDDLFromList('OrderDetailsColName', fileResponse.dataObj);
+                        PopulateDDLFromList('OrderPiecesCountColName', fileResponse.dataObj);
+                        PopulateDDLFromList('OrderTotalPriceColName', fileResponse.dataObj);
+                        PopulateDDLFromList('ShippingPriceColName', fileResponse.dataObj);
+                        PopulateDDLFromList('OrderNetPriceColName', fileResponse.dataObj);
+                        PopulateDDLFromList('NotesColName', fileResponse.dataObj);
 
                     } else {
-                        toastr.error(response.errorMessage);
+                        toastr.error(fileResponse.errorMessage);
                     }
-                   /* ClearForm();*/
+                    /* ClearForm();*/
+                    document.getElementById("sp_ExcelValidationMessage").innerHTML = '';
                 },
                 error: function (errorResponse) {
                     toastr.error("حدث خطأ أثناء إرسال البيانات");
@@ -284,21 +291,22 @@
                 processData: false,
                 contentType: false,
                 data: data1, // serializes the form's elements.
-                success: function (response) {
-                    if (response.status == AjaxResponseStatusEnum.Success) {
+                success: function (addFromExcelResponse) {
+                    if (addFromExcelResponse.status == AjaxResponseStatusEnum.Success) {
                         toastr.success("تم بنجاح");
-                        document.getElementById("form_AddFromExcel").reset();
+                        ClearForm();
                         //ReLoadDataTable('tbl_Items')
                         //if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Add) { document.getElementById(FormId).reset(); }
                         //if (document.getElementById("ActionType").value == AjaxActionNameEnEnum.Update) { $('.modal').modal('hide'); }
                     } else {
-                        toastr.error("فشل "  +" :" + response.errorMessage);
+                        toastr.error("فشل في الإضافة" /*+ " :" + addFromExcelResponse.errorMessage*/);
+                        document.getElementById("sp_ExcelValidationMessage").innerHTML = "يوجد أخطاء فى بيانات الملف" + "<br/>"+ addFromExcelResponse.errorMessage;
                     }
-                    console.log(response);
+                    console.log(addFromExcelResponse);
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + response.errorMessage);
+                    toastr.error("حدث خطأ أثناء إرسال البيانات: " + addFromExcelResponse.errorMessage);
                 }
             });
         }
@@ -308,6 +316,7 @@
 
         function ClearForm() {
             document.getElementById("form_AddFromExcel").reset();
+            document.getElementById("sp_ExcelValidationMessage").innerHTML = '';
          }
 
     //function ValidateForm() {

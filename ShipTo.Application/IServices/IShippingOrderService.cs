@@ -22,5 +22,6 @@ namespace ShipTo.Application.IServices
         List<ShippingOrderLog> GetLog(int ShippingOrderId);
         ReturnResultVM UpdateCarrier(List<int> shippingOrderIds, int carrierId);
         public ReturnResultVM ExtractToCarrierAsExcelFile(List<int> shippingOrderIds, int carrierId);
+        string VidateExcelData(List<ShippingOrder> entities);
     }
 }

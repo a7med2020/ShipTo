@@ -16,7 +16,7 @@ namespace ShipTo.Core.Entities
         public int ID { get; set; }
         
         [Display(Name="الاسم")]
-        [Required]
+        [Required(ErrorMessage = "يجب إدخال الاسم")]
         [StringLength(100)]
         public string Name { get; set; }
         [Display(Name = "رقم الهاتف")]

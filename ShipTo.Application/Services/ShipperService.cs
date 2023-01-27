@@ -24,7 +24,7 @@ namespace ShipTo.Application.Services
 
         public List<Shipper> Get()
         {
-            return _unitOfWork.ShipperRepository.GetAll(x => x.IsDeleted == false).ToList();
+            return _unitOfWork.ShipperRepository.GetAll(x => x.IsDeleted == false).OrderBy(x=>x.Name).ToList();
         }
 
         public Shipper Get(int Id)
@@ -40,7 +40,7 @@ namespace ShipTo.Application.Services
                 {
                     _unitOfWork.ShipperRepository.Add(shipper);
                     _unitOfWork.Complete();
-                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success, DataObj = shipper.ID };
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace ShipTo.Application.Services
                 {
                     _unitOfWork.ShipperRepository.Update(shipper);
                     _unitOfWork.Complete();
-                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success };
+                    return new ReturnResultVM() { Status = ReturnResultStatusEnum.Success, DataObj = shipper.ID };
                 }
                 else
                 {

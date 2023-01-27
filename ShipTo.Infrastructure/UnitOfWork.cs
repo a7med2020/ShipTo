@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using ShipTo.Infrastructure.UserResolverHandler;
 using ShipTo.Infrastructure.Extentions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace ShipTo.Infrastructure
 {
@@ -52,7 +56,7 @@ namespace ShipTo.Infrastructure
 
         public int Complete()
         {
-            // var entities = (from entry in ChangeTracker.Entries()
+            //var entities = (from entry in ChangeTracker.Entries()
             //                where entry.State == EntityState.Modified || entry.State == EntityState.Added
             //                select entry.Entity);
 
@@ -61,13 +65,31 @@ namespace ShipTo.Infrastructure
             //{
             //    if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
             //    {
-                     
+
             //    }
             //}
             _context.ChangeTracker.ApplyAuditInformation(_userResolverHandler);
             return _context.SaveChanges();
         }
       
+        public string VidateExcelData(List<object> entities)
+        {
+            string Message = null;
+            int row = 1;
+            foreach (var entity in entities)
+            {
+                var validationResults = new List<ValidationResult>();
+                if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+                {
+
+                }
+                string strValidationResults = JsonSerializer.Serialize(validationResults);
+                if (!string.IsNullOrEmpty(strValidationResults))
+                    Message += "صف رقم: " + row + "<br/>" + strValidationResults + "<br/>";
+                row++;
+            }
+            return Message;
+        }
         public Task<int> CompleteAsync()
         {
             _context.ChangeTracker.ApplyAuditInformation(_userResolverHandler);

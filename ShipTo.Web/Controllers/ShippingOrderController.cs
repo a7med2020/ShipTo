@@ -126,8 +126,7 @@ namespace ShipTo.Web.Controllers
                            .ToList();
                 return Json(new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "يوجد بيانات يجب إدخالها" });
             }
-
-
+    
             IFormFile excelFile = shippingOrderAddFromExcelVM.ShippingExcelFile;
 
             if (excelFile?.Length > 0
@@ -142,10 +141,14 @@ namespace ShipTo.Web.Controllers
                     {
                         var worksheet = package.Workbook.Worksheets.First();
                         var rowCount = worksheet.Dimension?.Rows;
+                        string dataValidationMessage = null;
+                        string rowValidationMessage = null;
+
                         if (rowCount > 1)
                         {
                             for (var row = 2; row <= rowCount; row++)
                             {
+                                rowValidationMessage = null;
                                 try
                                 {
                                     ShippingOrder shippingOrder = new ShippingOrder();
@@ -161,11 +164,15 @@ namespace ShipTo.Web.Controllers
                                     {
                                         shippingOrder.ClientName = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientNameColName)].Value);
                                         shippingOrder.ClientName = string.IsNullOrEmpty(shippingOrder.ClientName) ? null : shippingOrder.ClientName.Trim();
+                                        if (shippingOrder.ClientName == null)
+                                            rowValidationMessage += "يجب إدخال اسم العميل" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName) > 0)
                                     {
                                         shippingOrder.ClientPhoneNumber = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ClientPhoneNumberColName)].Value);
                                         shippingOrder.ClientPhoneNumber = string.IsNullOrEmpty(shippingOrder.ClientPhoneNumber) ? null : shippingOrder.ClientPhoneNumber.Trim();
+                                        if (shippingOrder.ClientPhoneNumber == null)
+                                            rowValidationMessage += "يجب إدخال هاتف العميل" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.DirectionColName) > 0) 
                                     { 
@@ -181,11 +188,15 @@ namespace ShipTo.Web.Controllers
                                     {
                                         shippingOrder.Address = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.AddressColName)].Value);
                                         shippingOrder.Address = string.IsNullOrEmpty(shippingOrder.Address) ? null : shippingOrder.Address.Trim();
+                                        if (shippingOrder.Address == null)
+                                            rowValidationMessage += "يجب إدخال العنوان" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName) > 0)
                                     {
                                         shippingOrder.OrderDetails = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderDetailsColName)].Value);
                                         shippingOrder.OrderDetails = string.IsNullOrEmpty(shippingOrder.OrderDetails) ? null : shippingOrder.OrderDetails.Trim();
+                                        if (shippingOrder.OrderDetails == null)
+                                            rowValidationMessage += "يجب إدخال تفاصيل الطلب" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderPiecesCountColName) > 0)
                                     {
@@ -194,32 +205,49 @@ namespace ShipTo.Web.Controllers
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderTotalPriceColName) > 0)
                                     {
-                                        shippingOrder.OrderTotalPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderTotalPriceColName)].Value));
-
+                                        decimal _orderTotalPrice = 0;
+                                        var isDecimal = decimal.TryParse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderTotalPriceColName)].Value),out _orderTotalPrice);
+                                        shippingOrder.OrderTotalPrice = _orderTotalPrice;
+                                        if (isDecimal == false || _orderTotalPrice == 0)
+                                            rowValidationMessage += "سعر الطلب يجب أن يكون رقم أكبر من صفر" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.ShippingPriceColName) > 0)
                                     {
-                                        shippingOrder.ShippingPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ShippingPriceColName)].Value));
-
+                                        decimal _shippingPrice = 0;
+                                        var isDecimal = decimal.TryParse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.ShippingPriceColName)].Value),out _shippingPrice);
+                                        shippingOrder.ShippingPrice = _shippingPrice;
+                                        if (isDecimal == false || _shippingPrice == 0)
+                                            rowValidationMessage += "سعر الشحن يجب أن يكون رقم أكبر من صفر" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.OrderNetPriceColName) > 0)
                                     {
-                                        shippingOrder.OrderNetPrice = decimal.Parse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderNetPriceColName)].Value));
-
+                                        decimal _orderNetPrice = 0;
+                                        var isDecimal = decimal.TryParse(Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.OrderNetPriceColName)].Value),out _orderNetPrice);
+                                        shippingOrder.OrderNetPrice = _orderNetPrice;
+                                        if (isDecimal == false || _orderNetPrice == 0)
+                                            rowValidationMessage += "سعر المنتج يجب أن يكون رقم أكبر من صفر" + "<br/>";
                                     }
                                     if (Convert.ToInt32(shippingOrderAddFromExcelVM.NotesColName) > 0)
                                     {
                                         shippingOrder.Notes = Convert.ToString(worksheet.Cells[row, Convert.ToInt32(shippingOrderAddFromExcelVM.NotesColName)].Value);
-                                        shippingOrder.Notes = string.IsNullOrEmpty(shippingOrder.Notes) ? null : shippingOrder.Notes;
+                                        shippingOrder.Notes = string.IsNullOrEmpty(shippingOrder.Notes) ? null : shippingOrder.Notes.Trim();
                                     }
                                     shippingOrders.Add(shippingOrder);
+                                    if (!string.IsNullOrEmpty(rowValidationMessage))
+                                        dataValidationMessage += "صف رقم: " + row + "<br/>" + rowValidationMessage + "<br/>";
                                 }
-
                                 catch (Exception ex)
                                 {
                                     return Json(new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = "يوجد خطأ في بيانات الملف" });
                                 }
                             }
+                            // Validation level 1 : When read the data forn the file into ShippingOrder Object 
+                            if (!string.IsNullOrEmpty(dataValidationMessage))
+                                return Json(new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = dataValidationMessage });
+                            // Validation level 2 : Validation Context to insure that data is corrected
+                            //string validationMessage = _shippingOrderService.VidateExcelData(shippingOrders);
+                            //if(!string.IsNullOrEmpty(validationMessage))
+                            //    return Json(new ReturnResultVM() { Status = ReturnResultStatusEnum.Failure, ErrorMessage = validationMessage });
                         }
                         else
                         {

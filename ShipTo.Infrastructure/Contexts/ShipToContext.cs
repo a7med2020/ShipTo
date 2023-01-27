@@ -67,18 +67,18 @@ namespace ShipTo.Infrastructure.Contexts
 
         public override int SaveChanges()
         {
-            var entities = (from entry in ChangeTracker.Entries()
-                            where entry.State == EntityState.Modified || entry.State == EntityState.Added
-                            select entry.Entity);
+            //var entities = (from entry in ChangeTracker.Entries()
+            //                where entry.State == EntityState.Modified || entry.State == EntityState.Added
+            //                select entry.Entity);
 
-            var validationResults = new List<ValidationResult>();
-            foreach (var entity in entities)
-            {
-                if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
-                {
+            //var validationResults = new List<ValidationResult>();
+            //foreach (var entity in entities)
+            //{
+            //    if (!Validator.TryValidateObject(entity, new ValidationContext(entity), validationResults))
+            //    {
                      
-                }
-            }
+            //    }
+            //}
 
             return base.SaveChanges();
         }
