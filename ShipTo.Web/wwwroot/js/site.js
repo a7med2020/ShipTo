@@ -395,6 +395,11 @@ function PopulateDDLFromList(ddl_Id, List) {
 
 }
 
+function EmptyDDL(ddl_Id) {
+    var ddl_Id = $('#' + ddl_Id); // cache it
+    ddl_Id.empty(); // remove any existing options
+}
+
 /*********************************************************************************************************************************************************/
 
 

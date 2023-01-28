@@ -87,7 +87,9 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect("/ShippingOrder/Index");
+                     return LocalRedirect("~/ShippingOrder/Index");
+                    //return RedirectToAction("Index","ShippingOrder");
+
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -100,8 +102,8 @@ namespace ShipTo.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "يوجد خطأ فى بيانات الدخول.");
-                    return Page();
+                    //ModelState.AddModelError(string.Empty, "يوجد خطأ فى بيانات الدخول.");
+                    //return Page();
                 }
             }
 

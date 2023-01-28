@@ -252,8 +252,11 @@
         {
             text: 'استخراج لمندوب',
             action: function (e, dt, node, config) {
-                if (tbl.rows({ selected: true }).data().toArray().length > 0 )
+                if (tbl.rows({ selected: true }).data().toArray().length > 0) {
+                    document.getElementById('form_ExtractToCarrier').reset();
                     $('#Modal_ExtractToCarrier').modal('show');
+                }
+                    
                 else
                     toastr.warning("يجب تحديد طلبات اولاً");
             }

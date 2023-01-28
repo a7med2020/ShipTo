@@ -724,7 +724,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!OrderDetails.Value, "DS_ShippingOrderInvoice")</Value>
+                                  <Value>=Fields!OrderDetails.Value</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                   </Style>
@@ -893,7 +893,6 @@
                         </Border>
                       </Style>
                     </Rectangle>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>

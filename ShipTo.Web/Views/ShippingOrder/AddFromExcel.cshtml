@@ -201,6 +201,7 @@
 </div>
 <partial name="../Shipper/_AddUpdate.cshtml" model="new Core.Entities.Shipper()" />
 
+
 <script>
 
 
@@ -277,6 +278,7 @@
       /*  $form.validate().form();*/
 
         if ($("#form_AddFromExcel").valid()) {
+
         var form = document.getElementById("form_AddFromExcel");
         var data1 = new FormData(form);
         var files = $("#if_ShippingExcelFile").get(0).files;
@@ -285,6 +287,7 @@
             data1.append("shippingExcelFile", files[0]);
             }
             var PostURL = '@Url.Action("AddFromExcel", "ShippingOrder")'
+            ShowSpinner()
             $.ajax({
                 type: "POST",
                 url: PostURL,
@@ -310,6 +313,7 @@
                 }
             });
         }
+        HideSpinner()
           /*  });*/
     }
 
@@ -319,74 +323,28 @@
             document.getElementById("sp_ExcelValidationMessage").innerHTML = '';
          }
 
-    //function ValidateForm() {
-    //    var Valid = true
-    //    var ShipperIdValue = document.getElementById("ShipperId").value;
-    //    if (ShipperIdValue < 1) {
-    //        Valid = false;
-    //        var div_ShipperId = document.getElementById("div_ShipperId");
-    //        div_ShipperId.classList.add("has-error");
-    //    } else {
-    //        var div_ShipperId = document.getElementById("div_ShipperId");
-    //        div_ShipperId.classList.remove("has-error");
-    //    }
-    //    var DeliveryDateValue = document.getElementById("DeliveryDate").value;
-    //    if (IsEmpty(DeliveryDateValue)) {
-    //        Valid = false;
-    //        var div_DeliveryDate = document.getElementById("div_DeliveryDate");
-    //        div_DeliveryDate.classList.add("has-error");
-    //    }
-    //    var files = $("#if_ShippingExcelFile").get(0).files;
-    //    if (files.length <= 0) {
-    //        Valid = false;
-    //        var div_ShippingExcelFile = document.getElementById("div_ShippingExcelFile");
-    //        div_ShippingExcelFile.classList.add("has-error");
-    //    }
-    //    var ClientNameColNameValue = document.getElementById("ClientNameColName").value;
-    //    if (ClientNameColNameValue < 1) {
-    //        Valid = false;
-    //        var div_ClientNameColName = document.getElementById("div_ClientNameColName");
-    //        div_ClientNameColName.classList.add("has-error");
-    //    }
-    //    var ClientPhoneNumberColNameValue = document.getElementById("ClientPhoneNumberColName").value;
-    //    if (ClientPhoneNumberColNameValue < 1) {
-    //        Valid = false;
-    //        var div_ClientPhoneNumberColName = document.getElementById("div_ClientPhoneNumberColName");
-    //        div_ClientPhoneNumberColName.classList.add("has-error");
-    //    }
-    //    var AddressColNameValue = document.getElementById("AddressColName").value;
-    //    if (AddressColNameValue < 1) {
-    //        Valid = false;
-    //        var div_AddressColName = document.getElementById("div_AddressColName");
-    //        div_AddressColName.classList.add("has-error");
-    //    }
-    //    var OrderDetailsColNameValue = document.getElementById("OrderDetailsColName").value;
-    //    if (OrderDetailsColNameValue < 1) {
-    //        Valid = false;
-    //        var div_OrderDetailsColName = document.getElementById("div_OrderDetailsColName");
-    //        div_OrderDetailsColName.classList.add("has-error");
-    //    }
-    //    var OrderTotalPriceColNameValue = document.getElementById("OrderTotalPriceColName").value;
-    //    if (OrderTotalPriceColNameValue < 1) {
-    //        Valid = false;
-    //        var div_OrderTotalPriceColName = document.getElementById("div_OrderTotalPriceColName");
-    //        div_OrderTotalPriceColName.classList.add("has-error");
-    //    }
-    //    var ShippingPriceColNameValue = document.getElementById("ShippingPriceColName").value;
-    //    if (ShippingPriceColNameValue < 1) {
-    //        Valid = false;
-    //        var div_ShippingPriceColName = document.getElementById("div_ShippingPriceColName");
-    //        div_ShippingPriceColName.classList.add("has-error");
-    //    }
-    //    var OrderNetPriceColNameValue = document.getElementById("OrderNetPriceColName").value;
-    //    if (OrderNetPriceColNameValue < 1) {
-    //        Valid = false;
-    //        var div_OrderNetPriceColName = document.getElementById("div_OrderNetPriceColName");
-    //        div_OrderNetPriceColName.classList.add("has-error");
-    //    }
+    var input = document.getElementById('if_ShippingExcelFile');
 
-    //    //return Valid;
-    //    return true;
-    //}
+    input.onclick = function () {
+        this.value = null;
+        EmptyDDL('ClientNameColName');
+        EmptyDDL('ClientPhoneNumberColName');
+        EmptyDDL('DirectionColName');
+        EmptyDDL('GovernorateColName');
+        EmptyDDL('AddressColName');
+        EmptyDDL('OrderDetailsColName');
+        EmptyDDL('OrderPiecesCountColName');
+        EmptyDDL('OrderTotalPriceColName');
+        EmptyDDL('ShippingPriceColName');
+        EmptyDDL('OrderNetPriceColName');
+        EmptyDDL('NotesColName');
+    };
 
 </script>
+
+
+@section Scripts {
+    <partial name="../Shared/_ValidationScriptsPartial" />
+}
+
+
