@@ -271,13 +271,13 @@
 
     var ShippingOrderAddUpdatePostURL = '@Url.Action("AddUpdate", "ShippingOrder")';
     function PostForm_AddUpdate_ShippingOrder() {
-       
         if ($("#form_AddUpdate_ShippingOrder").valid()) {
+            disableDoubleClick();
+            ShowSpinner();
             var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
             var ReloadActionURL = document.getElementById("ReloadActionURL").value;
             var form2 = document.getElementById("form_AddUpdate_ShippingOrder");
             var formData = new FormData(form2);
-            ShowSpinner()
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("AddUpdate", "ShippingOrder")',

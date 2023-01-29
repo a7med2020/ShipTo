@@ -38,7 +38,8 @@
       });
 
     function PostForm_ExtractToCarrier() {
-       
+        disableDoubleClick();
+        ShowSpinner();
         if ($("#form_ExtractToCarrier").valid()) {
             var shippingOrderIds = tbl.rows({ selected: true }).data().toArray().map(function (item) { return item.id; })
             var data2send  = {
@@ -47,7 +48,7 @@
             var extractToCarrier_Data = JSON.stringify(data2send);
 
             var PostURL = '@Url.Action("ExtractToCarrier", "ShippingOrder")'
-            ShowSpinner()
+           
             $.ajax({
                 type: "POST",
                 url: PostURL,

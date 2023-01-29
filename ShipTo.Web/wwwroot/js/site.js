@@ -289,6 +289,8 @@ function InvalidMsg(textbox) {
 
 function PostForm(FormId, PostURL) {
     if ($('#' + FormId).valid()) {
+        disableDoubleClick();
+        ShowSpinner();
         var ProcessName = document.getElementById("Id").value == 0 ? AjaxActionNameArEnum.Add : document.getElementById("Id").value > 0 ? AjaxActionNameArEnum.Update : ""
         var ReloadActionURL = document.getElementById("ReloadActionURL").value;
         var IsUsedExternal = document.getElementById("IsUsedExternal").value;
@@ -320,6 +322,7 @@ function PostForm(FormId, PostURL) {
             }
 
         });
+        HideSpinner()
     };
 }
 
@@ -352,7 +355,7 @@ function setModelDelete(ActionURL, Id, ReloadActionURL) {
 }
 
 function reloadAfterPostSuccess(IsUsedExternal, FormId, ControlId, ReloadActionURL, PostElementId) {
-    debugger
+  
     if (IsUsedExternal === 'true') {
         PopulateDDL(ControlId, ReloadActionURL, PostElementId);
     } else {
@@ -364,6 +367,19 @@ const IsEmpty = str => !str.trim().length;
 
 function OpenInTab(URL) {
     window.open(URL, '_blank');
+}
+
+var submit = 0;
+function disableDoubleClick() {
+    if (++submit > 1) {
+       /* alert(" انتظر من فضلك !");*/
+        setInterval(
+            function () { submit = 0 },
+            2000
+        );
+        throw new Error("Double Click!");
+        return false;
+    }
 }
 
 /*********************************************************************************************************************************************************/
@@ -446,6 +462,4 @@ function HideSpinner() {
     document.getElementById("overlayDiv").style.display = "none";
 }
 /***********************************/
-
-
-
+ 

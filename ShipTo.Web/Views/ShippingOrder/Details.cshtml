@@ -8,7 +8,7 @@
  
 
 <p>
-    <a data-toggle="modal" class="btn btn-primary" data-target="#Modal_AddUpdate" onclick="FillFormAddUpdate( @Model?.ID ,null)"> <i class="fa fa-fw fa-edit"></i> تعديل</a>
+    <a data-toggle="modal" class="btn btn-primary" data-target="#Modal_AddUpdate_ShippingOrder" onclick="FillFormAddUpdate( @Model?.ID , '@Url.Action("Details", "ShippingOrder")?id=' + @Model.ID, true, null, 'طلب شحن')"> <i class="fa fa-fw fa-edit"></i> تعديل</a>
 </p>
 
 <div class="modal-body" style="font-size:16px">
@@ -170,7 +170,7 @@
 <script>
     function Search() {
         ReLoadDataTableWithSearchParam('tbl_Items', GetSearchURL())
-        window.open('@Url.Action("Details", "ShippingOrder")?id=' + @Model.ID)
+        window.open('@Url.Action("Details", "ShippingOrder")?id=' + @Model.ID, "_self")
     }
 </script>
 
